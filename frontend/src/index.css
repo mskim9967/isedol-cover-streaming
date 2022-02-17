@@ -1,0 +1,53 @@
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: 100;
+  src: url('static/font/NotoSansKR-Light.woff2') format('woff2'), url('static/font/NotoSansKR-Light.woff') format('woff'),
+    url('static/font/NotoSansKR-Light.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: normal;
+  src: url('static/font/NotoSansKR-Regular.woff2') format('woff2'), url('static/font/NotoSansKR-Regular.woff') format('woff'),
+    url('static/font/NotoSansKR-Regular.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: 500;
+  src: url('static/font/NotoSansKR-Medium.woff2') format('woff2'), url('static/font/NotoSansKR-Medium.woff') format('woff'),
+    url('static/font/NotoSansKR-Medium.otf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans CJK KR';
+  font-style: normal;
+  font-weight: bold;
+  src: url('static/font/NotoSansKR-Bold.woff2') format('woff2'), url('static/font/NotoSansKR-Bold.woff') format('woff'),
+    url('static/font/NotoSansKR-Bold.otf') format('truetype');
+}
+
+body {
+  margin: 0;
+  font-family: 'Noto Sans CJK KR', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+} /*특정 부분 스크롤바 없애기*/
+
+div::-webkit-scrollbar {
+  display: none;
+}
+
+div {
+  box-sizing: border-box;
+  letter-spacing: -0.2px;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

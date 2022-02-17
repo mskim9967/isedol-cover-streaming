@@ -1,0 +1,17 @@
+export default {
+  bgLight: '#ffffff',
+  bgGray: '#f8f8f8',
+  textBlack: '#333333',
+  textWhite: '#f0f0f0',
+  lightGray: '#e0e0e0',
+  shadow: '#333333',
+  gray: '#bbbbbb',
+  darkGray: '#505050',
+  isedol: '#E84170',
+  jing: '#EFA957',
+  ine: '#8A2BE2',
+  lilpa: '#000080',
+  ruru: '#800080',
+  segu: '#457EC5',
+  chan: '#85AC1F',
+};
