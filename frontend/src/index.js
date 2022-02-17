@@ -3,13 +3,16 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { NextUIProvider } from '@nextui-org/react';
 import './index.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <NextUIProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </NextUIProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

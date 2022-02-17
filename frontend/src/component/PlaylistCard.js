@@ -6,6 +6,9 @@ import ruru from '../static/image/ruru_300_300.webp';
 import lilpa from '../static/image/lilpa_300_300.webp';
 import jing from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
+import japan from '../static/image/japan_300_300.webp';
+import korea from '../static/image/korea_300_300.webp';
+import world from '../static/image/world_300_300.webp';
 import color from '../static/color';
 
 const imgMap = {
@@ -15,6 +18,9 @@ const imgMap = {
   lilpa,
   jing,
   ine,
+  japan,
+  world,
+  korea,
 };
 
 const colorMap = {
@@ -24,18 +30,24 @@ const colorMap = {
   lilpa: color.lilpa,
   jing: color.jing,
   ine: color.ine,
+  japan: '#ff0000',
+  korea: '#307cff',
+  world: '#007029',
 };
 
-const nameMap = {
-  segu: '고세구',
-  chan: '비챤',
-  ruru: '주르르',
-  lilpa: '릴파',
-  jing: '징버거',
-  ine: '아이네',
-};
+function PlaylistCard({ theme, lang }) {
+  const nameMap = {
+    segu: { kor: '고세구의', eng: `Gosegu's`, jpn: 'ゴセグの' }[lang],
+    chan: { kor: '비챤', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
+    ruru: { kor: '주르르의', eng: `Jururu's`, jpn: 'ジュルル' }[lang],
+    lilpa: { kor: '릴파의', eng: `Lilpa's`, jpn: 'リルパ' }[lang],
+    jing: { kor: '징버거의', eng: `Jingburger's`, jpn: ' ジンバーガー' }[lang],
+    ine: { kor: '아이네의', eng: `Ine's`, jpn: 'アイネ' }[lang],
+    japan: { kor: '일식', eng: `J-POP`, jpn: 'J-POP' }[lang],
+    korea: { kor: '한식', eng: `K-POP`, jpn: 'K-POP' }[lang],
+    world: { kor: '양식', eng: `POP`, jpn: 'POP' }[lang],
+  };
 
-function PlaylistCard({ idol }) {
   return (
     <div
       style={{
@@ -45,10 +57,12 @@ function PlaylistCard({ idol }) {
         borderRadius: '7px',
         boxShadow: `2px 2px 10px -5px ${color.shadow}`,
         overflow: 'hidden',
-        backgroundColor: colorMap[idol],
+        backgroundColor: colorMap[theme],
       }}
     >
-      <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgMap[idol]} />
+      <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
+        <img style={{ position: 'absolute', width: '100%', height: '100%' }} src={imgMap[theme]} />
+      </div>
       <div
         style={{
           width: '100%',
@@ -61,7 +75,7 @@ function PlaylistCard({ idol }) {
           fontSize: '14px',
         }}
       >
-        {`${nameMap[idol]}의 플레이리스트`}
+        {`${nameMap[theme]} ${{ kor: ' 플레이리스트', eng: 'playlist', jpn: 'プレイリスト' }[lang]}`}
       </div>
     </div>
   );

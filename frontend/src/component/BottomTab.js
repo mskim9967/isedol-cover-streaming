@@ -12,7 +12,7 @@ import {
 } from 'react-icons/io5';
 import color from '../static/color';
 
-function BottomTab({ screen, setScreen, isMusicPlayerActive }) {
+function BottomTab({ screen, setScreen, isMusicPlayerActive, lang }) {
   const iconSize = 30;
   return (
     <div
@@ -45,7 +45,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive }) {
         onClick={() => setScreen('playlist')}
       >
         {screen === 'playlist' ? <IoPlayCircle size={iconSize} /> : <IoPlayCircleOutline size={iconSize} />}
-        <div style={{ marginTop: 2 }}>재생 목록</div>
+        <div style={{ marginTop: 2 }}>{{ kor: '재생 목록', eng: 'Playlist', jpn: '再生リスト' }[lang]}</div>
       </div>
 
       <div
@@ -59,7 +59,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive }) {
         onClick={() => setScreen('music')}
       >
         {screen === 'music' ? <IoMusicalNotes size={iconSize} /> : <IoMusicalNotesOutline size={iconSize} />}
-        <div style={{ marginTop: 2 }}>커버곡</div>
+        <div style={{ marginTop: 2 }}>{{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}</div>
       </div>
 
       <div
@@ -73,7 +73,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive }) {
         onClick={() => setScreen('idol')}
       >
         {screen === 'idol' ? <IoPeople size={iconSize} /> : <IoPeopleOutline size={iconSize} />}
-        <div style={{ marginTop: 2 }}>이세돌</div>
+        <div style={{ marginTop: 2 }}>{{ kor: '이세돌', eng: 'Isegye Idol', jpn: 'イセドル' }[lang]}</div>
       </div>
 
       <div
@@ -87,7 +87,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive }) {
         onClick={() => setScreen('setting')}
       >
         {screen === 'setting' ? <IoSettings size={iconSize} /> : <IoSettingsOutline size={iconSize} />}
-        <div style={{ marginTop: 2 }}>설정</div>
+        <div style={{ marginTop: 2 }}>{{ kor: '설정', eng: 'Setting', jpn: '設定' }[lang]}</div>
       </div>
     </div>
   );
