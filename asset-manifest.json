@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/isedol-cover-streaming/static/css/main.bd8a5628.css",
-    "main.js": "/isedol-cover-streaming/static/js/main.80392118.js",
+    "main.js": "/isedol-cover-streaming/static/js/main.ed91fd5e.js",
     "static/js/787.5ce5a632.chunk.js": "/isedol-cover-streaming/static/js/787.5ce5a632.chunk.js",
     "static/media/NotoSansKR-Light.otf": "/isedol-cover-streaming/static/media/NotoSansKR-Light.7d4ce2f6f92cffc70600.otf",
     "static/media/NotoSansKR-Bold.otf": "/isedol-cover-streaming/static/media/NotoSansKR-Bold.bbb4ca5df6c6540f4af8.otf",
@@ -27,11 +27,11 @@
     "static/media/world_300_300.webp": "/isedol-cover-streaming/static/media/world_300_300.396d8a72e4bd009336fc.webp",
     "index.html": "/isedol-cover-streaming/index.html",
     "main.bd8a5628.css.map": "/isedol-cover-streaming/static/css/main.bd8a5628.css.map",
-    "main.80392118.js.map": "/isedol-cover-streaming/static/js/main.80392118.js.map",
+    "main.ed91fd5e.js.map": "/isedol-cover-streaming/static/js/main.ed91fd5e.js.map",
     "787.5ce5a632.chunk.js.map": "/isedol-cover-streaming/static/js/787.5ce5a632.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.bd8a5628.css",
-    "static/js/main.80392118.js"
+    "static/js/main.ed91fd5e.js"
   ]
 }
