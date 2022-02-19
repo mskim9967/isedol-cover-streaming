@@ -1,6 +1,9 @@
-import color from '../static/color';
+import lightColor from '../static/lightColor';
+import darkColor from '../static/darkColor';
 
-function SettingLine({ children, isLast }) {
+function SettingLine({ children, isLast, isDark }) {
+  const color = isDark ? darkColor : lightColor;
+
   return (
     <div
       style={{

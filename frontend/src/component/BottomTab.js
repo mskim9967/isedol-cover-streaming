@@ -10,9 +10,11 @@ import {
   IoListOutline,
   IoList,
 } from 'react-icons/io5';
-import color from '../static/color';
+import lightColor from '../static/lightColor';
+import darkColor from '../static/darkColor';
 
-function BottomTab({ screen, setScreen, isMusicPlayerActive, lang }) {
+function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
+  const color = isDark ? darkColor : lightColor;
   const iconSize = 30;
   return (
     <div
@@ -26,9 +28,11 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang }) {
         borderTop: `solid 1px ${color.lightGray}`,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr 1fr',
-        backgroundColor: 'rgba(250, 250, 250, 0.8)',
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)',
         transition: 'transform ease 0.3s 0s',
         backdropFilter: 'blur(6px)',
+        WebkitBackdropFilter: 'blur(6px)',
+
         fontSize: 12,
         color: color.darkGray,
         ...(isMusicPlayerActive && { transform: 'translateY(70px)' }),

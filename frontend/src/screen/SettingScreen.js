@@ -1,39 +1,83 @@
-import { IoEarth, IoMoon } from 'react-icons/io5';
+import { useEffect } from 'react';
+import { IoChevronForwardOutline } from 'react-icons/io5';
 
 import { Switch, Button } from '@nextui-org/react';
-import color from '../static/color';
 import HeaderText from '../component/HeaderText';
 import SettingLine from '../component/SettingLine';
 
-function SettingScreen({ lang, setLang }) {
+import lightColor from '../static/lightColor';
+import darkColor from '../static/darkColor';
+
+function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim }) {
+  const color = isDark ? darkColor : lightColor;
+
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
-      <HeaderText>{{ kor: '설정', eng: 'Setting', jpn: '設定' }[lang]}</HeaderText>
-      <div style={{ width: '100%', borderRadius: '10px', backgroundColor: 'white' }}>
-        <SettingLine>
+      <HeaderText isDark={isDark}>{{ kor: '설정', eng: 'Setting', jpn: '設定' }[lang]}</HeaderText>
+      <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
+        <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '언어', eng: 'Language', jpn: '言語' }[lang]}</div>
-          <Button.Group ghost size='sm'>
+          <Button.Group color='error' ghost borderWeight='light' size='sm'>
             <Button onClick={() => setLang('kor')}>한국어</Button>
             <Button onClick={() => setLang('eng')}>Eng</Button>
             <Button onClick={() => setLang('jpn')}>日本語</Button>
           </Button.Group>
         </SettingLine>
-        <SettingLine>
-          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '다크모드', eng: 'Dark Mode', jpn: '暗いモード' }[lang]}</div>
-          <Switch />
+        <SettingLine isDark={isDark}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '다크 모드', eng: 'Dark mode', jpn: '暗いモード' }[lang]}</div>
+          <Switch
+            bordered={isDark}
+            color='error'
+            initialChecked={isDark}
+            onChange={() => {
+              setDark(!isDark);
+            }}
+          />
         </SettingLine>
-        <SettingLine isLast>
+        <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {{ kor: '애니메이션 비활성화', eng: 'Disable Animation', jpn: 'アニメーションの無効化' }[lang]}
+            {{ kor: '애니메이션 비활성화', eng: 'Disable animation', jpn: 'アニメーションの無効化' }[lang]}
           </div>
-          <Switch />
+          <Switch
+            bordered={isDark}
+            color='error'
+            initialChecked={!anim}
+            onChange={() => {
+              setAnim(!anim);
+            }}
+            color='error'
+          />
+        </SettingLine>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {{ kor: '일러스트 숨기기', eng: 'Hide illustration', jpn: 'イラスト非表示' }[lang]}
+          </div>
+          <Switch bordered={isDark} color='error' />
         </SettingLine>
       </div>
+
+      <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
+        <SettingLine isDark={isDark}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {{ kor: '홈화면에 바로가기 추가', eng: 'Add shortcut', jpn: 'ショートカット追加' }[lang]}
+          </div>
+          <Button auto size='sm' borderWeight='light' color='error'>
+            {{ kor: '추가', eng: 'Add', jpn: '追加' }[lang]}
+          </Button>
+        </SettingLine>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
+          </div>
+          <IoChevronForwardOutline />
+        </SettingLine>
+      </div>
+
       <div
         style={{
           width: '100%',
           borderRadius: '10px',
-          backgroundColor: 'white',
+          backgroundColor: color.settingBg,
           padding: '20px',
           color: color.darkGray,
           fontWeight: '300',
@@ -47,7 +91,7 @@ function SettingScreen({ lang, setLang }) {
         style={{
           width: '100%',
           borderRadius: '10px',
-          backgroundColor: 'white',
+          backgroundColor: color.settingBg,
           padding: '20px',
           color: color.darkGray,
           fontWeight: '300',

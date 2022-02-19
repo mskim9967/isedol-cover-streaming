@@ -9,9 +9,12 @@ import ine from '../static/image/ine_300_300.webp';
 import japan from '../static/image/japan_300_300.webp';
 import korea from '../static/image/korea_300_300.webp';
 import world from '../static/image/world_300_300.webp';
-import color from '../static/color';
+import all from '../static/image/all_300_300.webp';
+import lightColor from '../static/lightColor';
+import darkColor from '../static/darkColor';
 
 const imgMap = {
+  all,
   segu,
   chan,
   ruru,
@@ -24,19 +27,23 @@ const imgMap = {
 };
 
 const colorMap = {
-  segu: color.segu,
-  chan: color.chan,
-  ruru: color.ruru,
-  lilpa: color.lilpa,
-  jing: color.jing,
-  ine: color.ine,
+  all: lightColor.isedol,
+  segu: lightColor.segu,
+  chan: lightColor.chan,
+  ruru: lightColor.ruru,
+  lilpa: lightColor.lilpa,
+  jing: lightColor.jing,
+  ine: lightColor.ine,
   japan: '#ff0000',
   korea: '#307cff',
   world: '#007029',
 };
 
-function PlaylistCard({ theme, lang }) {
+function PlaylistCard({ theme, lang, isDark }) {
+  const color = isDark ? darkColor : lightColor;
+
   const nameMap = {
+    all: { kor: '이세돌', eng: `Isegye Idol`, jpn: 'イセドル' }[lang],
     segu: { kor: '고세구의', eng: `Gosegu's`, jpn: 'ゴセグの' }[lang],
     chan: { kor: '비챤', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
     ruru: { kor: '주르르의', eng: `Jururu's`, jpn: 'ジュルル' }[lang],
@@ -60,9 +67,7 @@ function PlaylistCard({ theme, lang }) {
         backgroundColor: colorMap[theme],
       }}
     >
-      <div style={{ position: 'relative', width: '100%', paddingBottom: '100%' }}>
-        <img style={{ position: 'absolute', width: '100%', height: '100%' }} src={imgMap[theme]} />
-      </div>
+      <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgMap[theme]} />
       <div
         style={{
           width: '100%',

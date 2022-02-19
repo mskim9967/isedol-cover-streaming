@@ -1,18 +1,22 @@
-import color from '../static/color';
 import PlaylistCard from '../component/PlaylistCard';
 import HeaderText from '../component/HeaderText';
 
-function PlaylistScreen({ lang }) {
+import lightColor from '../static/lightColor';
+import darkColor from '../static/darkColor';
+
+function PlaylistScreen({ lang, isDark }) {
+  const color = isDark ? darkColor : lightColor;
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
-      <HeaderText>{{ kor: '재생 목록', eng: 'Playlist', jpn: '再生リスト' }[lang]}</HeaderText>
+      <HeaderText isDark={isDark}>{{ kor: '재생 목록', eng: 'Playlist', jpn: '再生リスト' }[lang]}</HeaderText>
 
       <div>
-        <div style={{ fontSize: '19px', fontWeight: '500', letterSpacing: '-0.6px' }}>
+        <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
-        <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          <PlaylistCard lang={lang} lang={lang} theme={'segu'} />
+        <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
+          <PlaylistCard lang={lang} theme={'all'} />
+          <PlaylistCard lang={lang} theme={'segu'} />
           <PlaylistCard lang={lang} theme={'ine'} />
           <PlaylistCard lang={lang} theme={'chan'} />
           <PlaylistCard lang={lang} theme={'jing'} />
@@ -22,7 +26,7 @@ function PlaylistScreen({ lang }) {
       </div>
 
       <div>
-        <div style={{ fontSize: '19px', fontWeight: '500', letterSpacing: '-0.6px' }}>
+        <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '장르별 추천', eng: 'Suggestion by genre', jpn: 'ジャンル別 おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
@@ -32,7 +36,7 @@ function PlaylistScreen({ lang }) {
         </div>
       </div>
       <div>
-        <div style={{ fontSize: '19px', fontWeight: '500', letterSpacing: '-0.6px' }}>
+        <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '나의 플레이리스트', eng: 'My playlist', jpn: '僕のプレイリスト' }[lang]}
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>

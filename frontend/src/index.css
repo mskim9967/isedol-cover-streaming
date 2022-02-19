@@ -29,13 +29,23 @@
   src: url('static/font/NotoSansKR-Bold.woff2') format('woff2'), url('static/font/NotoSansKR-Bold.woff') format('woff'),
     url('static/font/NotoSansKR-Bold.otf') format('truetype');
 }
+html {
+  overscroll-behavior: contain;
+}
+
+html,
+body {
+  position: fixed;
+}
 
 body {
   margin: 0;
+  position: fixed;
   font-family: 'Noto Sans CJK KR', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: none;
+  overscroll-behavior: contain;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -50,4 +60,12 @@ div {
   letter-spacing: -0.2px;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
+  transition: color ease 0.3s 0s, background-color ease 0.3s 0s;
+}
+
+.disableAnim > * {
+  -webkit-transition: unset !important;
+  -moz-transition: unset !important;
+  -o-transition: unset !important;
+  transition: unset !important;
 }
