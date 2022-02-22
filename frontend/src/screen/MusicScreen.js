@@ -1,18 +1,35 @@
-import { useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { IoSearch, IoFilter, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 import { Button } from '@nextui-org/react';
+import { axiosInstance } from '../axiosInstance';
 
 import HeaderText from '../component/HeaderText';
 import MusicCard from '../component/MusicCard';
 
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
+const qs = require('qs');
 
-function MusicScreen({ lang, isDark }) {
+function MusicScreen({ playlistControl, lang, isDark }) {
   const color = isDark ? darkColor : lightColor;
 
-  const [searchInput, setSearchInput] = useState('');
+  const [searchStr, setSearchStr] = useState('');
   const [isFilterPress, setFilterPress] = useState(false);
+
+  const [musics, setMusics] = useState([]);
+
+  useEffect(async () => {
+    const res = await axiosInstance.get('/music');
+    setMusics(res.data.data);
+  }, []);
+
+  const search = async () => {
+    const res = await axiosInstance.put('/music/search', {
+      searchStr,
+    });
+
+    setMusics(res.data.data);
+  };
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -23,7 +40,7 @@ function MusicScreen({ lang, isDark }) {
             style={{
               float: 'left',
               backgroundColor: color.lightGray,
-              width: searchInput ? '86%' : '100%',
+              width: searchStr ? '86%' : '100%',
               height: '100%',
               borderRadius: '8px',
               display: 'grid',
@@ -36,14 +53,17 @@ function MusicScreen({ lang, isDark }) {
             <input
               style={{ border: 'none', background: 'none', height: '100%', color: color.darkGray, fontSize: '16px' }}
               placeholder={{ kor: '제목 및 가수...', eng: 'Enter the title or singer', jpn: 'タイトルと歌手を入力してください' }[lang]}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(e) => setSearchStr(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') search();
+              }}
             />
           </div>
           <div
             className='searchButton'
             style={{
-              width: searchInput ? '13%' : '0%',
-              opacity: searchInput ? '100%' : '0%',
+              width: searchStr ? '13%' : '0%',
+              opacity: searchStr ? '100%' : '0%',
               overflow: 'hidden',
               height: '100%',
               float: 'right',
@@ -58,7 +78,7 @@ function MusicScreen({ lang, isDark }) {
               transition: 'width ease 0.3s 0s, opacity ease 0.3s 0s',
             }}
           >
-            <Button light color='error' auto>
+            <Button light color='error' auto onClick={() => search()}>
               {{ kor: '검색', eng: 'Go', jpn: '検索' }[lang]}
             </Button>
           </div>
@@ -93,26 +113,12 @@ function MusicScreen({ lang, isDark }) {
         </div>
       </div>
       <div>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
-        <MusicCard lang={lang} isDark={isDark}></MusicCard>
+        {musics.map((music, key) => {
+          return <MusicCard playlistControl={playlistControl} key={key} music={music} lang={lang} isDark={isDark}></MusicCard>;
+        })}
       </div>
     </div>
   );
 }
 
-export default MusicScreen;
+export default memo(MusicScreen);

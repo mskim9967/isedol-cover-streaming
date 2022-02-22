@@ -1,6 +1,6 @@
 import BottomTab from './component/BottomTab';
 import MusicPlayer from './component/MusicPlayer';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import PlaylistScreen from './screen/PlaylistScreen';
 import IdolScreen from './screen/IdolScreen';
 import SettingScreen from './screen/SettingScreen';
@@ -16,6 +16,33 @@ function App() {
   const [lang, setLang] = useState('kor');
   const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')));
   const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
+  const [playlist, setPlaylist] = useState([]);
+  const [nowIdx, setNowIdx] = useState(-1);
+
+  const add = (music) => {
+    let idx = playlist.findIndex((e) => e.id === music.id);
+
+    if (idx !== -1) setNowIdx(idx);
+    else {
+      setNowIdx(playlist.length);
+      setPlaylist([...playlist, music]);
+    }
+  };
+
+  const remove = (id) => {
+    let temp = playlist.filter((e) => {
+      return e.id !== id;
+    });
+    setPlaylist(temp);
+  };
+
+  const change = ([ids]) => {
+    setPlaylist([ids]);
+  };
+
+  useEffect(() => {}, [playlist]);
+
+  const playlistControl = { add, remove, change };
 
   const color = isDark ? darkColor : lightColor;
 
@@ -48,20 +75,32 @@ function App() {
           backgroundColor: screen === 'setting' ? color.bgLittleLight : color.bgLight,
         }}
       >
-        {screen === 'playlist' ? (
-          <PlaylistScreen lang={lang} isDark={isDark} />
-        ) : screen === 'music' ? (
-          <MusicScreen lang={lang} isDark={isDark} />
-        ) : screen === 'idol' ? (
+        <div style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
+          <PlaylistScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />
+        </div>
+        <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
+          <MusicScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />
+        </div>
+        <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
           <IdolScreen lang={lang} isDark={isDark} />
-        ) : (
+        </div>
+        <div style={{ ...(screen !== 'setting' && { display: 'none' }) }}>
           <SettingScreen lang={lang} setLang={setLang} isDark={isDark} setDark={setDark} anim={anim} setAnim={setAnim} />
-        )}
+        </div>
       </div>
-      <MusicPlayer isActive={isMusicPlayerActive} setActive={setMusicPlayerActive} lang={lang} isDark={isDark} />
+      <MusicPlayer
+        playlist={playlist}
+        playlistControl={playlistControl}
+        isActive={isMusicPlayerActive}
+        setActive={setMusicPlayerActive}
+        lang={lang}
+        isDark={isDark}
+        nowIdx={nowIdx}
+        setNowIdx={setNowIdx}
+      />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>
   );
 }
 
-export default App;
+export default memo(App);
