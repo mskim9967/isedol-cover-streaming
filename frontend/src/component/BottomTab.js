@@ -28,7 +28,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
         borderTop: `solid 1px ${color.lightGray}`,
         display: 'grid',
         gridTemplateColumns: '1fr 1fr 1fr 1fr',
-        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.8)',
         transition: 'transform ease 0.3s 0s',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',

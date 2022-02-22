@@ -21,7 +21,7 @@ const member = {
   jingburger: { kor: '징버거', eng: 'JINGBURGER', jpn: 'ジンバーガー' },
   lilpa: { kor: '릴파', eng: 'LILPA', jpn: 'リルパ' },
   jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
-  gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
+  gosegu: { kor: '고세구', eng: 'GOSEGU', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
   all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
   null: { kor: '', eng: '', jpn: '' },

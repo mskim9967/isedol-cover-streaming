@@ -17,6 +17,7 @@ function MusicPlaylist({
   load,
   setLoad,
   setPlaylist,
+  shuffle,
 }) {
   const color = isDark ? darkColor : lightColor;
   const focusRef = useRef(null);
@@ -29,7 +30,7 @@ function MusicPlaylist({
 
   useEffect(() => {
     focusRef.current.scrollIntoView({ block: 'center' });
-  }, [isPlaylistActive, nowIdx]);
+  }, [isPlaylistActive, shuffle]);
 
   return (
     <div {...swipeHandler} style={{ padding: '0 25px', overflow: 'auto', borderRadius: '20px' }}>

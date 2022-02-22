@@ -63,6 +63,7 @@ function MusicPlay({
   const [animStart, setAnimStart] = useState(false);
   const [likes, setLikes] = useState([]);
   const [isRepeat, setRepeat] = useState(false);
+  const [shuffle, setShuffle] = useState(false);
 
   const progressbarRef = useRef(null);
 
@@ -135,6 +136,7 @@ function MusicPlay({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      onClick={() => setPlaylistActive(false)}
     >
       <div
         style={{
@@ -142,7 +144,7 @@ function MusicPlay({
           height: '100%',
           maxHeight: '800px',
           maxWidth: '600px',
-          padding: '40px 0 30px 0',
+          padding: '45px 0 20px 0',
           display: 'grid',
           gridTemplateRows: '7.5fr 1.5fr 1fr',
         }}
@@ -294,6 +296,7 @@ function MusicPlay({
         )}
         <div
           style={{ overflow: 'auto', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s', ...(!isPlaylistActive && { display: 'none' }) }}
+          onClick={(e) => e.stopPropagation()}
         >
           <MusicPlaylist
             isPlaylistActive={isPlaylistActive}
@@ -308,6 +311,7 @@ function MusicPlay({
             load={load}
             setLoad={setLoad}
             setPlaylist={setPlaylist}
+            shuffle={shuffle}
           />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -321,7 +325,6 @@ function MusicPlay({
               maxWidth: '400px',
               justifyContent: 'space-evenly',
             }}
-            onClick={() => setPlaylistActive(false)}
           >
             <Button
               style={{ height: '70%' }}
@@ -380,12 +383,7 @@ function MusicPlay({
             />
           </div>
         </div>
-        <div
-          style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-          onClick={() => {
-            setPlaylistActive(false);
-          }}
-        >
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div
             style={{
               display: 'flex',
@@ -450,8 +448,11 @@ function MusicPlay({
                 e.stopPropagation();
                 let id = music.id;
                 let temp = playlist.sort(() => Math.random() - 0.5);
+                let ii = temp.findIndex((e) => e.id === id);
+                [temp[0], temp[ii]] = [temp[ii], temp[0]];
+                setNowIdx(0);
                 setPlaylist([...temp]);
-                setNowIdx(temp.findIndex((e) => e.id === id));
+                setShuffle(!shuffle);
               }}
               style={{ height: '70%' }}
               size='xs'
