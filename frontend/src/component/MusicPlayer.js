@@ -24,7 +24,6 @@ const member = {
   gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
   all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
-
   null: { kor: '', eng: '', jpn: '' },
 };
 
@@ -98,6 +97,11 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
 
   useEffect(() => {
     if (nowIdx === -1) return;
+    // playlist reload
+    if (nowIdx === -2) {
+      setNowIdx(0);
+      return;
+    }
     setMusic(playlist[nowIdx]);
   }, [nowIdx]);
 

@@ -36,8 +36,13 @@ function App() {
     setPlaylist(temp);
   };
 
-  const change = ([ids]) => {
-    setPlaylist([ids]);
+  const shuffle = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  const change = (ids) => {
+    setPlaylist([...shuffle(ids)]);
+    setNowIdx(-2);
   };
 
   useEffect(() => {}, [playlist]);
@@ -77,7 +82,7 @@ function App() {
         }}
       >
         <div style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
-          <PlaylistScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />
+          <PlaylistScreen playlistControl={playlistControl} lang={lang} isDark={isDark} playlistControl={playlistControl} />
         </div>
         <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
           <MusicScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />

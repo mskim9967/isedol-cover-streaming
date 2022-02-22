@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { IoPause, IoPlay, IoPlayForward, IoPlayBack, IoHeartOutline, IoHeart, IoChevronDown, IoLogoYoutube } from 'react-icons/io5';
+import { IoPause, IoPlay, IoPlayForward, IoPlayBack, IoHeartOutline, IoHeart, IoLogoYoutube } from 'react-icons/io5';
 import { MdOutlinePlaylistAdd, MdQueueMusic } from 'react-icons/md';
-import { useSwipeable } from 'react-swipeable';
 import { Button } from '@nextui-org/react';
 import MusicPlaylist from './MusicPlaylist';
 
@@ -145,10 +144,20 @@ function MusicPlay({
             )}
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}>
-            <div style={{ fontSize: '21px', fontWeight: '400', color: color.textDarkBlack }}>
+            <div
+              style={{
+                fontSize: '21px',
+                fontWeight: '400',
+                color: color.textDarkBlack,
+                padding: '0px 40px',
+                textAlign: 'center',
+                lineHeight: '1.3',
+                wordBreak: 'keep-all',
+              }}
+            >
               {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
             </div>
-            <div style={{ fontSize: '14px', fontWeight: '300' }}>
+            <div style={{ fontSize: '14px', fontWeight: '300', marginTop: '2px' }}>
               {`${member[music.singer][lang]} / ${{ kor: music.oSingerKor, eng: music.oSingerEng, jpn: music.oSingerJpn }[lang]}`}
             </div>
           </div>
