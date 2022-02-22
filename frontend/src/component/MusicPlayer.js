@@ -95,14 +95,15 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
     playAudio();
   }, [music]);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (nowIdx === -1) return;
     // playlist reload
     if (nowIdx === -2) {
       setNowIdx(0);
       return;
     }
-    setMusic(playlist[nowIdx]);
+    const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
+    setMusic(res.data.data);
   }, [nowIdx]);
 
   useEffect(() => {
@@ -144,10 +145,10 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
                 src={image[music?.singer]}
               />
               <div style={{ lineHeight: '1.0', marginLeft: '14px' }}>
-                <div style={{ fontSize: '16px', fontWeight: '400', marginTop: '5px' }}>
+                <div style={{ fontSize: '15.4px', fontWeight: '400', marginTop: '5px' }}>
                   {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
                 </div>
-                <div style={{ fontSize: '13px', fontWeight: '300', marginTop: '6px', ...(!music.oSingerKor && { display: 'none' }) }}>
+                <div style={{ fontSize: '13px', fontWeight: '300', marginTop: '4px', ...(!music.oSingerKor && { display: 'none' }) }}>
                   {`${member[music?.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
                 </div>
               </div>
@@ -159,7 +160,15 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
                 auto
                 light
                 icon={!audioRef.current?.paused ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
-                onClick={() => (!isPause ? pauseAudio() : playAudio())}
+                onClick={() => {
+                  if (!isPause) {
+                    pauseAudio();
+                    audioRef.current.pause();
+                  } else {
+                    playAudio();
+                    audioRef.current.play();
+                  }
+                }}
               />
               <Button
                 style={{ height: '90%' }}

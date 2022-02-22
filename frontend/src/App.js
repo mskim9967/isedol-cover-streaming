@@ -36,12 +36,8 @@ function App() {
     setPlaylist(temp);
   };
 
-  const shuffle = (array) => {
-    return array.sort(() => Math.random() - 0.5);
-  };
-
   const change = (ids) => {
-    setPlaylist([...shuffle(ids)]);
+    setPlaylist([...ids]);
     setNowIdx(-2);
   };
 

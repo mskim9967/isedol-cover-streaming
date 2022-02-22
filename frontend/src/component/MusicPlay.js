@@ -58,6 +58,7 @@ function MusicPlay({
   const [isLiked, setLiked] = useState(false);
   const [isPlaylistActive, setPlaylistActive] = useState(false);
   const [animStart, setAnimStart] = useState(false);
+  const [likes, setLikes] = useState([]);
 
   const progressbarRef = useRef(null);
 
@@ -93,6 +94,28 @@ function MusicPlay({
   }, [isPause, music]);
 
   useEffect(() => {
+    setPercentage(0);
+    setLikes([...JSON.parse(localStorage.getItem('likes') || '[]')]);
+  }, [music]);
+
+  useEffect(() => {
+    if (likes.find((e) => e.id === music?.id)) setLiked(true);
+    else setLiked(false);
+    likes.forEach((e) => {
+      if (e.id === music?.id) e = music;
+    });
+    localStorage.setItem('likes', JSON.stringify([...likes]));
+  }, [likes]);
+
+  useEffect(() => {
+    if (isLiked) {
+      if (likes.find((e) => e.id === music?.id) === undefined) setLikes([...likes, music]);
+    } else {
+      setLikes([...likes.filter((e) => e.id !== music?.id)]);
+    }
+  }, [isLiked]);
+
+  useEffect(() => {
     audioRef.current.currentTime = percentage * audioRef.current.duration || 0;
     setCurrentTime(audioRef.current.currentTime);
   }, [percentage]);
@@ -110,38 +133,50 @@ function MusicPlay({
       {!isPlaylistActive && (
         <div style={{ display: 'grid', gridTemplateRows: '5fr 1.2fr 0.8fr', opacity: !animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s' }}>
           <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <img
+            <div
               style={{
                 width: '74%',
                 maxWidth: '300px',
                 aspectRatio: '1/1',
-                borderRadius: '6%',
-                boxShadow: `0px 2px 13px -5px ${color.shadow}`,
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
               }}
-              src={image[music.singer]}
-            />
-            {music.youtubeUrl && (
-              <div
+            >
+              <img
                 style={{
+                  width: '100%',
+                  aspectRatio: '1/1',
+                  borderRadius: '6%',
+                  boxShadow: `0px 2px 13px -5px ${color.shadow}`,
                   position: 'absolute',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  bottom: 5,
-                  width: '50px',
-                  height: '36px',
-                  backgroundColor: color.bgLight,
-                  boxShadow: `0px 2px 10px -6px ${color.shadow}`,
-                  borderRadius: '18px',
                 }}
-                onClick={() => {
-                  audioControl.pauseAudio();
-                  window.open(music.youtubeUrl, '_blank');
-                }}
-              >
-                <IoLogoYoutube color='#ff0000' size={20} />
-              </div>
-            )}
+                src={image[music.singer]}
+              />
+              {music.youtubeUrl && (
+                <div
+                  style={{
+                    position: 'absolute',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    bottom: 5,
+                    width: '50px',
+                    height: '36px',
+                    backgroundColor: color.bgLight,
+                    boxShadow: `0px 2px 10px -6px ${color.shadow}`,
+                    borderRadius: '18px',
+                    bottom: -21,
+                  }}
+                  onClick={() => {
+                    audioControl.pauseAudio();
+                    window.open(music.youtubeUrl, '_blank');
+                  }}
+                >
+                  <IoLogoYoutube color='#ff0000' size={20} />
+                </div>
+              )}
+            </div>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}>
             <div
@@ -151,13 +186,13 @@ function MusicPlay({
                 color: color.textDarkBlack,
                 padding: '0px 40px',
                 textAlign: 'center',
-                lineHeight: '1.3',
+                lineHeight: '1.1',
                 wordBreak: 'keep-all',
               }}
             >
               {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
             </div>
-            <div style={{ fontSize: '14px', fontWeight: '300', marginTop: '2px' }}>
+            <div style={{ fontSize: '14px', fontWeight: '300', marginTop: '0px' }}>
               {`${member[music.singer][lang]} / ${{ kor: music.oSingerKor, eng: music.oSingerEng, jpn: music.oSingerJpn }[lang]}`}
             </div>
           </div>
@@ -223,26 +258,28 @@ function MusicPlay({
                     zIndex: -1,
                   }}
                 />
-                <div style={{ flex: 1, height: '3px', backgroundColor: color.lightGray, zIndex: -1, borderRadius: '3px' }} />
+                <div
+                  style={{ flex: 1, height: '3px', backgroundColor: eval(`color.${music.singer}`), zIndex: -1, borderRadius: '3px', opacity: '50%' }}
+                />
               </div>
             </div>
           </div>
         </div>
       )}
-      {isPlaylistActive && (
-        <div style={{ overflow: 'auto', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s' }}>
-          <MusicPlaylist
-            playlistControl={playlistControl}
-            playlist={playlist}
-            isActive={isActive}
-            setActive={setActive}
-            isDark={isDark}
-            lang={lang}
-            setNowIdx={setNowIdx}
-            nowIdx={nowIdx}
-          />
-        </div>
-      )}
+      <div
+        style={{ overflow: 'auto', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s', ...(!isPlaylistActive && { display: 'none' }) }}
+      >
+        <MusicPlaylist
+          playlistControl={playlistControl}
+          playlist={playlist}
+          isActive={isActive}
+          setActive={setActive}
+          isDark={isDark}
+          lang={lang}
+          setNowIdx={setNowIdx}
+          nowIdx={nowIdx}
+        />
+      </div>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 30 }}>
         <Button
           style={{ height: '70%' }}
@@ -279,12 +316,14 @@ function MusicPlay({
           alignItems: 'center',
           justifyContent: 'center',
           gap: 60,
-          opacity: '70%',
+          opacity: '85%',
         }}
       >
         <Button style={{ height: '70%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd size={26} color={eval(`color.${music.singer}`)} />} />
         <Button
-          onClick={() => setLiked(!isLiked)}
+          onClick={() => {
+            setLiked(!isLiked);
+          }}
           style={{ height: '70%' }}
           size='xs'
           auto

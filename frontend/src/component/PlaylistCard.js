@@ -9,6 +9,7 @@ import jpn from '../static/image/japan_300_300.webp';
 import kor from '../static/image/korea_300_300.webp';
 import eng from '../static/image/world_300_300.webp';
 import all from '../static/image/all_300_300.webp';
+import like from '../static/image/like_300_300.webp';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { axiosInstance } from '../axiosInstance';
@@ -24,6 +25,7 @@ const imgMap = {
   jpn,
   eng,
   kor,
+  like,
 };
 
 const colorMap = {
@@ -37,6 +39,7 @@ const colorMap = {
   jpn: '#ff0000',
   kor: '#307cff',
   eng: '#007029',
+  like: lightColor.isedol,
 };
 
 function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
@@ -46,7 +49,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
   const nameMap = {
     all: { kor: '이세돌', eng: `Isegye Idol`, jpn: 'イセドル' }[lang],
     gosegu: { kor: '고세구의', eng: `Gosegu's`, jpn: 'ゴセグの' }[lang],
-    viichan: { kor: '비챤', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
+    viichan: { kor: '비챤의', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
     jururu: { kor: '주르르의', eng: `Jururu's`, jpn: 'ジュルル' }[lang],
     lilpa: { kor: '릴파의', eng: `Lilpa's`, jpn: 'リルパ' }[lang],
     jingburger: { kor: '징버거의', eng: `Jingburger's`, jpn: ' ジンバーガー' }[lang],
@@ -54,6 +57,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
     jpn: { kor: '일식', eng: `J-POP`, jpn: 'J-POP' }[lang],
     kor: { kor: '한식', eng: `K-POP`, jpn: 'K-POP' }[lang],
     eng: { kor: '양식', eng: `Western POP`, jpn: 'Western POP' }[lang],
+    like: { kor: '좋아요', eng: `Like`, jpn: '好きな' }[lang],
   };
 
   return (
@@ -68,11 +72,17 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
         backgroundColor: colorMap[theme],
       }}
       onClick={async () => {
-        const res = await axiosInstance.put('/music/search', {
-          ...(type === 'idol' && { singers: [theme] }),
-          ...(type === 'nation' && { nations: [theme] }),
-        });
-        playlistControl.change(res.data.data);
+        if (type === 'custom') {
+          let likes = [...JSON.parse(localStorage.getItem('likes') || '[]')];
+          if (likes.length) playlistControl.change(likes);
+          else alert({ kor: '좋아요 한 곡이 없습니다', jpn: 'あいています', eng: 'It is empty' }[lang]);
+        } else {
+          const res = await axiosInstance.put('/music/search', {
+            ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),
+            ...(type === 'nation' && { nations: [theme] }),
+          });
+          playlistControl.change(res.data.data.sort(() => Math.random() - 0.5));
+        }
       }}
     >
       <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgMap[theme]} />

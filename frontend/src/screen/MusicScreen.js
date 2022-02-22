@@ -1,5 +1,5 @@
 import { useEffect, useState, memo } from 'react';
-import { IoSearch, IoFilter, IoChevronUp, IoChevronDown } from 'react-icons/io5';
+import { IoSearch, IoPlay, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 import { Button } from '@nextui-org/react';
 import { axiosInstance } from '../axiosInstance';
 
@@ -19,21 +19,40 @@ function MusicScreen({ playlistControl, lang, isDark }) {
   const [musics, setMusics] = useState([]);
 
   useEffect(async () => {
-    const res = await axiosInstance.get('/music');
-    setMusics(res.data.data);
-  }, []);
+    if (!searchStr.length) {
+      const res = await axiosInstance.get('/music');
+      setMusics(res.data.data.reverse());
+    }
+  }, [searchStr]);
 
   const search = async () => {
     const res = await axiosInstance.put('/music/search', {
       searchStr,
     });
 
-    setMusics(res.data.data);
+    setMusics(res.data.data.reverse());
   };
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
-      <HeaderText isDark={isDark}>{{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}</HeaderText>
+      <HeaderText isDark={isDark}>
+        {{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}
+        <div style={{ float: 'right' }}>
+          <Button
+            style={{ height: '34px', marginTop: '12px' }}
+            auto
+            size='sm'
+            color={'error'}
+            iconRight
+            icon={<IoPlay size={17} style={{ marginLeft: '-6px' }} />}
+            onClick={() => {
+              playlistControl.change(musics);
+            }}
+          >
+            {{ kor: `${musics?.length}곡 재생`, jpn: `${musics?.length}曲再生`, eng: `Play ${musics?.length} songs` }[lang]}
+          </Button>
+        </div>
+      </HeaderText>
       <div>
         <div style={{ width: '100%', height: '35px' }}>
           <div
@@ -113,7 +132,7 @@ function MusicScreen({ playlistControl, lang, isDark }) {
         </div>
       </div>
       <div>
-        {musics?.length &&
+        {musics?.length !== 0 &&
           musics.map((music, key) => {
             return <MusicCard playlistControl={playlistControl} key={key} music={music} lang={lang} isDark={isDark}></MusicCard>;
           })}
