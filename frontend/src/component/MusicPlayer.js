@@ -81,7 +81,7 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
 
   const repeat = () => {
     audioRef.current.currnetTime = 0;
-    setLoad(!load);
+    playAudio();
   };
 
   const playNext = () => {

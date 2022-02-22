@@ -74,7 +74,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
       onClick={async () => {
         if (type === 'custom') {
           let likes = [...JSON.parse(localStorage.getItem('likes') || '[]')];
-          if (likes.length) playlistControl.change(likes);
+          if (likes.length) playlistControl.change(likes.sort(() => Math.random() - 0.5));
           else alert({ kor: '좋아요 한 곡이 없습니다', jpn: 'あいています', eng: 'It is empty' }[lang]);
         } else {
           const res = await axiosInstance.put('/music/search', {

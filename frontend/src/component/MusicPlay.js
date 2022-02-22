@@ -61,8 +61,9 @@ function MusicPlay({
   const [isLiked, setLiked] = useState(false);
   const [isPlaylistActive, setPlaylistActive] = useState(false);
   const [animStart, setAnimStart] = useState(false);
-  const [likes, setLikes] = useState([]);
+  const [likes, setLikes] = useState([...JSON.parse(localStorage.getItem('likes') || '[]')]);
   const [isRepeat, setRepeat] = useState(false);
+  const repeatRef = useRef(false);
   const [shuffle, setShuffle] = useState(false);
 
   const progressbarRef = useRef(null);
@@ -85,10 +86,14 @@ function MusicPlay({
       timerId = setInterval(() => {
         setCurrentTime(audioRef.current.currentTime);
         if (audioRef.current.currentTime >= audioRef.current.duration) {
-          if (isRepeat) {
-            clearInterval(timerId);
+          if (repeatRef.current) {
+            console.log('repeat');
             audioControl.repeat();
-          } else audioControl.playNext();
+          } else {
+            console.log('next');
+
+            audioControl.playNext();
+          }
         }
       }, 250);
     } else {
@@ -102,15 +107,12 @@ function MusicPlay({
 
   useEffect(() => {
     setPercentage(0);
+    if (likes.find((e) => e.id === music?.id)) setLiked(true);
+    else setLiked(false);
     setLikes([...JSON.parse(localStorage.getItem('likes') || '[]')]);
   }, [music]);
 
   useEffect(() => {
-    if (likes.find((e) => e.id === music?.id)) setLiked(true);
-    else setLiked(false);
-    likes.forEach((e) => {
-      if (e.id === music?.id) e = music;
-    });
     localStorage.setItem('likes', JSON.stringify([...likes]));
   }, [likes]);
 
@@ -399,6 +401,7 @@ function MusicPlay({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
+                repeatRef.current = !isRepeat;
                 setRepeat(!isRepeat);
               }}
               style={{ height: '70%' }}
