@@ -113,9 +113,10 @@ function MusicScreen({ playlistControl, lang, isDark }) {
         </div>
       </div>
       <div>
-        {musics.map((music, key) => {
-          return <MusicCard playlistControl={playlistControl} key={key} music={music} lang={lang} isDark={isDark}></MusicCard>;
-        })}
+        {musics?.length &&
+          musics.map((music, key) => {
+            return <MusicCard playlistControl={playlistControl} key={key} music={music} lang={lang} isDark={isDark}></MusicCard>;
+          })}
       </div>
     </div>
   );
