@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+      - ./init/:/docker-entrypoint-initdb.d/
+    ports:
+      - ${DB_PORT}:${DB_PORT}
