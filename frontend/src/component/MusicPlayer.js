@@ -70,10 +70,12 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
   const reloadAudio = () => {
     audioRef.current.src = `${axiosInstance.defaults.baseURL}/music/streaming/${music.fileName}.mp3`;
     audioRef.current.load();
+    audioRef.current.autoplay = true;
   };
 
   const playAudio = () => {
     setPause(false);
+    audioRef.current.autoplay = true;
     audioRef.current.play();
     audioRef.current.volume = 0.6;
   };
