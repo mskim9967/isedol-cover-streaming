@@ -21,11 +21,9 @@ public class Music {
     private String nation;
     private String youtubeUrl;
     private Boolean isFull;
+    private String fileName;
 
-    public Music() {
-    }
-
-    public Music(Long id, String titleKor, String titleEng, String titleJpn, String singer, String oSingerKor, String oSingerEng, String oSingerJpn, String nation, String youtubeUrl, Boolean isFull) {
+    public Music(Long id, String titleKor, String titleEng, String titleJpn, String singer, String oSingerKor, String oSingerEng, String oSingerJpn, String nation, String youtubeUrl, Boolean isFull, String fileName) {
         this.id = id;
         this.titleKor = titleKor;
         this.titleEng = titleEng;
@@ -37,6 +35,18 @@ public class Music {
         this.nation = nation;
         this.youtubeUrl = youtubeUrl;
         this.isFull = isFull;
+        this.fileName = fileName;
+    }
+
+    public Music() {
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 
     public Long getId() {
