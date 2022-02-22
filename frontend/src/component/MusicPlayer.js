@@ -37,7 +37,7 @@ const image = {
   all,
 };
 
-function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx }) {
+function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx, setLoad, load, setPlaylist }) {
   const color = isDark ? darkColor : lightColor;
 
   const swipeHandler = useSwipeable({
@@ -69,27 +69,34 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
 
   const reloadAudio = () => {
     audioRef.current.src = `${axiosInstance.defaults.baseURL}/music/streaming/${music.fileName}.mp3`;
-    audioRef.current.load();
     audioRef.current.autoplay = true;
+    audioRef.current.load();
   };
 
   const playAudio = () => {
     setPause(false);
-    audioRef.current.autoplay = true;
     audioRef.current.play();
     audioRef.current.volume = 0.6;
   };
 
+  const repeat = () => {
+    audioRef.current.currnetTime = 0;
+    setLoad(!load);
+  };
+
   const playNext = () => {
     setNowIdx((nowIdx + 1) % playlist.length);
+    setLoad(!load);
   };
 
   const playPrev = () => {
-    if (audioRef.current.currentTime <= 2) setNowIdx((playlist.length + nowIdx - 1) % playlist.length);
-    else audioRef.current.currentTime = 0.0;
+    if (audioRef.current.currentTime <= 2) {
+      setNowIdx((playlist.length + nowIdx - 1) % playlist.length);
+      setLoad(!load);
+    } else audioRef.current.currentTime = 0.0;
   };
 
-  const audioControl = { pauseAudio, reloadAudio, playAudio, playNext, playPrev };
+  const audioControl = { pauseAudio, reloadAudio, playAudio, playNext, playPrev, repeat };
 
   useEffect(() => {
     if (!music.oSingerKor) return;
@@ -106,7 +113,7 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
     }
     const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
     setMusic(res.data.data);
-  }, [nowIdx]);
+  }, [load]);
 
   useEffect(() => {
     if (isPause) pauseAudio();
@@ -121,7 +128,7 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
         zIndex: 999,
         width: '100%',
         transition: 'height ease 0.3s 0s, transform ease 0.3s 0s',
-        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.8)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         bottom: 0,
@@ -223,6 +230,9 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
             isPause={isPause}
             setPause={setPause}
             audioControl={audioControl}
+            load={load}
+            setLoad={setLoad}
+            setPlaylist={setPlaylist}
           />
         )}
       </div>

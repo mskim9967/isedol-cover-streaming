@@ -17,8 +17,8 @@ function PlaylistScreen({ lang, isDark, playlistControl }) {
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          {idols.map((e) => {
-            return <PlaylistCard lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} />;
+          {idols.map((e, idx) => {
+            return <PlaylistCard key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} />;
           })}
         </div>
       </div>
@@ -28,8 +28,8 @@ function PlaylistScreen({ lang, isDark, playlistControl }) {
           {{ kor: '장르별 추천', eng: 'Suggestion by genre', jpn: 'ジャンル別 おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          {nations.map((e) => {
-            return <PlaylistCard lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} />;
+          {nations.map((e, idx) => {
+            return <PlaylistCard key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} />;
           })}
         </div>
       </div>

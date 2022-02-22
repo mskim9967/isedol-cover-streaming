@@ -7,12 +7,9 @@ import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
 import all from '../static/image/all_300_300.webp';
-import { MdOutlinePlaylistAdd } from 'react-icons/md';
-import { IoPlay } from 'react-icons/io5';
-import { axiosInstance } from '../axiosInstance';
+import { IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -34,14 +31,8 @@ const image = {
   all,
 };
 
-function MusicCardInPlaylist({ playlistControl, musicId, lang, isDark, inPlayer }) {
+function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLoad, playlist, setPlaylist, nowIdx, setNowIdx, idx }) {
   const color = isDark ? darkColor : lightColor;
-  const [music, setMusic] = useState(null);
-
-  useEffect(async () => {
-    const res = await axiosInstance.get(`/music/${musicId}`);
-    setMusic(res.data.data);
-  }, [musicId]);
 
   return (
     <div
@@ -51,11 +42,17 @@ function MusicCardInPlaylist({ playlistControl, musicId, lang, isDark, inPlayer 
         width: '100%',
         borderBottom: `solid 0.5px ${color.lightGray}`,
         display: 'flex',
-        justifyContent: 'space-between',
       }}
     >
-      <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-        <img style={{ height: '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }} src={image[music?.singer]} />
+      <div
+        style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}
+        onClick={() => {
+          if (idx === nowIdx) return;
+          setNowIdx(idx);
+          setLoad(!load);
+        }}
+      >
+        <img style={{ height: '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }} src={image[music.singer]} />
         <div style={{ overflow: 'hidden' }}>
           <div
             style={{
@@ -67,28 +64,68 @@ function MusicCardInPlaylist({ playlistControl, musicId, lang, isDark, inPlayer 
               lineHeight: '1.1',
             }}
           >
-            {{ kor: music?.titleKor, eng: music?.titleEng, jpn: music?.titleJpn }[lang]}
+            {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
           </div>
           <div style={{ lineHeight: '1.0', marginTop: '5px', fontWeight: '400', fontSize: '12.4px', color: color.darkGray, opacity: '90%' }}>
-            {`${member[music?.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
+            {`${member[music.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
           </div>
         </div>
       </div>
-      {!inPlayer && (
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
-          <Button style={{ height: '90%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />} />
-          <Button
-            style={{ height: '90%' }}
-            size='xs'
-            auto
-            light
-            icon={<IoPlay color={color.darkGray} size={19} />}
-            onClick={() => {
-              playlistControl.add(music);
-            }}
-          />
-        </div>
-      )}
+
+      <div style={{ float: 'right', height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
+        {idx !== nowIdx && (
+          <>
+            <Button
+              style={{ height: '90%' }}
+              size='xs'
+              auto
+              light
+              icon={<IoClose color={color.darkGray} size={19} />}
+              onClick={() => {
+                if (idx < nowIdx) setNowIdx(nowIdx - 1);
+                let temp = playlist;
+                temp.splice(idx, 1);
+                setPlaylist([...temp]);
+              }}
+            />
+            <div>
+              <Button
+                style={{ height: '30px' }}
+                size='xs'
+                auto
+                light
+                icon={<IoChevronUp color={color.darkGray} size={19} />}
+                onClick={() => {
+                  if (idx === 0) return;
+                  let temp = playlist;
+                  [temp[idx - 1], temp[idx]] = [temp[idx], temp[idx - 1]];
+                  if (idx - 1 === nowIdx) setNowIdx(nowIdx + 1);
+                  setPlaylist([...temp]);
+                }}
+              />
+              <Button
+                style={{ height: '30px' }}
+                size='xs'
+                auto
+                light
+                icon={
+                  <IoChevronDown
+                    color={color.darkGray}
+                    size={19}
+                    onClick={() => {
+                      if (idx === playlist.length - 1) return;
+                      let temp = playlist;
+                      [temp[idx], temp[idx + 1]] = [temp[idx + 1], temp[idx]];
+                      if (idx + 1 === nowIdx) setNowIdx(nowIdx - 1);
+                      setPlaylist([...temp]);
+                    }}
+                  />
+                }
+              />
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 }

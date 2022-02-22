@@ -18,6 +18,7 @@ function App() {
   const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
   const [playlist, setPlaylist] = useState([]);
   const [nowIdx, setNowIdx] = useState(-1);
+  const [load, setLoad] = useState(false);
 
   const add = (music) => {
     let idx = playlist.findIndex((e) => e.id === music.id);
@@ -27,6 +28,7 @@ function App() {
       setNowIdx(playlist.length);
       setPlaylist([...playlist, music]);
     }
+    setLoad(!load);
   };
 
   const remove = (id) => {
@@ -38,7 +40,8 @@ function App() {
 
   const change = (ids) => {
     setPlaylist([...ids]);
-    setNowIdx(-2);
+    setNowIdx(0);
+    setLoad(!load);
   };
 
   useEffect(() => {}, [playlist]);
@@ -63,7 +66,7 @@ function App() {
         top: 0,
         left: 0,
         height: height,
-        width: window.innerWidth,
+        width: '100vw',
         overflow: 'hidden',
         color: color.textBlack,
       }}
@@ -92,6 +95,7 @@ function App() {
       </div>
       <MusicPlayer
         playlist={playlist}
+        setPlaylist={setPlaylist}
         playlistControl={playlistControl}
         isActive={isMusicPlayerActive}
         setActive={setMusicPlayerActive}
@@ -99,6 +103,8 @@ function App() {
         isDark={isDark}
         nowIdx={nowIdx}
         setNowIdx={setNowIdx}
+        load={load}
+        setLoad={setLoad}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>

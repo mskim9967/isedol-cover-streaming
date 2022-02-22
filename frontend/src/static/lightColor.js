@@ -13,6 +13,7 @@ export default {
   darkGray: '#505050',
   isedol: '#E84170',
   all: '#E84170',
+
   jingburger: '#EFA957',
   ine: '#8A2BE2',
   lilpa: '#000080',

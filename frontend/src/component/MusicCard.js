@@ -8,7 +8,7 @@ import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
 import all from '../static/image/all_300_300.webp';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
-import { IoPlay } from 'react-icons/io5';
+import { IoPlay, IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
 
@@ -32,7 +32,7 @@ const image = {
   all,
 };
 
-function MusicCard({ playlistControl, music, lang, isDark, inPlayer }) {
+function MusicCard({ playlistControl, music, lang, isDark }) {
   const color = isDark ? darkColor : lightColor;
 
   return (
@@ -66,21 +66,19 @@ function MusicCard({ playlistControl, music, lang, isDark, inPlayer }) {
           </div>
         </div>
       </div>
-      {!inPlayer && (
-        <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
-          <Button style={{ height: '90%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />} />
-          <Button
-            style={{ height: '90%' }}
-            size='xs'
-            auto
-            light
-            icon={<IoPlay color={color.darkGray} size={19} />}
-            onClick={() => {
-              playlistControl.add(music);
-            }}
-          />
-        </div>
-      )}
+      <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
+        <Button style={{ height: '90%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />} />
+        <Button
+          style={{ height: '90%' }}
+          size='xs'
+          auto
+          light
+          icon={<IoPlay color={color.darkGray} size={19} />}
+          onClick={() => {
+            playlistControl.add(music);
+          }}
+        />
+      </div>
     </div>
   );
 }
