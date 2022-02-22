@@ -47,6 +47,7 @@ function App() {
   const color = isDark ? darkColor : lightColor;
 
   useEffect(() => {
+    if (anim === null) setAnim(true);
     localStorage.setItem('anim', JSON.stringify(anim));
   }, [anim]);
   useEffect(() => {

@@ -16,11 +16,11 @@ function PlaylistScreen({ lang, isDark }) {
         </div>
         <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           <PlaylistCard lang={lang} theme={'all'} />
-          <PlaylistCard lang={lang} theme={'segu'} />
+          <PlaylistCard lang={lang} theme={'gosegu'} />
           <PlaylistCard lang={lang} theme={'ine'} />
-          <PlaylistCard lang={lang} theme={'chan'} />
-          <PlaylistCard lang={lang} theme={'jing'} />
-          <PlaylistCard lang={lang} theme={'ruru'} />
+          <PlaylistCard lang={lang} theme={'viichan'} />
+          <PlaylistCard lang={lang} theme={'jingburger'} />
+          <PlaylistCard lang={lang} theme={'jururu'} />
           <PlaylistCard lang={lang} theme={'lilpa'} />
         </div>
       </div>
@@ -39,14 +39,7 @@ function PlaylistScreen({ lang, isDark }) {
         <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '나의 플레이리스트', eng: 'My playlist', jpn: '僕のプレイリスト' }[lang]}
         </div>
-        <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          <PlaylistCard lang={lang} theme={'segu'} />
-          <PlaylistCard lang={lang} theme={'ine'} />
-          <PlaylistCard lang={lang} theme={'chan'} />
-          <PlaylistCard lang={lang} theme={'jing'} />
-          <PlaylistCard lang={lang} theme={'ruru'} />
-          <PlaylistCard lang={lang} theme={'lilpa'} />
-        </div>
+        <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}></div>
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import jururu from '../static/image/ruru_300_300.webp';
 import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
+import all from '../static/image/all_300_300.webp';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { IoPlay } from 'react-icons/io5';
 
@@ -18,6 +19,7 @@ const member = {
   jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
   gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
+  all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
 };
 
 const image = {
@@ -27,6 +29,7 @@ const image = {
   jururu,
   gosegu,
   viichan,
+  all,
 };
 
 function MusicCard({ playlistControl, music, lang, isDark, inPlayer }) {

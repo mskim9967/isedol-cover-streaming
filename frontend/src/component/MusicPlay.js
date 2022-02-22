@@ -14,6 +14,7 @@ import jururu from '../static/image/ruru_300_300.webp';
 import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
+import all from '../static/image/all_300_300.webp';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -22,6 +23,7 @@ const member = {
   jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
   gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
+  all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
   null: { kor: '', eng: '', jpn: '' },
 };
 
@@ -32,6 +34,7 @@ const image = {
   jururu,
   gosegu,
   viichan,
+  all,
 };
 
 function MusicPlay({
@@ -245,7 +248,13 @@ function MusicPlay({
           size='xs'
           auto
           light
-          icon={isPause ? <IoPlay size={60} color={eval(`color.${music.singer}`)} /> : <IoPause size={60} color={eval(`color.${music.singer}`)} />}
+          icon={
+            audioRef.current?.paused ? (
+              <IoPlay size={60} color={eval(`color.${music.singer}`)} />
+            ) : (
+              <IoPause size={60} color={eval(`color.${music.singer}`)} />
+            )
+          }
         />
         <Button
           style={{ height: '70%' }}

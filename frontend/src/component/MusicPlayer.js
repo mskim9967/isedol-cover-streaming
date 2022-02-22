@@ -14,6 +14,7 @@ import jururu from '../static/image/ruru_300_300.webp';
 import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
+import all from '../static/image/all_300_300.webp';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -22,6 +23,8 @@ const member = {
   jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
   gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
+  all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
+
   null: { kor: '', eng: '', jpn: '' },
 };
 
@@ -32,6 +35,7 @@ const image = {
   jururu,
   gosegu,
   viichan,
+  all,
 };
 
 function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx }) {
@@ -133,14 +137,14 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
             <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center' }} onClick={(e) => setActive(true)}>
               <img
                 style={{ height: '47px', aspectRatio: '1/1', borderRadius: '4px', ...(!music.oSingerKor && { display: 'none' }) }}
-                src={image[music.singer]}
+                src={image[music?.singer]}
               />
-              <div style={{ marginLeft: '14px' }}>
+              <div style={{ lineHeight: '1.0', marginLeft: '14px' }}>
                 <div style={{ fontSize: '16px', fontWeight: '400', marginTop: '5px' }}>
                   {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
                 </div>
-                <div style={{ fontSize: '13px', fontWeight: '300', marginTop: '-2px', ...(!music.oSingerKor && { display: 'none' }) }}>
-                  {`${member[music.singer][lang]} / ${{ kor: music.oSingerKor, eng: music.oSingerEng, jpn: music.oSingerJpn }[lang]}`}
+                <div style={{ fontSize: '13px', fontWeight: '300', marginTop: '6px', ...(!music.oSingerKor && { display: 'none' }) }}>
+                  {`${member[music?.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
                 </div>
               </div>
             </div>
@@ -150,7 +154,7 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
                 size='xs'
                 auto
                 light
-                icon={!isPause ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
+                icon={!audioRef.current?.paused ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
                 onClick={() => (!isPause ? pauseAudio() : playAudio())}
               />
               <Button

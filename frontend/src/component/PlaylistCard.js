@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { IoPause, IoPlay, IoPlayForward, IoPlayBack } from 'react-icons/io5';
-import segu from '../static/image/segu_300_300.webp';
-import chan from '../static/image/chan_300_300.webp';
-import ruru from '../static/image/ruru_300_300.webp';
+import gosegu from '../static/image/segu_300_300.webp';
+import viichan from '../static/image/chan_300_300.webp';
+import jururu from '../static/image/ruru_300_300.webp';
 import lilpa from '../static/image/lilpa_300_300.webp';
-import jing from '../static/image/jing_300_300.webp';
+import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
 import japan from '../static/image/japan_300_300.webp';
 import korea from '../static/image/korea_300_300.webp';
@@ -15,11 +15,11 @@ import darkColor from '../static/darkColor';
 
 const imgMap = {
   all,
-  segu,
-  chan,
-  ruru,
+  gosegu,
+  viichan,
+  jururu,
   lilpa,
-  jing,
+  jingburger,
   ine,
   japan,
   world,
@@ -28,11 +28,11 @@ const imgMap = {
 
 const colorMap = {
   all: lightColor.isedol,
-  segu: lightColor.segu,
-  chan: lightColor.chan,
-  ruru: lightColor.ruru,
+  gosegu: lightColor.gosegu,
+  viichan: lightColor.viichan,
+  jururu: lightColor.jururu,
   lilpa: lightColor.lilpa,
-  jing: lightColor.jing,
+  jingburger: lightColor.jingburger,
   ine: lightColor.ine,
   japan: '#ff0000',
   korea: '#307cff',
@@ -44,11 +44,11 @@ function PlaylistCard({ theme, lang, isDark }) {
 
   const nameMap = {
     all: { kor: '이세돌', eng: `Isegye Idol`, jpn: 'イセドル' }[lang],
-    segu: { kor: '고세구의', eng: `Gosegu's`, jpn: 'ゴセグの' }[lang],
-    chan: { kor: '비챤', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
-    ruru: { kor: '주르르의', eng: `Jururu's`, jpn: 'ジュルル' }[lang],
+    gosegu: { kor: '고세구의', eng: `Gosegu's`, jpn: 'ゴセグの' }[lang],
+    viichan: { kor: '비챤', eng: `Viichan's`, jpn: 'ゔぃちゃん' }[lang],
+    jururu: { kor: '주르르의', eng: `Jururu's`, jpn: 'ジュルル' }[lang],
     lilpa: { kor: '릴파의', eng: `Lilpa's`, jpn: 'リルパ' }[lang],
-    jing: { kor: '징버거의', eng: `Jingburger's`, jpn: ' ジンバーガー' }[lang],
+    jingburger: { kor: '징버거의', eng: `Jingburger's`, jpn: ' ジンバーガー' }[lang],
     ine: { kor: '아이네의', eng: `Ine's`, jpn: 'アイネ' }[lang],
     japan: { kor: '일식', eng: `J-POP`, jpn: 'J-POP' }[lang],
     korea: { kor: '한식', eng: `K-POP`, jpn: 'K-POP' }[lang],

@@ -12,10 +12,11 @@ export default {
   gray: '#aaaaaa',
   darkGray: '#505050',
   isedol: '#E84170',
+  all: '#E84170',
   jingburger: '#EFA957',
   ine: '#8A2BE2',
   lilpa: '#000080',
-  jiruru: '#800080',
+  jururu: '#800080',
   gosegu: '#457EC5',
   viichan: '#85AC1F',
 };
