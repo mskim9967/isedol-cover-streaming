@@ -7,10 +7,11 @@ import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
 import all from '../static/image/all_300_300.webp';
-import { IoChevronUp, IoChevronDown, IoClose, IoPencil } from 'react-icons/io5';
+import { IoChevronUp, IoChevronDown, IoClose, IoPencil, IoTrash } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
+import MusicCardInPlaylist from './MusicCardInPlaylist';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -41,7 +42,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
       style={{
         width: '100%',
         padding: '3px 20px 20px 20px',
-        backgroundColor: color.settingBg,
+        backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
         display: 'flex',
         gap: 4,
         flexDirection: 'column',
@@ -98,9 +99,22 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                         size='xs'
                         auto
                         light
-                        icon={<IoPencil color={color.darkGray} size={20} />}
+                        icon={<IoTrash color={color.darkGray} size={20} />}
                         onClick={(e) => {
                           e.stopPropagation();
+                          if (
+                            !window.confirm(
+                              {
+                                kor: '플레이리스트를 삭제하시겠습니까?',
+                                jpn: 'プレイリストを削除しますか?',
+                                eng: 'Do you want to remove this playlist?',
+                              }[lang]
+                            )
+                          )
+                            return;
+                          let temp = customPlaylist;
+                          temp.splice(idx, 1);
+                          setCustomPlaylist([...temp]);
                         }}
                       />
                       <Button
@@ -108,9 +122,27 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                         size='xs'
                         auto
                         light
-                        icon={<IoClose color={color.darkGray} size={20} />}
+                        icon={<IoPencil color={color.darkGray} size={20} />}
                         onClick={(e) => {
                           e.stopPropagation();
+                          let name = window.prompt(
+                            {
+                              kor: '변경할 이름을 입력하세요',
+                              jpn: 'プ変更する名前を入力してください',
+                              eng: 'Enter the name you want to change',
+                            }[lang]
+                          );
+                          name = name.trim();
+                          if (!name || name.length === 0)
+                            alert({ kor: '이름이 비어있습니다', jpn: '名前があいています', eng: 'The name is empty' }[lang]);
+                          else if (name.length > 10) alert({ kor: '이름이 너무 깁니다', jpn: '名前があいています', eng: 'The name is empty' }[lang]);
+                          else if (customPlaylist.find((e) => e.name === name))
+                            alert({ kor: '이름이 중복됩니다', jpn: '名前が長すぎます', eng: 'The name too long' }[lang]);
+                          else {
+                            let temp = customPlaylist;
+                            temp[idx].name = name;
+                            setCustomPlaylist([...temp]);
+                          }
                         }}
                       />
                     </div>
@@ -119,15 +151,29 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                     <div
                       style={{
                         borderRadius: '10px',
-                        backgroundColor: color.superLightGray,
-                        marginTop: idx === openIdx ? 0 : '-100%',
+                        marginTop: idx === openIdx ? 0 : `-${playlist.data.length * 90}px`,
                         opacity: idx === openIdx ? '100%' : 0,
-                        transition: 'margin ease-in-out 0.3s 0s, opacity ease-in-out 0.3s 0s',
+                        transition: 'margin ease-in-out 0.4s 0s, opacity ease-in-out 0.4s 0s',
                         marginBottom: '14px',
+                        padding: '0 0 0 5px',
+                        textAlign: 'left',
+                        backgroundColor: color.lightGray,
                       }}
                     >
-                      {playlist.data.map((music, i) => {
-                        return <div>{music.titleKor}</div>;
+                      {playlist.data.map((music, idx) => {
+                        return (
+                          <MusicCardInPlaylist
+                            key={idx}
+                            idx={idx}
+                            music={music}
+                            lang={lang}
+                            isDark={isDark}
+                            playlist={playlist}
+                            customPlaylist={customPlaylist}
+                            setCustomPlaylist={setCustomPlaylist}
+                            name={playlist.name}
+                          />
+                        );
                       })}
                     </div>
                   </div>

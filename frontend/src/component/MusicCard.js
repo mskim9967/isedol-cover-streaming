@@ -93,7 +93,7 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
         />
       </div>
       <Modal
-        css={{ backgroundColor: color.settingBg, width: '85%', maxWidth: '500px', margin: '0 auto' }}
+        css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
         closeButton
         open={isModalActive}
         onClose={() => setModalActive(false)}

@@ -65,7 +65,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
   };
 
   function getColor() {
-    return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';
+    return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (40 + 10 * Math.random()) + '%)';
   }
 
   return (
@@ -86,7 +86,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
           else alert({ kor: '좋아요 한 곡이 없습니다', jpn: 'あいています', eng: 'It is empty' }[lang]);
         } else if (type === 'custom') {
           let playlist = customPlaylist.find((e) => e.name === theme);
-          playlistControl.change(playlist.data.sort(() => Math.random() - 0.5));
+          playlistControl.change(playlist.data);
         } else {
           const res = await axiosInstance.put('/music/search', {
             ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),

@@ -38,8 +38,8 @@ function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, 
     <div
       style={{
         width: '100%',
-        padding: '3px 20px 20px 20px',
-        backgroundColor: color.settingBg,
+        padding: '3px 25px 25px 25px',
+        backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
         display: 'flex',
         gap: 4,
         flexDirection: 'column',
@@ -61,7 +61,7 @@ function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, 
           {{ kor: '플레이리스트에 추가', jpn: 'プレイリストに追加', eng: 'Add to playlist' }[lang]}
         </div>
       </div>
-      <Button.Group size='lg' color='error' vertical flat={!isDark}>
+      <Button.Group size='lg' color='primary' vertical flat={!isDark}>
         <Button
           iconRight
           icon={<IoAddCircle size={24} style={{ marginLeft: '-15px' }} />}
@@ -83,20 +83,22 @@ function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, 
       </Button.Group>
       {customPlaylist?.length !== 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', maxHeight: '500px', overflow: 'auto' }}>
-          <Button.Group size='lg' color='error' vertical flat={!isDark}>
+          <Button.Group size='lg' color='primary' vertical flat={!isDark}>
             {customPlaylist.map((e, idx) => {
               return (
                 <Button
                   key={idx}
                   tyle={{ height: '50px' }}
                   onClick={() => {
-                    let temp = customPlaylist;
                     if (e.data.find((ee) => ee.id === music.id))
                       alert({ kor: '이미 추가되어 있습니다', jpn: 'すでに追加されています', eng: "It's already been added" }[lang]);
                     else {
-                      e.data.push(music);
-                      setCustomPlaylist([...temp]);
-                      setModalActive(false);
+                      let temp = [...customPlaylist];
+                      temp.forEach((ee, i) => {
+                        if (ee.name === e.name) ee.data.push(music);
+                        setCustomPlaylist([...temp]);
+                        setModalActive(false);
+                      });
                     }
                   }}
                 >

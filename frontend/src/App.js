@@ -63,6 +63,7 @@ function App() {
     localStorage.setItem('lang', JSON.stringify(lang));
   }, [lang]);
   useEffect(() => {
+    console.log(customPlaylist);
     localStorage.setItem('playlists', JSON.stringify(customPlaylist));
   }, [customPlaylist]);
 
@@ -105,7 +106,7 @@ function App() {
             playlistControl={playlistControl}
             lang={lang}
             isDark={isDark}
-            customPlaylist={customPlaylist}
+            customPlaylist={customPlaylist.reverse()}
             setCustomPlaylist={setCustomPlaylist}
           />
         </div>

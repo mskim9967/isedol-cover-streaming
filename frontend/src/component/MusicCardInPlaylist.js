@@ -31,7 +31,22 @@ const image = {
   all,
 };
 
-function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLoad, playlist, setPlaylist, nowIdx, setNowIdx, idx }) {
+function MusicCardInPlaylist({
+  playlistControl,
+  music,
+  lang,
+  isDark,
+  load,
+  setLoad,
+  playlist,
+  setPlaylist,
+  nowIdx,
+  setNowIdx,
+  idx,
+  customPlaylist,
+  setCustomPlaylist,
+  name,
+}) {
   const color = isDark ? darkColor : lightColor;
 
   return (
@@ -40,7 +55,7 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
         height: '72px',
         padding: '8px 0 8px 8px',
         width: '100%',
-        borderBottom: `solid 0.5px ${color.lightGray}`,
+        ...(idx !== 0 && { borderTop: `solid 0.5px ${color.lightGray}` }),
         display: 'flex',
       }}
     >
@@ -52,7 +67,10 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
           setLoad(!load);
         }}
       >
-        <img style={{ height: '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }} src={image[music.singer]} />
+        <img
+          style={{ height: customPlaylist ? '70%' : '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }}
+          src={image[music.singer]}
+        />
         <div style={{ overflow: 'hidden' }}>
           <div
             style={{
@@ -71,9 +89,8 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
           </div>
         </div>
       </div>
-
       <div style={{ float: 'right', height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
-        {idx !== nowIdx && (
+        {(idx !== nowIdx || customPlaylist) && (
           <>
             <Button
               style={{ height: '90%' }}
@@ -82,10 +99,30 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
               light
               icon={<IoClose color={color.darkGray} size={19} />}
               onClick={() => {
-                if (idx < nowIdx) setNowIdx(nowIdx - 1);
-                let temp = playlist;
-                temp.splice(idx, 1);
-                setPlaylist([...temp]);
+                if (customPlaylist) {
+                  if (
+                    !window.confirm(
+                      {
+                        kor: '플레이리스트에서 제거하시겠습니까?',
+                        jpn: 'プレイリストから削除しますか?',
+                        eng: 'Do you want to remove it from your playlist?',
+                      }[lang]
+                    )
+                  )
+                    return;
+                  let temp = [...customPlaylist];
+                  temp.forEach((e, i) => {
+                    if (e.name === name) {
+                      e.data.splice(idx, 1);
+                    }
+                  });
+                  setCustomPlaylist([...temp]);
+                } else {
+                  if (idx < nowIdx) setNowIdx(nowIdx - 1);
+                  let temp = playlist;
+                  temp.splice(idx, 1);
+                  setPlaylist([...temp]);
+                }
               }}
             />
             <div>
@@ -96,11 +133,22 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
                 light
                 icon={<IoChevronUp color={color.darkGray} size={19} />}
                 onClick={() => {
-                  if (idx === 0) return;
-                  let temp = playlist;
-                  [temp[idx - 1], temp[idx]] = [temp[idx], temp[idx - 1]];
-                  if (idx - 1 === nowIdx) setNowIdx(nowIdx + 1);
-                  setPlaylist([...temp]);
+                  if (customPlaylist) {
+                    if (idx === 0) return;
+                    let temp = [...customPlaylist];
+                    temp.forEach((e, i) => {
+                      if (e.name === name) {
+                        [e.data[idx - 1], e.data[idx]] = [e.data[idx], e.data[idx - 1]];
+                      }
+                    });
+                    setCustomPlaylist([...temp]);
+                  } else {
+                    if (idx === 0) return;
+                    let temp = playlist;
+                    [temp[idx - 1], temp[idx]] = [temp[idx], temp[idx - 1]];
+                    if (idx - 1 === nowIdx) setNowIdx(nowIdx + 1);
+                    setPlaylist([...temp]);
+                  }
                 }}
               />
               <Button
@@ -113,11 +161,22 @@ function MusicCardInPlaylist({ playlistControl, music, lang, isDark, load, setLo
                     color={color.darkGray}
                     size={19}
                     onClick={() => {
-                      if (idx === playlist.length - 1) return;
-                      let temp = playlist;
-                      [temp[idx], temp[idx + 1]] = [temp[idx + 1], temp[idx]];
-                      if (idx + 1 === nowIdx) setNowIdx(nowIdx - 1);
-                      setPlaylist([...temp]);
+                      if (customPlaylist) {
+                        if (idx === customPlaylist.length - 1) return;
+                        let temp = [...customPlaylist];
+                        temp.forEach((e, i) => {
+                          if (e.name === name) {
+                            [e.data[idx], e.data[idx + 1]] = [e.data[idx + 1], e.data[idx]];
+                          }
+                        });
+                        setCustomPlaylist([...temp]);
+                      } else {
+                        if (idx === playlist.length - 1) return;
+                        let temp = playlist;
+                        [temp[idx], temp[idx + 1]] = [temp[idx + 1], temp[idx]];
+                        if (idx + 1 === nowIdx) setNowIdx(nowIdx - 1);
+                        setPlaylist([...temp]);
+                      }
                     }}
                   />
                 }
