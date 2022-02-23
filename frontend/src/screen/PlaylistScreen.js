@@ -4,9 +4,9 @@ import HeaderText from '../component/HeaderText';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
-const idols = ['all', 'gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
+const idols = ['gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
 const nations = ['kor', 'jpn', 'eng'].sort(() => Math.random() - 0.5);
-function PlaylistScreen({ lang, isDark, playlistControl }) {
+function PlaylistScreen({ audioRef, lang, isDark, playlistControl }) {
   const color = isDark ? darkColor : lightColor;
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -17,8 +17,9 @@ function PlaylistScreen({ lang, isDark, playlistControl }) {
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
+          <PlaylistCard audioRef={audioRef} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} />
           {idols.map((e, idx) => {
-            return <PlaylistCard key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} />;
+            return <PlaylistCard audioRef={audioRef} key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} />;
           })}
         </div>
       </div>
@@ -29,7 +30,7 @@ function PlaylistScreen({ lang, isDark, playlistControl }) {
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           {nations.map((e, idx) => {
-            return <PlaylistCard key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} />;
+            return <PlaylistCard audioRef={audioRef} key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} />;
           })}
         </div>
       </div>
@@ -38,7 +39,7 @@ function PlaylistScreen({ lang, isDark, playlistControl }) {
           {{ kor: '나의 플레이리스트', eng: 'My playlist', jpn: '僕のプレイリスト' }[lang]}
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          <PlaylistCard lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} />
+          <PlaylistCard audioRef={audioRef} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} />
         </div>
       </div>
     </div>

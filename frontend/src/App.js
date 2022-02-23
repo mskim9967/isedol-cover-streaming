@@ -1,6 +1,6 @@
 import BottomTab from './component/BottomTab';
 import MusicPlayer from './component/MusicPlayer';
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, useRef } from 'react';
 import PlaylistScreen from './screen/PlaylistScreen';
 import IdolScreen from './screen/IdolScreen';
 import SettingScreen from './screen/SettingScreen';
@@ -19,6 +19,7 @@ function App() {
   const [playlist, setPlaylist] = useState([]);
   const [nowIdx, setNowIdx] = useState(-1);
   const [load, setLoad] = useState(false);
+  const audioRef = useRef(null);
 
   const add = (music) => {
     let idx = playlist.findIndex((e) => e.id === music.id);
@@ -71,6 +72,8 @@ function App() {
         color: color.textBlack,
       }}
     >
+      <audio ref={audioRef} />
+
       <div
         style={{
           height: '100%',
@@ -80,10 +83,10 @@ function App() {
           backgroundColor: screen === 'setting' ? color.bgLittleLight : color.bgLight,
         }}
       >
-        <div style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
+        <div audioRef={audioRef} style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
           <PlaylistScreen playlistControl={playlistControl} lang={lang} isDark={isDark} playlistControl={playlistControl} />
         </div>
-        <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
+        <div audioRef={audioRef} style={{ ...(screen !== 'music' && { display: 'none' }) }}>
           <MusicScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />
         </div>
         <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
@@ -105,6 +108,7 @@ function App() {
         setNowIdx={setNowIdx}
         load={load}
         setLoad={setLoad}
+        audioRef={audioRef}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>

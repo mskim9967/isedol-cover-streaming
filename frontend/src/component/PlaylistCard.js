@@ -42,7 +42,7 @@ const colorMap = {
   like: lightColor.isedol,
 };
 
-function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
+function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef }) {
   const color = isDark ? darkColor : lightColor;
   const [playlist, setPlaylist] = useState([]);
 
@@ -82,6 +82,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type }) {
             ...(type === 'nation' && { nations: [theme] }),
           });
           playlistControl.change(res.data.data.sort(() => Math.random() - 0.5));
+          audioRef.current.play();
         }
       }}
     >

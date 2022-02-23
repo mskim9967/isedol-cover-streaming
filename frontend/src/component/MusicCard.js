@@ -32,7 +32,7 @@ const image = {
   all,
 };
 
-function MusicCard({ playlistControl, music, lang, isDark }) {
+function MusicCard({ playlistControl, music, lang, isDark, audioRef }) {
   const color = isDark ? darkColor : lightColor;
 
   return (
@@ -76,6 +76,7 @@ function MusicCard({ playlistControl, music, lang, isDark }) {
           icon={<IoPlay color={color.darkGray} size={19} />}
           onClick={() => {
             playlistControl.add(music);
+            audioRef.current.play();
           }}
         />
       </div>

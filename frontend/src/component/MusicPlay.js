@@ -138,7 +138,9 @@ function MusicPlay({
         alignItems: 'center',
         justifyContent: 'center',
       }}
-      onClick={() => setPlaylistActive(false)}
+      onClick={() => {
+        if (isPlaylistActive) setPlaylistActive(false);
+      }}
     >
       <div
         style={{
@@ -148,12 +150,17 @@ function MusicPlay({
           maxWidth: '600px',
           padding: '45px 0 20px 0',
           display: 'grid',
-          gridTemplateRows: '7.5fr 1.5fr 1fr',
+          gridTemplateRows: '7fr 1.5fr 1fr',
         }}
       >
         {!isPlaylistActive && (
           <div style={{ display: 'grid', gridTemplateRows: '5fr 1.2fr 0.8fr', opacity: !animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s' }}>
-            <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div
+              onClick={() => {
+                if (!isPlaylistActive) setPlaylistActive(true);
+              }}
+              style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            >
               <div
                 style={{
                   width: '74%',
@@ -165,7 +172,6 @@ function MusicPlay({
                 }}
               >
                 <img
-                  onClick={() => setPlaylistActive(true)}
                   style={{
                     width: '100%',
                     aspectRatio: '1/1',
@@ -191,7 +197,7 @@ function MusicPlay({
                       bottom: -21,
                     }}
                     onClick={(e) => {
-                      e.preventDefault();
+                      e.stopPropagation();
                       audioControl.pauseAudio();
                       window.open(music.youtubeUrl, '_blank');
                     }}
@@ -201,7 +207,12 @@ function MusicPlay({
                 )}
               </div>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}>
+            <div
+              onClick={() => {
+                if (!isPlaylistActive) setPlaylistActive(true);
+              }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}
+            >
               <div
                 style={{
                   fontSize: '21px',
@@ -410,9 +421,9 @@ function MusicPlay({
               light
               icon={
                 isRepeat ? (
-                  <MdRepeatOne size={18} color={eval(`color.${music.singer}`)} />
+                  <MdRepeatOne size={23} color={eval(`color.${music.singer}`)} />
                 ) : (
-                  <MdRepeat size={18} color={eval(`color.${music.singer}`)} />
+                  <MdRepeat size={23} color={eval(`color.${music.singer}`)} />
                 )
               }
             />
@@ -461,7 +472,7 @@ function MusicPlay({
               size='xs'
               auto
               light
-              icon={<MdShuffle size={18} color={eval(`color.${music.singer}`)} />}
+              icon={<MdShuffle size={23} color={eval(`color.${music.singer}`)} />}
             />
           </div>
         </div>

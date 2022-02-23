@@ -37,7 +37,7 @@ const image = {
   all,
 };
 
-function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx, setLoad, load, setPlaylist }) {
+function MusicPlayer({ audioRef, playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx, setLoad, load, setPlaylist }) {
   const color = isDark ? darkColor : lightColor;
 
   const swipeHandler = useSwipeable({
@@ -60,7 +60,6 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
     youtubeUrl: '',
   });
   const [isPause, setPause] = useState(true);
-  const audioRef = useRef(null);
 
   const pauseAudio = () => {
     setPause(true);
@@ -128,14 +127,13 @@ function MusicPlayer({ playlist, isActive, setActive, isDark, lang, playlistCont
         zIndex: 999,
         width: '100%',
         transition: 'height ease 0.3s 0s, transform ease 0.3s 0s',
-        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.7)' : 'rgba(255, 255, 255, 0.8)',
+        backgroundColor: isDark ? 'rgba(0, 0, 0, 0.76)' : 'rgba(255, 255, 255, 0.8)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         bottom: 0,
         ...(isActive ? { height: '100%' } : { height: '66px', transform: 'translateY(-70px)' }),
       }}
     >
-      <audio ref={audioRef} />
       <div style={{ width: '100%', height: '100%', opacity: isActive ? 0 : 1, transition: 'opacity 0.7s 0s' }}>
         {!isActive && (
           <div
