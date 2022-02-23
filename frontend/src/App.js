@@ -16,6 +16,7 @@ function App() {
   const [lang, setLang] = useState(JSON.parse(localStorage.getItem('lang')) || 'kor');
   const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')));
   const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
+  const [imgDisable, setImgDisable] = useState(JSON.parse(localStorage.getItem('imgDisable')));
   const [playlist, setPlaylist] = useState([]);
   const [customPlaylist, setCustomPlaylist] = useState([...JSON.parse(localStorage.getItem('playlists') || '[]')]);
   const [nowIdx, setNowIdx] = useState(-1);
@@ -63,7 +64,9 @@ function App() {
     localStorage.setItem('lang', JSON.stringify(lang));
   }, [lang]);
   useEffect(() => {
-    console.log(customPlaylist);
+    localStorage.setItem('imgDisable', JSON.stringify(imgDisable));
+  }, [imgDisable]);
+  useEffect(() => {
     localStorage.setItem('playlists', JSON.stringify(customPlaylist));
   }, [customPlaylist]);
 
@@ -99,6 +102,7 @@ function App() {
             playlistControl={playlistControl}
             customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
+            imgDisable={imgDisable}
           />
         </div>
         <div audioRef={audioRef} style={{ ...(screen !== 'music' && { display: 'none' }) }}>
@@ -108,13 +112,23 @@ function App() {
             isDark={isDark}
             customPlaylist={customPlaylist.reverse()}
             setCustomPlaylist={setCustomPlaylist}
+            imgDisable={imgDisable}
           />
         </div>
         <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
           <IdolScreen lang={lang} isDark={isDark} />
         </div>
         <div style={{ ...(screen !== 'setting' && { display: 'none' }) }}>
-          <SettingScreen lang={lang} setLang={setLang} isDark={isDark} setDark={setDark} anim={anim} setAnim={setAnim} />
+          <SettingScreen
+            lang={lang}
+            setLang={setLang}
+            isDark={isDark}
+            setDark={setDark}
+            anim={anim}
+            setAnim={setAnim}
+            imgDisable={imgDisable}
+            setImgDisable={setImgDisable}
+          />
         </div>
       </div>
       <MusicPlayer
@@ -132,6 +146,7 @@ function App() {
         audioRef={audioRef}
         customPlaylist={customPlaylist}
         setCustomPlaylist={setCustomPlaylist}
+        imgDisable={imgDisable}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>

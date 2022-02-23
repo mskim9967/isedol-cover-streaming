@@ -1,24 +1,34 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
-import gosegu from '../static/image/segu_300_300.webp';
-import viichan from '../static/image/chan_300_300.webp';
-import jururu from '../static/image/ruru_300_300.webp';
-import lilpa from '../static/image/lilpa_300_300.webp';
-import jingburger from '../static/image/jing_300_300.webp';
-import ine from '../static/image/ine_300_300.webp';
-import all from '../static/image/all_300_300.webp';
 import { IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
+
+import gosegu from '../static/image/gosegu_300_300.png';
+import viichan from '../static/image/viichan_300_300.png';
+import jururu from '../static/image/jururu_300_300.png';
+import lilpa from '../static/image/lilpa_300_300.png';
+import jingburger from '../static/image/jingburger_300_300.png';
+import ine from '../static/image/ine_300_300.png';
+import all from '../static/image/all_300_300.webp';
+
+import lgosegu from '../static/image/logo_gosegu_300_300.png';
+import lviichan from '../static/image/logo_viichan_300_300.png';
+import ljururu from '../static/image/logo_jururu_300_300.png';
+import llilpa from '../static/image/logo_lilpa_300_300.png';
+import ljingburger from '../static/image/logo_jingburger_300_300.png';
+import line from '../static/image/logo_ine_300_300.png';
+import lall from '../static/image/logo_all_300_300.png';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
   jingburger: { kor: '징버거', eng: 'JINGBURGER', jpn: 'ジンバーガー' },
   lilpa: { kor: '릴파', eng: 'LILPA', jpn: 'リルパ' },
   jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
-  gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
+  gosegu: { kor: '고세구', eng: 'GOSEGU', jpn: 'ゴセグ' },
   viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
   all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
+  null: { kor: '', eng: '', jpn: '' },
 };
 
 const image = {
@@ -29,6 +39,16 @@ const image = {
   gosegu,
   viichan,
   all,
+};
+
+const logoimage = {
+  all: lall,
+  gosegu: lgosegu,
+  viichan: lviichan,
+  jururu: ljururu,
+  lilpa: llilpa,
+  jingburger: ljingburger,
+  ine: line,
 };
 
 function MusicCardInPlaylist({
@@ -46,6 +66,7 @@ function MusicCardInPlaylist({
   customPlaylist,
   setCustomPlaylist,
   name,
+  imgDisable,
 }) {
   const color = isDark ? darkColor : lightColor;
 
@@ -69,7 +90,7 @@ function MusicCardInPlaylist({
       >
         <img
           style={{ height: customPlaylist ? '70%' : '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }}
-          src={image[music.singer]}
+          src={imgDisable ? logoimage[music.singer] : image[music.singer]}
         />
         <div style={{ overflow: 'hidden' }}>
           <div

@@ -9,7 +9,7 @@ import MusicCard from '../component/MusicCard';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
-function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, setCustomPlaylist }) {
+function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable }) {
   const color = isDark ? darkColor : lightColor;
 
   const [searchStr, setSearchStr] = useState('');
@@ -145,6 +145,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
                 isDark={isDark}
                 customPlaylist={customPlaylist}
                 setCustomPlaylist={setCustomPlaylist}
+                imgDisable={imgDisable}
               ></MusicCard>
             );
           })}

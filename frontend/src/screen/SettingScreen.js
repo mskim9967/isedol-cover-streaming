@@ -8,7 +8,7 @@ import SettingLine from '../component/SettingLine';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
-function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim }) {
+function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
   const color = isDark ? darkColor : lightColor;
 
   return (
@@ -52,7 +52,14 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim }) {
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '일러스트 숨기기', eng: 'Hide illustration', jpn: 'イラスト非表示' }[lang]}
           </div>
-          <Switch bordered={isDark} color='error' />
+          <Switch
+            bordered={isDark}
+            color='error'
+            initialChecked={imgDisable}
+            onChange={() => {
+              setImgDisable(!imgDisable);
+            }}
+          />
         </SettingLine>
       </div>
 

@@ -8,13 +8,21 @@ import { Button } from '@nextui-org/react';
 import { useEffect, useRef, useState } from 'react';
 import { axiosInstance } from '../axiosInstance';
 
-import gosegu from '../static/image/segu_300_300.webp';
-import viichan from '../static/image/chan_300_300.webp';
-import jururu from '../static/image/ruru_300_300.webp';
-import lilpa from '../static/image/lilpa_300_300.webp';
-import jingburger from '../static/image/jing_300_300.webp';
-import ine from '../static/image/ine_300_300.webp';
+import gosegu from '../static/image/gosegu_300_300.png';
+import viichan from '../static/image/viichan_300_300.png';
+import jururu from '../static/image/jururu_300_300.png';
+import lilpa from '../static/image/lilpa_300_300.png';
+import jingburger from '../static/image/jingburger_300_300.png';
+import ine from '../static/image/ine_300_300.png';
 import all from '../static/image/all_300_300.webp';
+
+import lgosegu from '../static/image/logo_gosegu_300_300.png';
+import lviichan from '../static/image/logo_viichan_300_300.png';
+import ljururu from '../static/image/logo_jururu_300_300.png';
+import llilpa from '../static/image/logo_lilpa_300_300.png';
+import ljingburger from '../static/image/logo_jingburger_300_300.png';
+import line from '../static/image/logo_ine_300_300.png';
+import lall from '../static/image/logo_all_300_300.png';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -37,6 +45,16 @@ const image = {
   all,
 };
 
+const logoimage = {
+  all: lall,
+  gosegu: lgosegu,
+  viichan: lviichan,
+  jururu: ljururu,
+  lilpa: llilpa,
+  jingburger: ljingburger,
+  ine: line,
+};
+
 function MusicPlayer({
   audioRef,
   playlist,
@@ -52,6 +70,7 @@ function MusicPlayer({
   setPlaylist,
   customPlaylist,
   setCustomPlaylist,
+  imgDisable,
 }) {
   const color = isDark ? darkColor : lightColor;
 
@@ -164,7 +183,7 @@ function MusicPlayer({
             <div style={{ height: '100%', width: '100%', display: 'flex', alignItems: 'center' }} onClick={(e) => setActive(true)}>
               <img
                 style={{ height: '47px', aspectRatio: '1/1', borderRadius: '4px', ...(!music.oSingerKor && { display: 'none' }) }}
-                src={image[music?.singer]}
+                src={imgDisable ? logoimage[music?.singer] : image[music?.singer]}
               />
               <div style={{ lineHeight: '1.0', marginLeft: '14px' }}>
                 <div style={{ fontSize: '15.4px', fontWeight: '400', marginTop: '5px' }}>
@@ -248,6 +267,7 @@ function MusicPlayer({
             setPlaylist={setPlaylist}
             customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
+            imgDisable={imgDisable}
           />
         )}
       </div>

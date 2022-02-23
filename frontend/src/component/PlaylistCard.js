@@ -1,10 +1,19 @@
 import { useEffect, useState } from 'react';
-import gosegu from '../static/image/segu_300_300.webp';
-import viichan from '../static/image/chan_300_300.webp';
-import jururu from '../static/image/ruru_300_300.webp';
-import lilpa from '../static/image/lilpa_300_300.webp';
-import jingburger from '../static/image/jing_300_300.webp';
-import ine from '../static/image/ine_300_300.webp';
+import gosegu from '../static/image/gosegu_300_300.png';
+import viichan from '../static/image/viichan_300_300.png';
+import jururu from '../static/image/jururu_300_300.png';
+import lilpa from '../static/image/lilpa_300_300.png';
+import jingburger from '../static/image/jingburger_300_300.png';
+import ine from '../static/image/ine_300_300.png';
+
+import lgosegu from '../static/image/logo_gosegu_300_300.png';
+import lviichan from '../static/image/logo_viichan_300_300.png';
+import ljururu from '../static/image/logo_jururu_300_300.png';
+import llilpa from '../static/image/logo_lilpa_300_300.png';
+import ljingburger from '../static/image/logo_jingburger_300_300.png';
+import line from '../static/image/logo_ine_300_300.png';
+import lall from '../static/image/logo_all_300_300.png';
+
 import jpn from '../static/image/japan_300_300.webp';
 import kor from '../static/image/korea_300_300.webp';
 import eng from '../static/image/world_300_300.webp';
@@ -28,6 +37,20 @@ const imgMap = {
   like,
 };
 
+const logoimgMap = {
+  all: lall,
+  gosegu: lgosegu,
+  viichan: lviichan,
+  jururu: ljururu,
+  lilpa: llilpa,
+  jingburger: ljingburger,
+  ine: line,
+  jpn,
+  eng,
+  kor,
+  like,
+};
+
 const colorMap = {
   all: lightColor.isedol,
   gosegu: lightColor.gosegu,
@@ -42,7 +65,7 @@ const colorMap = {
   like: lightColor.isedol,
 };
 
-function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, customPlaylist }) {
+function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, customPlaylist, imgDisable }) {
   const color = isDark ? darkColor : lightColor;
   const [isCustom, setCustom] = useState(false);
 
@@ -97,7 +120,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
         }
       }}
     >
-      <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgMap[theme]} />
+      <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgDisable ? logoimgMap[theme] : imgMap[theme]} />
       <div
         style={{
           width: '100%',

@@ -1,39 +1,13 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
-import gosegu from '../static/image/segu_300_300.webp';
-import viichan from '../static/image/chan_300_300.webp';
-import jururu from '../static/image/ruru_300_300.webp';
-import lilpa from '../static/image/lilpa_300_300.webp';
-import jingburger from '../static/image/jing_300_300.webp';
-import ine from '../static/image/ine_300_300.webp';
-import all from '../static/image/all_300_300.webp';
+
 import { IoChevronUp, IoChevronDown, IoClose, IoPencil, IoTrash } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
 import { useState } from 'react';
 import MusicCardInPlaylist from './MusicCardInPlaylist';
 
-const member = {
-  ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
-  jingburger: { kor: '징버거', eng: 'JINGBURGER', jpn: 'ジンバーガー' },
-  lilpa: { kor: '릴파', eng: 'LILPA', jpn: 'リルパ' },
-  jururu: { kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
-  gosegu: { kor: '고세구', eng: 'Gosegu', jpn: 'ゴセグ' },
-  viichan: { kor: '비챤', eng: 'VIICHAN', jpn: 'ゔぃちゃん' },
-  all: { kor: '이세계 아이돌', eng: 'Isegye Idol', jpn: 'イセドル' },
-};
-
-const image = {
-  ine,
-  jingburger,
-  lilpa,
-  jururu,
-  gosegu,
-  viichan,
-  all,
-};
-
-function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist }) {
+function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable }) {
   const color = isDark ? darkColor : lightColor;
   const [openIdx, setOpenIdx] = useState(-1);
 
@@ -157,7 +131,6 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                         marginBottom: '14px',
                         padding: '0 0 0 5px',
                         textAlign: 'left',
-                        backgroundColor: color.lightGray,
                       }}
                     >
                       {playlist.data.map((music, idx) => {
@@ -172,6 +145,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                             customPlaylist={customPlaylist}
                             setCustomPlaylist={setCustomPlaylist}
                             name={playlist.name}
+                            imgDisable={imgDisable}
                           />
                         );
                       })}

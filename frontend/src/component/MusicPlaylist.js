@@ -18,6 +18,7 @@ function MusicPlaylist({
   setLoad,
   setPlaylist,
   shuffle,
+  imgDisable,
 }) {
   const color = isDark ? darkColor : lightColor;
   const focusRef = useRef(null);
@@ -48,6 +49,7 @@ function MusicPlaylist({
               nowIdx={nowIdx}
               idx={idx}
               playlist={playlist}
+              imgDisable={imgDisable}
             ></MusicCardInPlaylist>
           </div>
         );
