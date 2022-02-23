@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { IoPause, IoPlay, IoPlayForward, IoPlayBack, IoHeartOutline, IoHeart, IoLogoYoutube, IoShuffle } from 'react-icons/io5';
 import { MdOutlinePlaylistAdd, MdQueueMusic, MdRepeatOne, MdRepeat, MdShuffle } from 'react-icons/md';
-import { Button } from '@nextui-org/react';
+import { Button, Modal } from '@nextui-org/react';
 import MusicPlaylist from './MusicPlaylist';
 
 import lightColor from '../static/lightColor';
@@ -14,6 +14,7 @@ import lilpa from '../static/image/lilpa_300_300.webp';
 import jingburger from '../static/image/jing_300_300.webp';
 import ine from '../static/image/ine_300_300.webp';
 import all from '../static/image/all_300_300.webp';
+import CustomPlaylist from './CustomPlaylist';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -53,6 +54,9 @@ function MusicPlay({
   load,
   setLoad,
   setPlaylist,
+
+  customPlaylist,
+  setCustomPlaylist,
 }) {
   const color = isDark ? darkColor : lightColor;
   const [currentTime, setCurrentTime] = useState(60);
@@ -63,6 +67,8 @@ function MusicPlay({
   const [animStart, setAnimStart] = useState(false);
   const [likes, setLikes] = useState([...JSON.parse(localStorage.getItem('likes') || '[]')]);
   const [isRepeat, setRepeat] = useState(false);
+  const [isModalActive, setModalActive] = useState(false);
+
   const repeatRef = useRef(false);
   const [shuffle, setShuffle] = useState(false);
 
@@ -428,7 +434,21 @@ function MusicPlay({
               }
             />
 
-            <Button style={{ height: '70%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd size={26} color={eval(`color.${music.singer}`)} />} />
+            <Button
+              style={{ height: '70%' }}
+              size='xs'
+              auto
+              light
+              icon={
+                <MdOutlinePlaylistAdd
+                  size={26}
+                  color={eval(`color.${music.singer}`)}
+                  onClick={() => {
+                    setModalActive(true);
+                  }}
+                />
+              }
+            />
             <Button
               onClick={(e) => {
                 e.stopPropagation();
@@ -477,6 +497,21 @@ function MusicPlay({
           </div>
         </div>
       </div>
+      <Modal
+        css={{ backgroundColor: color.settingBg, width: '85%', maxWidth: '500px', margin: '0 auto' }}
+        closeButton
+        open={isModalActive}
+        onClose={() => setModalActive(false)}
+      >
+        <CustomPlaylist
+          setModalActive={setModalActive}
+          music={music}
+          customPlaylist={customPlaylist}
+          setCustomPlaylist={setCustomPlaylist}
+          lang={lang}
+          isDark={isDark}
+        />
+      </Modal>
     </div>
   );
 }

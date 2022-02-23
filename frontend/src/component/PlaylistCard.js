@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import gosegu from '../static/image/segu_300_300.webp';
 import viichan from '../static/image/chan_300_300.webp';
 import jururu from '../static/image/ruru_300_300.webp';
@@ -42,9 +42,13 @@ const colorMap = {
   like: lightColor.isedol,
 };
 
-function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef }) {
+function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, customPlaylist }) {
   const color = isDark ? darkColor : lightColor;
-  const [playlist, setPlaylist] = useState([]);
+  const [isCustom, setCustom] = useState(false);
+
+  useEffect(() => {
+    if (type === 'custom' && theme !== 'like') setCustom(true);
+  }, [customPlaylist]);
 
   const nameMap = {
     all: { kor: '이세돌', eng: `Isegye Idol`, jpn: 'イセドル' }[lang],
@@ -60,6 +64,10 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef }) 
     like: { kor: '좋아요', eng: `Like`, jpn: '好きな' }[lang],
   };
 
+  function getColor() {
+    return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (60 + 10 * Math.random()) + '%)';
+  }
+
   return (
     <div
       style={{
@@ -69,13 +77,16 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef }) 
         borderRadius: '7px',
         boxShadow: `2px 2px 10px -5px ${color.shadow}`,
         overflow: 'hidden',
-        backgroundColor: colorMap[theme],
+        backgroundColor: isCustom ? getColor() : colorMap[theme],
       }}
       onClick={async () => {
-        if (type === 'custom') {
+        if (type === 'custom' && theme === 'like') {
           let likes = [...JSON.parse(localStorage.getItem('likes') || '[]')];
           if (likes.length) playlistControl.change(likes.sort(() => Math.random() - 0.5));
           else alert({ kor: '좋아요 한 곡이 없습니다', jpn: 'あいています', eng: 'It is empty' }[lang]);
+        } else if (type === 'custom') {
+          let playlist = customPlaylist.find((e) => e.name === theme);
+          playlistControl.change(playlist.data.sort(() => Math.random() - 0.5));
         } else {
           const res = await axiosInstance.put('/music/search', {
             ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),
@@ -99,7 +110,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef }) 
           fontSize: '14px',
         }}
       >
-        {`${nameMap[theme]} ${{ kor: ' 플레이리스트', eng: 'playlist', jpn: 'プレイリスト' }[lang]}`}
+        {isCustom ? `${theme}` : `${nameMap[theme]} ${{ kor: ' 플레이리스트', eng: 'playlist', jpn: 'プレイリスト' }[lang]}`}
       </div>
     </div>
   );

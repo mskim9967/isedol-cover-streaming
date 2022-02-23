@@ -8,9 +8,8 @@ import MusicCard from '../component/MusicCard';
 
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
-const qs = require('qs');
 
-function MusicScreen({ playlistControl, lang, isDark }) {
+function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, setCustomPlaylist }) {
   const color = isDark ? darkColor : lightColor;
 
   const [searchStr, setSearchStr] = useState('');
@@ -41,12 +40,14 @@ function MusicScreen({ playlistControl, lang, isDark }) {
           <Button
             style={{ height: '34px', marginTop: '12px' }}
             auto
+            disabled={!musics?.length}
             size='sm'
             color={'error'}
             iconRight
             icon={<IoPlay size={17} style={{ marginLeft: '-6px' }} />}
             onClick={() => {
               playlistControl.change(musics);
+              audioRef.current.play();
             }}
           >
             {{ kor: `${musics?.length}곡 재생`, jpn: `${musics?.length}曲再生`, eng: `Play ${musics?.length} songs` }[lang]}
@@ -134,7 +135,18 @@ function MusicScreen({ playlistControl, lang, isDark }) {
       <div>
         {musics?.length !== 0 &&
           musics.map((music, key) => {
-            return <MusicCard playlistControl={playlistControl} key={key} music={music} lang={lang} isDark={isDark}></MusicCard>;
+            return (
+              <MusicCard
+                audioRef={audioRef}
+                playlistControl={playlistControl}
+                key={key}
+                music={music}
+                lang={lang}
+                isDark={isDark}
+                customPlaylist={customPlaylist}
+                setCustomPlaylist={setCustomPlaylist}
+              ></MusicCard>
+            );
           })}
       </div>
     </div>

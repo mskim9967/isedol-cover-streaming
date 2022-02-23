@@ -37,7 +37,22 @@ const image = {
   all,
 };
 
-function MusicPlayer({ audioRef, playlist, isActive, setActive, isDark, lang, playlistControl, nowIdx, setNowIdx, setLoad, load, setPlaylist }) {
+function MusicPlayer({
+  audioRef,
+  playlist,
+  isActive,
+  setActive,
+  isDark,
+  lang,
+  playlistControl,
+  nowIdx,
+  setNowIdx,
+  setLoad,
+  load,
+  setPlaylist,
+  customPlaylist,
+  setCustomPlaylist,
+}) {
   const color = isDark ? darkColor : lightColor;
 
   const swipeHandler = useSwipeable({
@@ -231,6 +246,8 @@ function MusicPlayer({ audioRef, playlist, isActive, setActive, isDark, lang, pl
             load={load}
             setLoad={setLoad}
             setPlaylist={setPlaylist}
+            customPlaylist={customPlaylist}
+            setCustomPlaylist={setCustomPlaylist}
           />
         )}
       </div>

@@ -10,7 +10,9 @@ import all from '../static/image/all_300_300.webp';
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
 import { IoPlay, IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
-import { Button } from '@nextui-org/react';
+import { Button, Modal } from '@nextui-org/react';
+import CustomPlaylist from './CustomPlaylist';
+import { useState } from 'react';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -32,8 +34,9 @@ const image = {
   all,
 };
 
-function MusicCard({ playlistControl, music, lang, isDark, audioRef }) {
+function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist }) {
   const color = isDark ? darkColor : lightColor;
+  const [isModalActive, setModalActive] = useState(false);
 
   return (
     <div
@@ -67,7 +70,16 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef }) {
         </div>
       </div>
       <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
-        <Button style={{ height: '90%' }} size='xs' auto light icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />} />
+        <Button
+          style={{ height: '90%' }}
+          size='xs'
+          auto
+          light
+          onClick={() => {
+            setModalActive(true);
+          }}
+          icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />}
+        />
         <Button
           style={{ height: '90%' }}
           size='xs'
@@ -80,6 +92,21 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef }) {
           }}
         />
       </div>
+      <Modal
+        css={{ backgroundColor: color.settingBg, width: '85%', maxWidth: '500px', margin: '0 auto' }}
+        closeButton
+        open={isModalActive}
+        onClose={() => setModalActive(false)}
+      >
+        <CustomPlaylist
+          setModalActive={setModalActive}
+          music={music}
+          customPlaylist={customPlaylist}
+          setCustomPlaylist={setCustomPlaylist}
+          lang={lang}
+          isDark={isDark}
+        />
+      </Modal>
     </div>
   );
 }

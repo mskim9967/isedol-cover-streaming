@@ -13,10 +13,11 @@ function App() {
   const [isMusicPlayerActive, setMusicPlayerActive] = useState(false);
   const [screen, setScreen] = useState('playlist');
   const [height, setHeight] = useState(window.innerHeight);
-  const [lang, setLang] = useState('kor');
+  const [lang, setLang] = useState(JSON.parse(localStorage.getItem('lang')) || 'kor');
   const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')));
   const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
   const [playlist, setPlaylist] = useState([]);
+  const [customPlaylist, setCustomPlaylist] = useState([...JSON.parse(localStorage.getItem('playlists') || '[]')]);
   const [nowIdx, setNowIdx] = useState(-1);
   const [load, setLoad] = useState(false);
   const audioRef = useRef(null);
@@ -58,6 +59,12 @@ function App() {
   useEffect(() => {
     localStorage.setItem('isDark', JSON.stringify(isDark));
   }, [isDark]);
+  useEffect(() => {
+    localStorage.setItem('lang', JSON.stringify(lang));
+  }, [lang]);
+  useEffect(() => {
+    localStorage.setItem('playlists', JSON.stringify(customPlaylist));
+  }, [customPlaylist]);
 
   return (
     <div
@@ -84,10 +91,23 @@ function App() {
         }}
       >
         <div audioRef={audioRef} style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
-          <PlaylistScreen playlistControl={playlistControl} lang={lang} isDark={isDark} playlistControl={playlistControl} />
+          <PlaylistScreen
+            playlistControl={playlistControl}
+            lang={lang}
+            isDark={isDark}
+            playlistControl={playlistControl}
+            customPlaylist={customPlaylist}
+            setCustomPlaylist={setCustomPlaylist}
+          />
         </div>
         <div audioRef={audioRef} style={{ ...(screen !== 'music' && { display: 'none' }) }}>
-          <MusicScreen playlistControl={playlistControl} lang={lang} isDark={isDark} />
+          <MusicScreen
+            playlistControl={playlistControl}
+            lang={lang}
+            isDark={isDark}
+            customPlaylist={customPlaylist}
+            setCustomPlaylist={setCustomPlaylist}
+          />
         </div>
         <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
           <IdolScreen lang={lang} isDark={isDark} />
@@ -109,6 +129,8 @@ function App() {
         load={load}
         setLoad={setLoad}
         audioRef={audioRef}
+        customPlaylist={customPlaylist}
+        setCustomPlaylist={setCustomPlaylist}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>
