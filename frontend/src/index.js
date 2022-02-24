@@ -5,15 +5,20 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react';
 import './index.css';
+import ReactPWAInstallProvider from 'react-pwa-install';
 
 ReactDOM.render(
   <React.StrictMode>
-    <NextUIProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </NextUIProvider>
+    <ReactPWAInstallProvider enableLogging>
+      <NextUIProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </NextUIProvider>
+    </ReactPWAInstallProvider>
+    ,
   </React.StrictMode>,
+
   document.getElementById('root')
 );
 

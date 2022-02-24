@@ -58,6 +58,8 @@ function App() {
     localStorage.setItem('anim', JSON.stringify(anim));
   }, [anim]);
   useEffect(() => {
+    // default os theme
+    if (isDark === null) setDark(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     localStorage.setItem('isDark', JSON.stringify(isDark));
   }, [isDark]);
   useEffect(() => {

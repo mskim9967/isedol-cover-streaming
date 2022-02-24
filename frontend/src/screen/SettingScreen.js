@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
+import { useReactPWAInstall } from 'react-pwa-install';
 
 import { Switch, Button } from '@nextui-org/react';
 import HeaderText from '../component/HeaderText';
@@ -10,6 +11,13 @@ import darkColor from '../static/darkColor';
 
 function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
   const color = isDark ? darkColor : lightColor;
+  const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
+
+  const pwaHandle = () => {
+    pwaInstall({
+      title: '웹 앱으로 설치',
+    }).then(() => alert('App installed successfully or instructions for install shown'));
+  };
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -66,9 +74,13 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
         <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {{ kor: '홈화면에 바로가기 추가', eng: 'Add shortcut', jpn: 'ショートカット追加' }[lang]}
+            {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
           </div>
-          <IoChevronForwardOutline />
+          <IoChevronForwardOutline
+            onClick={() => {
+              pwaHandle();
+            }}
+          />
         </SettingLine>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
