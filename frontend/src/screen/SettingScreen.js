@@ -21,12 +21,12 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
 
     window.addEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
 
-    return (_) => {
+    return () => {
       window.removeEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
     };
   }, [showButton]);
 
-  const handle_prompt = (_) => {
+  const handle_prompt = () => {
     setShowButton(false);
     prompt.prompt();
     setPrompt(null);
