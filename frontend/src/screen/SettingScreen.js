@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
+import { IoLogoAndroid, IoLogoChrome } from 'react-icons/io';
 
-import { Switch, Button } from '@nextui-org/react';
+import { Switch, Button, Modal } from '@nextui-org/react';
 import HeaderText from '../component/HeaderText';
 import SettingLine from '../component/SettingLine';
 
@@ -10,8 +11,9 @@ import darkColor from '../static/darkColor';
 
 function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
   const color = isDark ? darkColor : lightColor;
-  const [showButton, setShowButton] = useState(true);
+  const [showButton, setShowButton] = useState(false);
   const [prompt, setPrompt] = useState();
+  const [isModalActive, setModalActive] = useState();
 
   useEffect(() => {
     const handle_storePrompt = (e) => {
@@ -24,7 +26,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
     return () => {
       window.removeEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
     };
-  }, [showButton]);
+  }, []);
 
   const handle_prompt = () => {
     setShowButton(false);
@@ -85,19 +87,26 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
-        <div style={{ ...(false && { opacity: '30%', pointerEvents: 'none' }) }}>
+        <div style={{ ...(!showButton && { opacity: '30%', pointerEvents: 'none' }) }}>
           <SettingLine isDark={isDark}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
               {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
+              <IoLogoAndroid size={27} />
+              <IoLogoChrome size={21} />
             </div>
             <IoChevronForwardOutline onClick={handle_prompt} />
           </SettingLine>
         </div>
+
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
           </div>
-          <IoChevronForwardOutline />
+          <IoChevronForwardOutline
+            onClick={() => {
+              setModalActive(true);
+            }}
+          />
         </SettingLine>
       </div>
 
@@ -152,6 +161,48 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
         본 서비스는 비영리 목적으로 운영되며, 사용된 일러스트들은 사용 허가를 받았음을 밝힙니다. <br />
         또한, Github에서 프로젝트 소스코드를 확인하실 수 있습니다.
       </div>
+
+      <Modal
+        css={{
+          backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
+          width: '95%',
+          maxWidth: '900px',
+          margin: '0 auto',
+        }}
+        closeButton
+        animated={anim}
+        open={isModalActive}
+        onClose={() => setModalActive(false)}
+      >
+        <div
+          style={{
+            width: '100%',
+            padding: '3px 20px 20px 20px',
+            backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
+            display: 'flex',
+            gap: 4,
+            flexDirection: 'column',
+            justifyContent: 'space-between',
+            maxHeight: '80vh',
+            overflow: 'auto',
+          }}
+        >
+          <div style={{ width: '100%' }}>
+            <div
+              style={{
+                float: 'left',
+                marginBottom: '10px',
+                marginLeft: '3px',
+                fontSize: '20px',
+                fontWeight: '500',
+                color: color.textBlack,
+              }}
+            >
+              {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
+            </div>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
