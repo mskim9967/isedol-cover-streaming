@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 
 import { Switch, Button } from '@nextui-org/react';
@@ -10,6 +10,27 @@ import darkColor from '../static/darkColor';
 
 function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
   const color = isDark ? darkColor : lightColor;
+  const [showButton, setShowButton] = useState(true);
+  const [prompt, setPrompt] = useState();
+
+  useEffect(() => {
+    const handle_storePrompt = (e) => {
+      e.preventDefault();
+      if (showButton) setPrompt(e);
+    };
+
+    window.addEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
+
+    return (_) => {
+      window.removeEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
+    };
+  }, [showButton]);
+
+  const handle_prompt = (_) => {
+    setShowButton(false);
+    prompt.prompt();
+    setPrompt(null);
+  };
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -64,12 +85,14 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
-        <SettingLine isDark={isDark}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
-          </div>
-          <IoChevronForwardOutline onClick={() => {}} />
-        </SettingLine>
+        <div style={{ ...(false && { opacity: '30%', pointerEvents: 'none' }) }}>
+          <SettingLine isDark={isDark}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
+            </div>
+            <IoChevronForwardOutline onClick={handle_prompt} />
+          </SettingLine>
+        </div>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
@@ -95,6 +118,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                 )
               )
                 localStorage.clear();
+              window.location.reload(true);
             }}
           />
         </SettingLine>

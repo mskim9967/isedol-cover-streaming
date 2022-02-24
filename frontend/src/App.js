@@ -14,8 +14,11 @@ function App() {
   const [screen, setScreen] = useState('playlist');
   const [height, setHeight] = useState(window.innerHeight);
   const [lang, setLang] = useState(JSON.parse(localStorage.getItem('lang')) || 'kor');
-  const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')) || 'true');
-  const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
+  const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')) || true);
+  const [isDark, setDark] = useState(
+    JSON.parse(localStorage.getItem('isDark')) ||
+      (localStorage.getItem('isDark') === null && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  );
   const [imgDisable, setImgDisable] = useState(JSON.parse(localStorage.getItem('imgDisable')));
   const [playlist, setPlaylist] = useState([]);
   const [customPlaylist, setCustomPlaylist] = useState([...JSON.parse(localStorage.getItem('playlists') || '[]')]);
@@ -59,7 +62,6 @@ function App() {
   }, [anim]);
   useEffect(() => {
     // default os theme
-    if (isDark === null) setDark(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
     localStorage.setItem('isDark', JSON.stringify(isDark));
   }, [isDark]);
   useEffect(() => {
@@ -71,6 +73,15 @@ function App() {
   useEffect(() => {
     localStorage.setItem('playlists', JSON.stringify(customPlaylist));
   }, [customPlaylist]);
+  const resizeHandler = () => {
+    setHeight(window.innerHeight);
+  };
+  useEffect(() => {
+    window.addEventListener('resize', resizeHandler);
+    return () => {
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }, []);
 
   return (
     <div
@@ -79,7 +90,7 @@ function App() {
         position: 'absolute',
         top: 0,
         left: 0,
-        height: height,
+        height: window.innerHeight,
         width: '100vw',
         overflow: 'hidden',
         color: color.textBlack,
