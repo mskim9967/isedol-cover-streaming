@@ -87,16 +87,14 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
-        <div style={{ ...(!showButton && { opacity: '30%', pointerEvents: 'none' }) }}>
-          <SettingLine isDark={isDark}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-              {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
-              <IoLogoAndroid size={27} />
-              <IoLogoChrome size={21} />
-            </div>
-            <IoChevronForwardOutline onClick={handle_prompt} />
-          </SettingLine>
-        </div>
+        <SettingLine isDark={isDark}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+            {{ kor: '앱으로 설치', eng: 'Install App', jpn: 'アプリケーションのインストール' }[lang]}
+            <IoLogoAndroid size={27} />
+            <IoLogoChrome size={21} />
+          </div>
+          <IoChevronForwardOutline onClick={handle_prompt} />
+        </SettingLine>
 
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
