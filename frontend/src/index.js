@@ -5,20 +5,16 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { NextUIProvider } from '@nextui-org/react';
 import './index.css';
-import ReactPWAInstallProvider from 'react-pwa-install';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ReactPWAInstallProvider enableLogging>
-      <NextUIProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </NextUIProvider>
-    </ReactPWAInstallProvider>
-    ,
+    <NextUIProvider>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </NextUIProvider>
   </React.StrictMode>,
-
   document.getElementById('root')
 );
 
@@ -26,3 +22,5 @@ ReactDOM.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+
+serviceWorkerRegistration.register();
