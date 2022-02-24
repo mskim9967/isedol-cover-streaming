@@ -11,14 +11,13 @@ import darkColor from '../static/darkColor';
 
 function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
   const color = isDark ? darkColor : lightColor;
-  const [showButton, setShowButton] = useState(false);
   const [prompt, setPrompt] = useState();
   const [isModalActive, setModalActive] = useState();
 
   useEffect(() => {
     const handle_storePrompt = (e) => {
       e.preventDefault();
-      if (showButton) setPrompt(e);
+      setPrompt(e);
     };
 
     window.addEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
@@ -29,7 +28,6 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
   }, []);
 
   const handle_prompt = () => {
-    setShowButton(false);
     prompt.prompt();
     setPrompt(null);
   };
