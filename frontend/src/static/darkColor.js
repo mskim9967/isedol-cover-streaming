@@ -19,4 +19,7 @@ export default {
   jururu: '#800080',
   gosegu: '#457EC5',
   viichan: '#85AC1F',
+  jpn: '#ff4040',
+  kor: '#307cff',
+  eng: '#3D8F50',
 };

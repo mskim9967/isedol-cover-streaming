@@ -121,9 +121,10 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                     jpn: 'ブラウザに保存された関連データをすべて削除します',
                   }[lang]
                 )
-              )
+              ) {
                 localStorage.clear();
-              window.location.reload(true);
+                window.location.reload(true);
+              }
             }}
           />
         </SettingLine>

@@ -107,7 +107,7 @@ function App() {
           backgroundColor: screen === 'setting' ? color.bgLittleLight : color.bgLight,
         }}
       >
-        <div audioRef={audioRef} style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
+        {screen === 'playlist' && (
           <PlaylistScreen
             playlistControl={playlistControl}
             lang={lang}
@@ -117,9 +117,10 @@ function App() {
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
             anim={anim}
+            audioRef={audioRef}
           />
-        </div>
-        <div audioRef={audioRef} style={{ ...(screen !== 'music' && { display: 'none' }) }}>
+        )}
+        <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
           <MusicScreen
             playlistControl={playlistControl}
             lang={lang}
@@ -128,23 +129,23 @@ function App() {
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
             anim={anim}
+            audioRef={audioRef}
           />
         </div>
-        <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
-          <IdolScreen lang={lang} isDark={isDark} />
-        </div>
-        <div style={{ ...(screen !== 'setting' && { display: 'none' }) }}>
+        {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
+        {screen === 'setting' && (
           <SettingScreen
             lang={lang}
             setLang={setLang}
             isDark={isDark}
             setDark={setDark}
             anim={anim}
+            audioRef={audioRef}
             setAnim={setAnim}
             imgDisable={imgDisable}
             setImgDisable={setImgDisable}
           />
-        </div>
+        )}
       </div>
       <MusicPlayer
         playlist={playlist}
