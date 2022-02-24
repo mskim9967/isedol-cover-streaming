@@ -71,6 +71,7 @@ function MusicPlayer({
   customPlaylist,
   setCustomPlaylist,
   imgDisable,
+  anim,
 }) {
   const color = isDark ? darkColor : lightColor;
 
@@ -268,6 +269,7 @@ function MusicPlayer({
             customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
+            anim={anim}
           />
         )}
       </div>

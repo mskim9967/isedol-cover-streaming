@@ -54,7 +54,7 @@ const logoimage = {
   ine: line,
 };
 
-function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable }) {
+function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
 
@@ -119,6 +119,7 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
         css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
         closeButton
         open={isModalActive}
+        animated={anim}
         onClose={() => setModalActive(false)}
       >
         <CustomPlaylist

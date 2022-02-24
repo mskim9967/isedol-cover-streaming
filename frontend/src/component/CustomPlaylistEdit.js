@@ -50,7 +50,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                     style={{
                       width: '100%',
                       height: '50px',
-                      fontSize: '22px',
+                      fontSize: '19px',
                       fontWeight: '500',
                       display: 'flex',
                       justifyContent: 'space-between',
@@ -63,8 +63,8 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                       else setOpenIdx(idx);
                     }}
                   >
-                    <div style={{ heght: '100%', display: 'flex', alignItems: 'center' }}>
-                      {playlist.name}
+                    <div style={{ heght: '100%', display: 'flex', alignItems: 'center', gap: 2 }}>
+                      {`${playlist.name} (${playlist.data.length})`}
                       {idx === openIdx ? <IoChevronUp style={{ marginLeft: '5px' }} /> : <IoChevronDown style={{ marginLeft: '5px' }} />}
                     </div>
                     <div style={{ heght: '100%', display: 'flex', alignItems: 'center' }}>
@@ -146,6 +146,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
                             setCustomPlaylist={setCustomPlaylist}
                             name={playlist.name}
                             imgDisable={imgDisable}
+                            length={playlist.data.length}
                           />
                         );
                       })}

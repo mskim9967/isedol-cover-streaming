@@ -14,7 +14,7 @@ function App() {
   const [screen, setScreen] = useState('playlist');
   const [height, setHeight] = useState(window.innerHeight);
   const [lang, setLang] = useState(JSON.parse(localStorage.getItem('lang')) || 'kor');
-  const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')));
+  const [anim, setAnim] = useState(JSON.parse(localStorage.getItem('anim')) || 'true');
   const [isDark, setDark] = useState(JSON.parse(localStorage.getItem('isDark')));
   const [imgDisable, setImgDisable] = useState(JSON.parse(localStorage.getItem('imgDisable')));
   const [playlist, setPlaylist] = useState([]);
@@ -103,6 +103,7 @@ function App() {
             customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
+            anim={anim}
           />
         </div>
         <div audioRef={audioRef} style={{ ...(screen !== 'music' && { display: 'none' }) }}>
@@ -110,9 +111,10 @@ function App() {
             playlistControl={playlistControl}
             lang={lang}
             isDark={isDark}
-            customPlaylist={customPlaylist.reverse()}
+            customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
+            anim={anim}
           />
         </div>
         <div style={{ ...(screen !== 'idol' && { display: 'none' }) }}>
@@ -147,6 +149,7 @@ function App() {
         customPlaylist={customPlaylist}
         setCustomPlaylist={setCustomPlaylist}
         imgDisable={imgDisable}
+        anim={anim}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>

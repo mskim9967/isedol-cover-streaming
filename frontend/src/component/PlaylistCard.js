@@ -5,6 +5,7 @@ import jururu from '../static/image/jururu_300_300.png';
 import lilpa from '../static/image/lilpa_300_300.png';
 import jingburger from '../static/image/jingburger_300_300.png';
 import ine from '../static/image/ine_300_300.png';
+import like from '../static/image/like_300_300.webp';
 
 import lgosegu from '../static/image/logo_gosegu_300_300.png';
 import lviichan from '../static/image/logo_viichan_300_300.png';
@@ -13,12 +14,12 @@ import llilpa from '../static/image/logo_lilpa_300_300.png';
 import ljingburger from '../static/image/logo_jingburger_300_300.png';
 import line from '../static/image/logo_ine_300_300.png';
 import lall from '../static/image/logo_all_300_300.png';
+import llike from '../static/image/logo_like_300_300.png';
 
 import jpn from '../static/image/japan_300_300.webp';
 import kor from '../static/image/korea_300_300.webp';
 import eng from '../static/image/world_300_300.webp';
 import all from '../static/image/all_300_300.webp';
-import like from '../static/image/like_300_300.webp';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { axiosInstance } from '../axiosInstance';
@@ -48,7 +49,7 @@ const logoimgMap = {
   jpn,
   eng,
   kor,
-  like,
+  like: llike,
 };
 
 const colorMap = {
@@ -95,12 +96,15 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
     <div
       style={{
         width: '200px',
+        height: '265px',
         margin: '10px 0',
         flexShrink: 0,
         borderRadius: '7px',
         boxShadow: `2px 2px 10px -5px ${color.shadow}`,
         overflow: 'hidden',
         backgroundColor: isCustom ? getColor() : colorMap[theme],
+        display: 'flex',
+        flexDirection: 'column',
       }}
       onClick={async () => {
         if (type === 'custom' && theme === 'like') {
@@ -120,14 +124,22 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
         }
       }}
     >
-      <img style={{ width: '100%', aspectRatio: '1/1' }} src={imgDisable ? logoimgMap[theme] : imgMap[theme]} />
       <div
         style={{
           width: '100%',
-          height: '70px',
+          aspectRatio: '1/1',
+          ...(isCustom && { display: 'none' }),
+          backgroundImage: `url(${imgDisable ? logoimgMap[theme] : imgMap[theme]})`,
+          backgroundSize: 'cover',
+        }}
+      ></div>
+      <div
+        style={{
+          width: '100%',
           display: 'flex',
-          alignItems: 'center',
+          flexGrow: 1,
           justifyContent: 'center',
+          alignItems: 'center',
           color: color.textWhite,
           fontWeight: '500',
           fontSize: '14px',

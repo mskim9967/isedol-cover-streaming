@@ -75,6 +75,7 @@ function MusicPlay({
   imgDisable,
   customPlaylist,
   setCustomPlaylist,
+  anim,
 }) {
   const color = isDark ? darkColor : lightColor;
   const [currentTime, setCurrentTime] = useState(60);
@@ -521,6 +522,7 @@ function MusicPlay({
           margin: '0 auto',
         }}
         closeButton
+        animated={anim}
         open={isModalActive}
         onClose={() => setModalActive(false)}
       >

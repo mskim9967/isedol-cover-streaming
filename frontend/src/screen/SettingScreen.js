@@ -68,15 +68,35 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '홈화면에 바로가기 추가', eng: 'Add shortcut', jpn: 'ショートカット追加' }[lang]}
           </div>
-          <Button auto size='sm' borderWeight='light' color='error'>
-            {{ kor: '추가', eng: 'Add', jpn: '追加' }[lang]}
-          </Button>
+          <IoChevronForwardOutline />
         </SettingLine>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
           </div>
           <IoChevronForwardOutline />
+        </SettingLine>
+      </div>
+
+      <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {{ kor: '저장된 데이터 지우기', eng: 'Clear saved data', jpn: '保存されたデータを削除' }[lang]}
+          </div>
+          <IoChevronForwardOutline
+            onClick={() => {
+              if (
+                window.confirm(
+                  {
+                    kor: '브라우저에 저장된 관련 데이터를 모두 지웁니다',
+                    eng: 'Erase all relevant data stored in your browser',
+                    jpn: 'ブラウザに保存された関連データをすべて削除します',
+                  }[lang]
+                )
+              )
+                localStorage.clear();
+            }}
+          />
         </SettingLine>
       </div>
 

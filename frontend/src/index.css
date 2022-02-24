@@ -58,8 +58,8 @@ div::-webkit-scrollbar {
 div {
   box-sizing: border-box;
   letter-spacing: -0.2px;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   transition: color ease 0.3s 0s, background-color ease 0.3s 0s;
 }
 

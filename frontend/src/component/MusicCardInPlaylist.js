@@ -67,6 +67,7 @@ function MusicCardInPlaylist({
   setCustomPlaylist,
   name,
   imgDisable,
+  length,
 }) {
   const color = isDark ? darkColor : lightColor;
 
@@ -83,9 +84,11 @@ function MusicCardInPlaylist({
       <div
         style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}
         onClick={() => {
-          if (idx === nowIdx) return;
-          setNowIdx(idx);
-          setLoad(!load);
+          if (!customPlaylist) {
+            if (idx === nowIdx) return;
+            setNowIdx(idx);
+            setLoad(!load);
+          }
         }}
       >
         <img
@@ -111,7 +114,7 @@ function MusicCardInPlaylist({
         </div>
       </div>
       <div style={{ float: 'right', height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
-        {(idx !== nowIdx || customPlaylist) && (
+        {((!customPlaylist && idx !== nowIdx) || (customPlaylist && length !== 1)) && (
           <>
             <Button
               style={{ height: '90%' }}
@@ -183,7 +186,8 @@ function MusicCardInPlaylist({
                     size={19}
                     onClick={() => {
                       if (customPlaylist) {
-                        if (idx === customPlaylist.length - 1) return;
+                        let len = customPlaylist.find((e) => e.name === name).data.length;
+                        if (idx === len - 1) return;
                         let temp = [...customPlaylist];
                         temp.forEach((e, i) => {
                           if (e.name === name) {
