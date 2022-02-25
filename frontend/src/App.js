@@ -99,6 +99,7 @@ function App() {
       <audio ref={audioRef} />
 
       <div
+        id='scrollableDiv'
         style={{
           height: '100%',
           width: '100%',

@@ -1,6 +1,7 @@
 import { useEffect, useState, memo } from 'react';
 import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoFastFood } from 'react-icons/io5';
 import { Button, Loading } from '@nextui-org/react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { axiosInstance } from '../axiosInstance';
 
 import HeaderText from '../component/HeaderText';
@@ -36,20 +37,24 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
   const [isLoading, setLoading] = useState(false);
   const [searchButtonActive, setSearchButtonActive] = useState(false);
   const [musics, setMusics] = useState([]);
+  const [shownMusics, setShownMusics] = useState([]);
 
   useEffect(async () => {
     if (!searchButtonActive) {
       setLoading(true);
       const res = await axiosInstance.get('/music');
       setLoading(false);
-      setMusics(res.data.data.reverse());
+      setMusics(res.data.data.sort(() => Math.random() - 0.5));
     }
-    console.log(window.navigator.platform);
   }, [searchButtonActive]);
 
   useEffect(() => {
     setSearchButtonActive(searchStr || selectedIdols?.length || selectedNations?.length || isFull);
   }, [searchStr, selectedIdols, selectedNations, isFull]);
+
+  useEffect(() => {
+    setShownMusics([...musics.slice(0, 20)]);
+  }, [musics]);
 
   const search = async () => {
     setLoading(true);
@@ -59,13 +64,22 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
       ...(selectedNations?.length && { nations: [...selectedNations] }),
       ...(isFull === true && { full: true }),
     });
-    console.log(res.data.data);
     setLoading(false);
-    setMusics(res.data.data.reverse());
+    setMusics(res.data.data);
   };
 
   return (
-    <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
+    <div
+      style={{
+        paddingBottom: '20px',
+        width: '100%',
+        overflow: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        flexShrink: 0,
+        gap: '20px',
+      }}
+    >
       <HeaderText isDark={isDark}>
         {{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}
         <div style={{ float: 'right' }}>
@@ -239,22 +253,39 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
             <Loading type='points' color='error' size='lg' />
           </div>
         ) : musics?.length !== 0 ? (
-          musics.map((music, key) => {
-            return (
-              <MusicCard
-                audioRef={audioRef}
-                playlistControl={playlistControl}
-                key={key}
-                music={music}
-                lang={lang}
-                isDark={isDark}
-                customPlaylist={customPlaylist}
-                setCustomPlaylist={setCustomPlaylist}
-                imgDisable={imgDisable}
-                anim={anim}
-              ></MusicCard>
-            );
-          })
+          <InfiniteScroll
+            style={{ paddingBottom: '20px' }}
+            dataLength={shownMusics.length}
+            next={() => {
+              setTimeout(() => {
+                setShownMusics([...shownMusics, ...musics.slice(shownMusics.length, shownMusics.length + 20)]);
+              }, 1000);
+            }}
+            scrollableTarget='scrollableDiv'
+            hasMore={shownMusics.length !== musics.length}
+            loader={
+              <div style={{ width: '100%', marginTop: '30px', display: 'flex', justifyContent: 'center' }}>
+                <Loading type='points' color='error' size='lg' />
+              </div>
+            }
+          >
+            {shownMusics.map((music, key) => {
+              return (
+                <MusicCard
+                  audioRef={audioRef}
+                  playlistControl={playlistControl}
+                  key={key}
+                  music={music}
+                  lang={lang}
+                  isDark={isDark}
+                  customPlaylist={customPlaylist}
+                  setCustomPlaylist={setCustomPlaylist}
+                  imgDisable={imgDisable}
+                  anim={anim}
+                ></MusicCard>
+              );
+            })}
+          </InfiniteScroll>
         ) : (
           <div style={{ width: '100%', marginTop: '30px', display: 'flex', justifyContent: 'center', opacity: '50%', fontSize: '22px' }}>
             {{ kor: '검색 결과가 없습니다 :(', eng: 'Nothing found :(', jpn: '検索結果がありません :(' }[lang]}
