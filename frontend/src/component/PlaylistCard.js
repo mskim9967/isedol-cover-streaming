@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import gosegu from '../static/image/gosegu_300_300.png';
 import viichan from '../static/image/viichan_300_300.png';
 import jururu from '../static/image/jururu_300_300.png';
@@ -66,9 +66,14 @@ const colorMap = {
   like: lightColor.isedol,
 };
 
+function getColor() {
+  return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (40 + 10 * Math.random()) + '%)';
+}
+
 function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, customPlaylist, imgDisable }) {
   const color = isDark ? darkColor : lightColor;
   const [isCustom, setCustom] = useState(false);
+  const [randColor, setColor] = useState(getColor());
 
   useEffect(() => {
     if (type === 'custom' && theme !== 'like') setCustom(true);
@@ -88,10 +93,6 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
     like: { kor: '좋아요', eng: `Like`, jpn: '好きな' }[lang],
   };
 
-  function getColor() {
-    return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (40 + 10 * Math.random()) + '%)';
-  }
-
   return (
     <div
       style={{
@@ -102,7 +103,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
         borderRadius: '7px',
         boxShadow: `2px 2px 10px -5px ${color.shadow}`,
         overflow: 'hidden',
-        backgroundColor: isCustom ? getColor() : colorMap[theme],
+        backgroundColor: isCustom ? randColor : colorMap[theme],
         display: 'flex',
         flexDirection: 'column',
       }}
@@ -151,4 +152,4 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
   );
 }
 
-export default PlaylistCard;
+export default memo(PlaylistCard);

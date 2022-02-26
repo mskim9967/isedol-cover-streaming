@@ -5,7 +5,7 @@ import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { Button, Modal } from '@nextui-org/react';
 import CustomPlaylist from '../component/CustomPlaylist';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import CustomPlaylistEdit from '../component/CustomPlaylistEdit';
 
 const idols = ['gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
@@ -135,4 +135,4 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
   );
 }
 
-export default PlaylistScreen;
+export default memo(PlaylistScreen);

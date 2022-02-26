@@ -331,7 +331,10 @@ function MusicPlay({
         )}
         <div
           style={{ overflow: 'auto', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s', ...(!isPlaylistActive && { display: 'none' }) }}
-          onClick={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            setPlaylistActive(false);
+          }}
         >
           <MusicPlaylist
             isPlaylistActive={isPlaylistActive}
@@ -348,6 +351,7 @@ function MusicPlay({
             setPlaylist={setPlaylist}
             shuffle={shuffle}
             imgDisable={imgDisable}
+            setPlaylistActive={setPlaylistActive}
           />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -460,7 +464,9 @@ function MusicPlay({
                 <MdOutlinePlaylistAdd
                   size={26}
                   color={eval(`color.${music.singer}`)}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.stopPropagation();
+
                     setModalActive(true);
                   }}
                 />

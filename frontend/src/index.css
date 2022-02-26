@@ -71,9 +71,9 @@ div {
 }
 
 .givenKey:active {
-  opacity: 40%;
+  opacity: 50%;
 }
 
 .givenKey {
-  transition: opacity 0.1s 0s;
+  transition: opacity ease 0.3s 0s;
 }

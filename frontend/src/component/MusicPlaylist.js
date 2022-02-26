@@ -19,6 +19,7 @@ function MusicPlaylist({
   setPlaylist,
   shuffle,
   imgDisable,
+  setPlaylistActive,
 }) {
   const color = isDark ? darkColor : lightColor;
   const focusRef = useRef(null);
@@ -54,7 +55,7 @@ function MusicPlaylist({
           </div>
         );
       })}
-      <div style={{ height: '200px' }}></div>
+      <div style={{ height: '150px' }}></div>
     </div>
   );
 }

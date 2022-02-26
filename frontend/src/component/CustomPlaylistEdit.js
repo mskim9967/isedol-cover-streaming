@@ -215,7 +215,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
           <div style={{ fontSize: '16px', fontWeight: '500', wordBreak: 'keep-all', marginBottom: '3px' }}>
             {
               {
-                kor: '아래에 키를 입력하여 플레이리스트를 가져옵니다',
+                kor: '키를 입력하여 플레이리스트를 불러옵니다',
                 jpn: '以下にキーを入力してプレイリストを取得します',
                 eng: 'Enter the key below to get the playlist',
               }[lang]

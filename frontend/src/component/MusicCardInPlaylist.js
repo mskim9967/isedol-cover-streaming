@@ -83,7 +83,8 @@ function MusicCardInPlaylist({
     >
       <div
         style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}
-        onClick={() => {
+        onClick={(e) => {
+          e.stopPropagation();
           if (!customPlaylist) {
             if (idx === nowIdx) return;
             setNowIdx(idx);
@@ -122,7 +123,9 @@ function MusicCardInPlaylist({
               auto
               light
               icon={<IoClose color={color.darkGray} size={19} />}
-              onClick={() => {
+              onClick={(e) => {
+                e.stopPropagation();
+
                 if (customPlaylist) {
                   if (
                     !window.confirm(
@@ -156,7 +159,9 @@ function MusicCardInPlaylist({
                 auto
                 light
                 icon={<IoChevronUp color={color.darkGray} size={19} />}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
+
                   if (customPlaylist) {
                     if (idx === 0) return;
                     let temp = [...customPlaylist];
@@ -184,7 +189,9 @@ function MusicCardInPlaylist({
                   <IoChevronDown
                     color={color.darkGray}
                     size={19}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation();
+
                       if (customPlaylist) {
                         let len = customPlaylist.find((e) => e.name === name).data.length;
                         if (idx === len - 1) return;
