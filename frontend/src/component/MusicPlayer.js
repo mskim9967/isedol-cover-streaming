@@ -201,7 +201,7 @@ function MusicPlayer({
                 size='xs'
                 auto
                 light
-                icon={!audioRef.current?.paused ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
+                icon={!isPause ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
                 onClick={() => {
                   if (!isPause) {
                     pauseAudio();

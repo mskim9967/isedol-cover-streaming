@@ -14,6 +14,7 @@ const nations = ['kor', 'jpn', 'eng'].sort(() => Math.random() - 0.5);
 function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
+  const [isLoadModalActive, setLoadModalActive] = useState(false);
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -74,6 +75,7 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
           }}
         >
           {{ kor: '나의 플레이리스트', eng: 'My playlist', jpn: '僕のプレイリスト' }[lang]}
+
           <Button
             size='xs'
             color='error'
@@ -84,7 +86,7 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
               setModalActive(true);
             }}
           >
-            {{ kor: '수정', eng: 'Modify', jpn: '修整' }[lang]}
+            {{ kor: '편집', eng: 'Edit', jpn: '編集' }[lang]}
           </Button>
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>

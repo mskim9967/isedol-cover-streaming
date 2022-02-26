@@ -74,7 +74,7 @@ function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, 
               alert({ kor: '이름이 중복됩니다', jpn: '名前が長すぎます', eng: 'The name too long' }[lang]);
             else {
               setCustomPlaylist([...customPlaylist, { name, data: [music] }]);
-              setModalActive(false);
+              // setModalActive(false);
             }
           }}
         >
