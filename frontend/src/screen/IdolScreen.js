@@ -1,7 +1,3 @@
-import 'aos/dist/aos.css';
-import AOS from 'aos';
-AOS.init();
-
 const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
 function IdolScreen() {

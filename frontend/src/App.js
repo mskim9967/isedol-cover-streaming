@@ -8,8 +8,6 @@ import MusicScreen from './screen/MusicScreen';
 import lightColor from './static/lightColor';
 import darkColor from './static/darkColor';
 import './index.css';
-import AOS from 'aos';
-import 'aos/dist/aos.css';
 
 function App() {
   const [isMusicPlayerActive, setMusicPlayerActive] = useState(false);
@@ -80,8 +78,6 @@ function App() {
   };
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
-    AOS.init();
-    AOS.refresh();
     return () => {
       window.removeEventListener('resize', resizeHandler);
     };
