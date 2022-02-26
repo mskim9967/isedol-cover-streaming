@@ -1,7 +1,7 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
-
+import { memo } from 'react';
 import { Button } from '@nextui-org/react';
 
 import gosegu from '../static/image/gosegu_300_300.png';
@@ -221,4 +221,4 @@ function MusicCardInPlaylist({
   );
 }
 
-export default MusicCardInPlaylist;
+export default memo(MusicCardInPlaylist);

@@ -1,6 +1,6 @@
 import { useEffect, useState, memo } from 'react';
 import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh } from 'react-icons/io5';
-import { Button, Loading } from '@nextui-org/react';
+import { Button, Loading, Modal } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { axiosInstance } from '../axiosInstance';
 
@@ -39,6 +39,8 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
   const [musics, setMusics] = useState([]);
   const [shownMusics, setShownMusics] = useState([]);
   const [reload, setReload] = useState(false);
+  const [isModalActive, setModalActive] = useState(false);
+  const [musicInfo, setMusicInfo] = useState({});
 
   useEffect(async () => {
     setSelectedIdols([]);
@@ -278,18 +280,25 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
           >
             {shownMusics.map((music, key) => {
               return (
-                <MusicCard
-                  audioRef={audioRef}
-                  playlistControl={playlistControl}
-                  key={key}
-                  music={music}
-                  lang={lang}
-                  isDark={isDark}
-                  customPlaylist={customPlaylist}
-                  setCustomPlaylist={setCustomPlaylist}
-                  imgDisable={imgDisable}
-                  anim={anim}
-                ></MusicCard>
+                <div
+                  onClick={() => {
+                    setModalActive(true);
+                    setMusicInfo(music);
+                  }}
+                >
+                  <MusicCard
+                    audioRef={audioRef}
+                    playlistControl={playlistControl}
+                    key={key}
+                    music={music}
+                    lang={lang}
+                    isDark={isDark}
+                    customPlaylist={customPlaylist}
+                    setCustomPlaylist={setCustomPlaylist}
+                    imgDisable={imgDisable}
+                    anim={anim}
+                  ></MusicCard>
+                </div>
               );
             })}
           </InfiniteScroll>
@@ -299,6 +308,47 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
           </div>
         )}
       </div>
+      {isModalActive && (
+        <Modal
+          css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
+          closeButton
+          open={isModalActive}
+          animated={anim}
+          onClose={() => setModalActive(false)}
+        >
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              padding: '20px 10px 37px 10px',
+              color: color.textBlack,
+            }}
+          >
+            <div
+              style={{
+                fontWeight: '500',
+                fontSize: '17px',
+                marginBottom: '1px',
+              }}
+            >
+              {{ kor: musicInfo.titleKor, eng: musicInfo.titleEng, jpn: musicInfo.titleJpn }[lang]}
+            </div>
+            <div
+              style={{
+                fontWeight: '400',
+                fontSize: '15px',
+                marginBottom: '6px',
+              }}
+            >
+              {{ kor: musicInfo.oSingerKor, eng: musicInfo.oSingerEng, jpn: musicInfo.oSingerJpn }[lang]}
+            </div>
+            <div style={{ fontWeight: '300' }}>
+              Cover by <div style={{ fontWeight: '400', display: 'inline-block' }}>{musicInfo.singer.toUpperCase()}</div> {musicInfo.date && ' / '}{' '}
+              {musicInfo.date}
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }

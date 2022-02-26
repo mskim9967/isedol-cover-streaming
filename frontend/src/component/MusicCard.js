@@ -98,7 +98,8 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           size='xs'
           auto
           light
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             setModalActive(true);
           }}
           icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />}
@@ -109,7 +110,8 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           auto
           light
           icon={<IoPlay color={color.darkGray} size={19} />}
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             playlistControl.add(music);
             audioRef.current.play();
           }}
