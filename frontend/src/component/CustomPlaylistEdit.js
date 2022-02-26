@@ -221,7 +221,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
               }[lang]
             }
           </div>
-          <Input width='200px' placeholder='Key' onChange={(e) => setDownloadKey(e.target.value)} />
+          <Input width='200px' placeholder='Key' size='lg' onChange={(e) => setDownloadKey(e.target.value)} />
           <div style={{ height: '40px', display: 'flex', alignItems: 'center' }}>
             {isLoading ? (
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
@@ -294,6 +294,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
             }
           </div>
           <div
+            className='givenKey'
             style={{
               width: '200px',
               height: '50px',

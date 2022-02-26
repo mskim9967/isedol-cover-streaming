@@ -120,8 +120,8 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
             ...(type === 'nation' && { nations: [theme] }),
           });
           playlistControl.change(res.data.data.sort(() => Math.random() - 0.5));
-          audioRef.current.play();
         }
+        audioRef.current.play();
       }}
     >
       <div

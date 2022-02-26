@@ -115,22 +115,24 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           }}
         />
       </div>
-      <Modal
-        css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
-        closeButton
-        open={isModalActive}
-        animated={anim}
-        onClose={() => setModalActive(false)}
-      >
-        <CustomPlaylist
-          setModalActive={setModalActive}
-          music={music}
-          customPlaylist={customPlaylist}
-          setCustomPlaylist={setCustomPlaylist}
-          lang={lang}
-          isDark={isDark}
-        />
-      </Modal>
+      {isModalActive && (
+        <Modal
+          css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
+          closeButton
+          open={isModalActive}
+          animated={anim}
+          onClose={() => setModalActive(false)}
+        >
+          <CustomPlaylist
+            setModalActive={setModalActive}
+            music={music}
+            customPlaylist={customPlaylist}
+            setCustomPlaylist={setCustomPlaylist}
+            lang={lang}
+            isDark={isDark}
+          />
+        </Modal>
+      )}
     </div>
   );
 }

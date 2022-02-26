@@ -69,3 +69,11 @@ div {
   -o-transition: unset !important;
   transition: unset !important;
 }
+
+.givenKey:active {
+  opacity: 40%;
+}
+
+.givenKey {
+  transition: opacity 0.1s 0s;
+}

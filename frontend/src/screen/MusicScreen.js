@@ -1,5 +1,5 @@
 import { useEffect, useState, memo } from 'react';
-import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoFastFood } from 'react-icons/io5';
+import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh } from 'react-icons/io5';
 import { Button, Loading } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { axiosInstance } from '../axiosInstance';
@@ -38,15 +38,17 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
   const [searchButtonActive, setSearchButtonActive] = useState(false);
   const [musics, setMusics] = useState([]);
   const [shownMusics, setShownMusics] = useState([]);
+  const [reload, setReload] = useState(false);
 
   useEffect(async () => {
-    if (!searchButtonActive) {
-      setLoading(true);
-      const res = await axiosInstance.get('/music');
-      setLoading(false);
-      setMusics(res.data.data.sort(() => Math.random() - 0.5));
-    }
-  }, [searchButtonActive]);
+    setSelectedIdols([]);
+    setSelectedNations([]);
+    setFull(false);
+    setLoading(true);
+    const res = await axiosInstance.get('/music');
+    setLoading(false);
+    setMusics(res.data.data.sort(() => Math.random() - 0.5));
+  }, [reload]);
 
   useEffect(() => {
     setSearchButtonActive(searchStr || selectedIdols?.length || selectedNations?.length || isFull);
@@ -240,11 +242,16 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
             alignItems: 'center',
             fontSize: '15px',
             color: color.gray,
+            position: 'relative',
           }}
-          onClick={() => setFilterPress(!isFilterPress)}
         >
-          {{ kor: '필터', eng: 'Filter', jpn: 'フィルター' }[lang]}
-          {isFilterPress ? <IoChevronUp style={{ marginLeft: '5px' }} /> : <IoChevronDown style={{ marginLeft: '5px' }} />}
+          <div onClick={() => setFilterPress(!isFilterPress)}>
+            {{ kor: '필터', eng: 'Filter', jpn: 'フィルター' }[lang]}
+            {isFilterPress ? <IoChevronUp style={{ marginLeft: '5px' }} /> : <IoChevronDown style={{ marginLeft: '5px' }} />}
+          </div>
+          <div style={{ position: 'absolute', right: 0, margin: '0 0 0 20px' }} onClick={() => setReload(!reload)}>
+            <IoRefresh size={18} style={{ marginLeft: '5px' }} />
+          </div>
         </div>
       </div>
       <div>
