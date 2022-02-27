@@ -1,36 +1,33 @@
 package ms.backend;
 
-import ms.backend.repository.JpaMemberRepository;
-import ms.backend.repository.MemberRepository;
-import ms.backend.repository.MemoryMemberRepository;
 import ms.backend.repository.MusicRepository;
-import ms.backend.service.MemberService;
+import ms.backend.repository.PlaylistRepository;
 import ms.backend.service.MusicService;
+import ms.backend.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.persistence.EntityManager;
 
 @Configuration
 public class SpringConfig {
 
-    private final MemberRepository memberRepository;
     private final MusicRepository musicRepository;
+    private final PlaylistRepository playlistRepository;
 
     @Autowired
-    public SpringConfig(MemberRepository memberRepository, MusicRepository musicRepository) {
-        this.memberRepository = memberRepository;
+    public SpringConfig(MusicRepository musicRepository, PlaylistRepository playlistRepository) {
         this.musicRepository = musicRepository;
-    }
-
-    @Bean
-    public MemberService memberService() {
-        return new MemberService(memberRepository);
+        this.playlistRepository = playlistRepository;
     }
 
     @Bean
     public MusicService musicService() {
         return new MusicService(musicRepository);
+    }
+
+    @Bean
+    public PlaylistService playlistService() {
+        return new PlaylistService(playlistRepository);
     }
 }

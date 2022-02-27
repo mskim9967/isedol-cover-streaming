@@ -39,3 +39,6 @@ out/
 application.properties
 
 .DS_Store
+
+*.p12
+*.pem

@@ -1,9 +1,13 @@
 package ms.backend.domain;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.util.Date;
 
 
 @Entity
@@ -21,9 +25,11 @@ public class Music {
     private String nation;
     private String youtubeUrl;
     private Boolean isFull;
+    @DateTimeFormat(pattern = "yyMMdd")
+    private LocalDate date;
     private String fileName;
 
-    public Music(Long id, String titleKor, String titleEng, String titleJpn, String singer, String oSingerKor, String oSingerEng, String oSingerJpn, String nation, String youtubeUrl, Boolean isFull, String fileName) {
+    public Music(Long id, String titleKor, String titleEng, String titleJpn, String singer, String oSingerKor, String oSingerEng, String oSingerJpn, String nation, String youtubeUrl, Boolean isFull, LocalDate date, String fileName) {
         this.id = id;
         this.titleKor = titleKor;
         this.titleEng = titleEng;
@@ -35,7 +41,16 @@ public class Music {
         this.nation = nation;
         this.youtubeUrl = youtubeUrl;
         this.isFull = isFull;
+        this.date = date;
         this.fileName = fileName;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     public Music() {

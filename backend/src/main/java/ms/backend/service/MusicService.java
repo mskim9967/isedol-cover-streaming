@@ -1,14 +1,13 @@
 package ms.backend.service;
 
-import ms.backend.domain.Member;
 import ms.backend.domain.Music;
 import ms.backend.domain.MusicSearchDto;
 import ms.backend.repository.MusicRepository;
+import org.springframework.data.domain.Sort;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 //@Service
 @Transactional
@@ -34,7 +33,7 @@ public class MusicService {
      * @return music list
      */
     public List<Music> getAll() {
-        return musicRepository.findAll();
+        return musicRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     /**
@@ -71,6 +70,9 @@ public class MusicService {
         if(fetchData.getNation() != null) music.setNation(fetchData.getNation());
         if(fetchData.getYoutubeUrl() != null) music.setYoutubeUrl(fetchData.getYoutubeUrl());
         if(fetchData.getFull() != null) music.setFull(fetchData.getFull());
+        if(fetchData.getFileName() != null) music.setFileName(fetchData.getFileName());
+        if(fetchData.getDate() != null) music.setDate(fetchData.getDate());
+
         musicRepository.save(music);
         return music;
     }

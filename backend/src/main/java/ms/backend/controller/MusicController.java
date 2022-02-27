@@ -1,28 +1,20 @@
 package ms.backend.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ms.backend.S3Uploader;
-import ms.backend.domain.Member;
 import ms.backend.domain.Music;
-import ms.backend.domain.MusicDto;
 import ms.backend.domain.MusicSearchDto;
 import ms.backend.service.MusicService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.core.io.support.ResourceRegion;
 import org.springframework.http.*;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -71,6 +63,7 @@ public class MusicController {
         String fileName;
         if (!key.equals(postKey))
             return new ResponseEntity<>(new ResponseForm("Unauthorized", "인증 실패", null), HttpStatus.UNAUTHORIZED);
+
         try {
             fileName = s3Uploader.uploadFiles(multipartFile);
         } catch (Exception e) {
@@ -115,14 +108,23 @@ public class MusicController {
         return new ResponseEntity<>(new ResponseForm("OK", "success", musicService.searchMusic(musicSearchDto)), HttpStatus.OK);
     }
 
-    @PatchMapping("/{id}")
+    @PostMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<Object> patch(Music patchData, @PathVariable("id") Long id, @RequestParam String key) {
+    public ResponseEntity<Object> patch(Music patchData, @PathVariable("id") Long id, @RequestParam String key, @RequestParam("audio") @Nullable MultipartFile multipartFile) {
         if (!key.equals(postKey))
             return new ResponseEntity<>(new ResponseForm("Unauthorized", "인증 실패", null), HttpStatus.UNAUTHORIZED);
         Optional<Music> music = musicService.getById(id);
         if (!music.isPresent())
             return new ResponseEntity<>(new ResponseForm("Not Found", "해당 id가 없습니다", null), HttpStatus.NOT_FOUND);
+
+        if(multipartFile != null && !multipartFile.isEmpty()) {
+            try {
+                String fileName = s3Uploader.uploadFiles(multipartFile);
+                patchData.setFileName(fileName);
+            } catch (Exception e) {
+                return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            }
+        }
         Music updatedMusic = musicService.patch(id, patchData);
         return new ResponseEntity<>(new ResponseForm("OK", "성공", updatedMusic), HttpStatus.OK);
     }

@@ -20,11 +20,6 @@ public class MusicRepositoryCustomImpl implements MusicRepositoryCustom {
         List<String> nations = musicSearchDto.getNations();
         Boolean isFull = musicSearchDto.getFull();
 
-        System.out.println(searchStr);
-        System.out.println(singers);
-        System.out.println(nations);
-        System.out.println(isFull);
-
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Music> query = cb.createQuery(Music.class);
 
@@ -70,7 +65,7 @@ public class MusicRepositoryCustomImpl implements MusicRepositoryCustom {
         if(isFull != null) totalPds.add(cb.equal(music.get("isFull"), isFull));
 
         query.select(music)
-                .where(cb.and(totalPds.toArray(new Predicate[totalPds.size()])));
+                .where(cb.and(totalPds.toArray(new Predicate[totalPds.size()]))).orderBy(cb.desc(music.get("id")));
 
         return entityManager.createQuery(query)
                 .getResultList();
