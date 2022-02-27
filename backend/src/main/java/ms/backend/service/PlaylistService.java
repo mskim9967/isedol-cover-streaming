@@ -6,9 +6,11 @@ import ms.backend.domain.Playlist;
 import ms.backend.repository.MusicRepository;
 import ms.backend.repository.PlaylistRepository;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import javax.swing.text.html.Option;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +27,13 @@ public class PlaylistService {
         playlistRepository.save(playlist);
         return playlist;
     }
+
+    @Scheduled(cron = "0 0 0 * * *")
+    public void deleteEveryday() {
+        List<Playlist> playlists = playlistRepository.findAllWithDateBefore(LocalDate.now().minusDays(1));
+        playlists.forEach(playlist -> playlistRepository.deleteById(playlist.getId()));
+    }
+
 
     public Optional<Playlist> getById(Long id) {
         return playlistRepository.findById(id);
