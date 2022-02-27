@@ -6,6 +6,12 @@ import { Switch, Button, Modal } from '@nextui-org/react';
 import HeaderText from '../component/HeaderText';
 import SettingLine from '../component/SettingLine';
 
+import ios1 from '../static/image/ios1.png';
+import ios2 from '../static/image/ios2.png';
+import and1 from '../static/image/and1.png';
+import and2 from '../static/image/and2.png';
+import com1 from '../static/image/com1.png';
+
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
@@ -130,18 +136,21 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
         </SettingLine>
       </div>
 
-      <div
-        style={{
-          width: '100%',
-          borderRadius: '10px',
-          backgroundColor: color.settingBg,
-          padding: '20px',
-          color: color.darkGray,
-          fontWeight: '300',
-          fontSize: '14px',
-        }}
-      >
-        본 서비스는 공식이 아닌 팬들이 운영하는 서비스이며, 모든 커버송의 저작권은 이세계 아이돌(WAK Entertainment)에 있습니다.
+      <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {
+              { kor: '서비스 운영에 도움을 주신 분들', eng: 'People who helped running this service', jpn: 'サービスの運営にご協力いただいた方' }[
+                lang
+              ]
+            }
+          </div>
+          <IoChevronForwardOutline onClick={() => {}} />
+        </SettingLine>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '일러스트 출처', eng: 'Illust from', jpn: 'イラスト出典' }[lang]}</div>
+          <IoChevronForwardOutline onClick={() => {}} />
+        </SettingLine>
       </div>
 
       <div
@@ -155,8 +164,42 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           fontSize: '14px',
         }}
       >
-        본 서비스는 비영리 목적으로 운영되며, 사용된 일러스트들은 사용 허가를 받았음을 밝힙니다. <br />
-        또한, Github에서 프로젝트 소스코드를 확인하실 수 있습니다.
+        업데이트 요청, 정보 수정 요청, 기타 문의사항은 아래 이메일 주소로 자유롭게 연락 바랍니다.
+        <br />
+        <a href='mailto:admin@isgplay.com'>admin@isgplay.com</a>
+      </div>
+
+      <div
+        style={{
+          width: '100%',
+          borderRadius: '10px',
+          backgroundColor: color.settingBg,
+          padding: '20px',
+          color: color.darkGray,
+          fontWeight: '300',
+          fontSize: '14px',
+        }}
+      >
+        본 서비스는 비영리 목적으로 운영되는 비공식 서비스이며, 모든 일러스트들은 원작자로부터 사용 허가를 받았음을 밝힙니다.
+      </div>
+
+      <div
+        style={{
+          width: '100%',
+          borderRadius: '10px',
+          backgroundColor: color.settingBg,
+          padding: '20px',
+          color: color.darkGray,
+          fontWeight: '300',
+          fontSize: '14px',
+          wordBreak: 'break-all',
+        }}
+      >
+        <a href='https://github.com/mskim9967/isedol-cover-streaming'>
+          The MIT License (MIT)
+          <br />
+          Copyright ⓒ 2022 isgplay
+        </a>
       </div>
 
       <Modal
@@ -179,24 +222,59 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             display: 'flex',
             gap: 4,
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            alignItems: 'center',
             maxHeight: '80vh',
             overflow: 'auto',
+            fontSize: '20px',
+            fontWeight: '500',
+            gap: 50,
           }}
         >
-          <div style={{ width: '100%' }}>
-            <div
+          <div>
+            <div style={{ marginBottom: '6px' }}>iOS & Safari</div>
+            <img
               style={{
-                float: 'left',
-                marginBottom: '10px',
-                marginLeft: '3px',
-                fontSize: '20px',
-                fontWeight: '500',
-                color: color.textBlack,
+                width: '90%',
+                borderRadius: '6%',
               }}
-            >
-              {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
-            </div>
+              src={ios1}
+            />
+            <img
+              style={{
+                width: '90%',
+                borderRadius: '6%',
+              }}
+              src={ios2}
+            />
+          </div>
+
+          <div>
+            <div style={{ marginBottom: '6px' }}>Android & Chrome</div>
+            <img
+              style={{
+                width: '90%',
+                borderRadius: '6%',
+              }}
+              src={and1}
+            />
+            <img
+              style={{
+                width: '90%',
+                borderRadius: '6%',
+              }}
+              src={and2}
+            />
+          </div>
+
+          <div>
+            <div style={{ marginBottom: '6px' }}>Windows/MacOS & Chrome</div>
+            <img
+              style={{
+                width: '90%',
+                borderRadius: '6%',
+              }}
+              src={com1}
+            />
           </div>
         </div>
       </Modal>

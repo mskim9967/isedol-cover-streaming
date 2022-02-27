@@ -13,7 +13,7 @@ import darkColor from '../static/darkColor';
 const idols = [
   { key: 'all', kor: '단체곡', eng: 'ALL', jpn: '単体曲' },
   { key: 'ine', kor: '아이네', eng: 'INE', jpn: 'アイネ' },
-  { key: 'jingburger', kor: '징버거', eng: 'JING', jpn: 'ジンバーガー' },
+  { key: 'jingburger', kor: '징버거', eng: 'JINGBURGER', jpn: 'ジンバーガー' },
   { key: 'lilpa', kor: '릴파', eng: 'LILPA', jpn: 'リルパ' },
   { key: 'jururu', kor: '주르르', eng: 'JURURU', jpn: 'ジュルル' },
   { key: 'gosegu', kor: '고세구', eng: 'GOSEGU', jpn: 'ゴセグ' },
