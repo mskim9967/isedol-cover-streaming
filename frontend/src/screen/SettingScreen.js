@@ -139,7 +139,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
-        <SettingLine isDark={isDark} isLast>
+        <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {
               { kor: '서비스 운영에 도움을 주신 분들', eng: 'People who helped running this service', jpn: 'サービスの運営にご協力いただいた方' }[
@@ -173,7 +173,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       >
         업데이트 요청, 정보 수정 요청, 기타 문의사항은 아래 이메일 주소로 자유롭게 연락 바랍니다.
         <br />
-        <a href='mailto:admin@isgplay.com'>admin@isgplay.com</a>
+        <a href='mailto:isgplay.com@gmail.com'>isgplay.com@gmail.com</a>
       </div>
 
       <div

@@ -120,7 +120,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
             ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),
             ...(type === 'nation' && { nations: [theme] }),
           });
-          playlistControl.change(res.data.data.sort(() => Math.random() - 0.5));
+          playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 30));
         }
         audioRef.current.play();
       }}

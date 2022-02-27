@@ -153,17 +153,17 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
             </Button>
           </div>
         </div>
-        <div style={{ overflow: 'hidden', marginTop: '5px' }}>
+        <div style={{ overflow: 'hidden', marginTop: '5px', maxHeight: '300px' }}>
           <div
             style={{
               borderRadius: '10px',
               backgroundColor: color.superLightGray,
-              marginTop: isFilterPress ? 0 : '-200px',
+              marginTop: isFilterPress ? 0 : '-300px',
               opacity: isFilterPress ? '100%' : 0,
               transition: 'margin ease-in-out 0.4s 0s, opacity ease-in-out 0.3s 0s',
             }}
           >
-            <div style={{ padding: '15px 30px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
+            <div style={{ padding: '15px 20px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                 {idols.map((idol) => {
                   return (

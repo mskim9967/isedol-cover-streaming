@@ -296,6 +296,10 @@ function MusicPlay({
                 <div
                   ref={progressbarRef}
                   style={{ width: '100%', height: '23px', display: 'flex', alignItems: 'center' }}
+                  onClick={(e) => {
+                    let calc = (e.clientX - sx) / progressbarRef.current.clientWidth;
+                    if (calc >= 0 && calc <= 1) setPercentage(calc);
+                  }}
                   onTouchStart={(e) => {
                     let calc = (e.touches[0].clientX - sx) / progressbarRef.current.clientWidth;
                     if (calc >= 0 && calc <= 1) setPercentage(calc);

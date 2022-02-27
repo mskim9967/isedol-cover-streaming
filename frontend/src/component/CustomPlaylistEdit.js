@@ -221,7 +221,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
               {
                 {
                   kor: '키를 입력하여 플레이리스트를 불러옵니다',
-                  jpn: '以下にキーを入力してプレイリストを取得します',
+                  jpn: '以下にキーを入力して プレイリストを取得します',
                   eng: 'Enter the key below to get the playlist',
                 }[lang]
               }
@@ -312,7 +312,7 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
               {
                 {
                   kor: '아래의 키 값을 다른 브라우저에 입력해주세요',
-                  jpn: '以下のキー値を他のブラウザに入力してください',
+                  jpn: '以下のキー値を他の ブラウザに入力してください',
                   eng: 'Please enter the KEY below in another browser',
                 }[lang]
               }
@@ -348,9 +348,9 @@ function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDa
             <div style={{ fontSize: '14px', fontWeight: '400', opacity: '65%' }}>
               {
                 {
-                  kor: '키는 72시간 동안 유효합니다',
-                  jpn: '身長は72時間有効です',
-                  eng: 'Key is valid for 72 hours',
+                  kor: '키는 24시간 동안 유효합니다',
+                  jpn: '身長は24時間有効です',
+                  eng: 'Key is valid for 24 hours',
                 }[lang]
               }
             </div>
