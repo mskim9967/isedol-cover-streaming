@@ -19,6 +19,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
   const color = isDark ? darkColor : lightColor;
   const [prompt, setPrompt] = useState();
   const [isModalActive, setModalActive] = useState();
+  const [modalContent, setModalContent] = useState();
 
   useEffect(() => {
     const handle_storePrompt = (e) => {
@@ -106,6 +107,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           </div>
           <IoChevronForwardOutline
             onClick={() => {
+              setModalContent('install');
               setModalActive(true);
             }}
           />
@@ -149,7 +151,12 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
         </SettingLine>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '일러스트 출처', eng: 'Illust from', jpn: 'イラスト出典' }[lang]}</div>
-          <IoChevronForwardOutline onClick={() => {}} />
+          <IoChevronForwardOutline
+            onClick={() => {
+              setModalContent('illust');
+              setModalActive(true);
+            }}
+          />
         </SettingLine>
       </div>
 
@@ -214,69 +221,109 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
         open={isModalActive}
         onClose={() => setModalActive(false)}
       >
-        <div
-          style={{
-            width: '100%',
-            padding: '3px 20px 20px 20px',
-            backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
-            display: 'flex',
-            gap: 4,
-            flexDirection: 'column',
-            alignItems: 'center',
-            maxHeight: '80vh',
-            overflow: 'auto',
-            fontSize: '20px',
-            fontWeight: '500',
-            gap: 50,
-          }}
-        >
-          <div>
-            <div style={{ marginBottom: '6px' }}>iOS & Safari</div>
-            <img
-              style={{
-                width: '90%',
-                borderRadius: '6%',
-              }}
-              src={ios1}
-            />
-            <img
-              style={{
-                width: '90%',
-                borderRadius: '6%',
-              }}
-              src={ios2}
-            />
-          </div>
+        {modalContent === 'install' && (
+          <div
+            style={{
+              width: '100%',
+              padding: '3px 20px 20px 20px',
+              backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
+              display: 'flex',
+              gap: 4,
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              fontSize: '20px',
+              fontWeight: '500',
+              gap: 50,
+            }}
+          >
+            <div>
+              <div style={{ marginBottom: '6px' }}>iOS & Safari</div>
+              <img
+                style={{
+                  width: '90%',
+                  borderRadius: '6%',
+                }}
+                src={ios1}
+              />
+              <img
+                style={{
+                  width: '90%',
+                  borderRadius: '6%',
+                }}
+                src={ios2}
+              />
+            </div>
 
-          <div>
-            <div style={{ marginBottom: '6px' }}>Android & Chrome</div>
-            <img
-              style={{
-                width: '90%',
-                borderRadius: '6%',
-              }}
-              src={and1}
-            />
-            <img
-              style={{
-                width: '90%',
-                borderRadius: '6%',
-              }}
-              src={and2}
-            />
-          </div>
+            <div>
+              <div style={{ marginBottom: '6px' }}>Android & Chrome</div>
+              <img
+                style={{
+                  width: '90%',
+                  borderRadius: '6%',
+                }}
+                src={and1}
+              />
+              <img
+                style={{
+                  width: '90%',
+                  borderRadius: '6%',
+                }}
+                src={and2}
+              />
+            </div>
 
-          <div>
-            <div style={{ marginBottom: '6px' }}>Windows/MacOS & Chrome</div>
-            <img
-              style={{
-                width: '90%',
-                borderRadius: '6%',
-              }}
-              src={com1}
-            />
+            <div>
+              <div style={{ marginBottom: '6px' }}>Windows/MacOS & Chrome</div>
+              <img
+                style={{
+                  width: '90%',
+                  borderRadius: '6%',
+                }}
+                src={com1}
+              />
+            </div>
           </div>
-        </div>
+        )}
+
+        {modalContent === 'illust' && (
+          <div
+            style={{
+              width: '100%',
+              padding: '3px 20px 20px 20px',
+              backgroundColor: isDark ? '#1c1c1c' : '#ffffff',
+              display: 'flex',
+              gap: 4,
+              flexDirection: 'column',
+              alignItems: 'center',
+              maxHeight: '80vh',
+              overflow: 'auto',
+              fontSize: '17px',
+              fontWeight: '300',
+              gap: 10,
+            }}
+          >
+            <div>
+              이세돌 일러스트 by{' '}
+              <a
+                target='_blank'
+                href='https://cafe.naver.com/steamindiegame?iframe_url_utf8=%2FArticleRead.nhn%253Fclubid%3D27842958%2526articleid%3D3996346%2526commentFocus%3Dtrue'
+              >
+                여비날
+              </a>
+            </div>
+            <div>
+              이세돌 로고 일러스트 by{' '}
+              <a
+                target='_blank'
+                href='https://cafe.naver.com/steamindiegame?iframe_url_utf8=%2FArticleRead.nhn%253Fclubid%3D27842958%2526articleid%3D4037158%2526commentFocus%3Dtrue'
+              >
+                허리
+              </a>
+            </div>
+          </div>
+        )}
       </Modal>
     </div>
   );

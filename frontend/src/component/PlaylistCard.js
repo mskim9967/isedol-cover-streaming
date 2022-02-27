@@ -18,7 +18,7 @@ import llike from '../static/image/logo_like_300_300.png';
 
 import jpn from '../static/image/japan_300_300.webp';
 import kor from '../static/image/korea_300_300.webp';
-import eng from '../static/image/world_300_300.webp';
+import eng from '../static/image/world_300_300.png';
 import all from '../static/image/all_300_300.webp';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
