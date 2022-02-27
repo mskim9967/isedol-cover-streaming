@@ -1,11 +1,11 @@
-import { IoPlay, IoPlayForward, IoPlayBack, IoChevronDown, IoPause } from 'react-icons/io5';
+import { IoPlay, IoPlayForward, IoChevronDown, IoPause } from 'react-icons/io5';
 import { useSwipeable } from 'react-swipeable';
 
 import MusicPlay from './MusicPlay';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { Button } from '@nextui-org/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { axiosInstance } from '../axiosInstance';
 
 import gosegu from '../static/image/gosegu_300_300.png';
@@ -277,4 +277,4 @@ function MusicPlayer({
   );
 }
 
-export default MusicPlayer;
+export default memo(MusicPlayer);

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, memo } from 'react';
 import { IoPause, IoPlay, IoPlayForward, IoPlayBack, IoHeartOutline, IoHeart, IoLogoYoutube, IoShuffle } from 'react-icons/io5';
 import { MdOutlinePlaylistAdd, MdQueueMusic, MdRepeatOne, MdRepeat, MdShuffle } from 'react-icons/md';
 import { Button, Modal } from '@nextui-org/react';
@@ -545,4 +545,4 @@ function MusicPlay({
   );
 }
 
-export default MusicPlay;
+export default memo(MusicPlay);

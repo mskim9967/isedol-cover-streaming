@@ -1,5 +1,6 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
+import { memo } from 'react';
 
 function HeaderText({ children, isDark }) {
   const color = isDark ? darkColor : lightColor;
@@ -11,4 +12,4 @@ function HeaderText({ children, isDark }) {
   );
 }
 
-export default HeaderText;
+export default memo(HeaderText);

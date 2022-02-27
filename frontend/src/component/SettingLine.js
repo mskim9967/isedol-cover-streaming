@@ -1,5 +1,6 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
+import { memo } from 'react';
 
 function SettingLine({ children, isLast, isDark }) {
   const color = isDark ? darkColor : lightColor;
@@ -23,4 +24,4 @@ function SettingLine({ children, isLast, isDark }) {
   );
 }
 
-export default SettingLine;
+export default memo(SettingLine);

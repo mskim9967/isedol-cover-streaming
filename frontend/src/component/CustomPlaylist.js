@@ -10,6 +10,7 @@ import all from '../static/image/all_300_300.webp';
 import { IoAddCircle, IoPlay } from 'react-icons/io5';
 
 import { Button } from '@nextui-org/react';
+import { memo } from 'react';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -113,4 +114,4 @@ function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, 
   );
 }
 
-export default CustomPlaylist;
+export default memo(CustomPlaylist);

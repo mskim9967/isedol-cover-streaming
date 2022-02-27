@@ -22,7 +22,7 @@ import { IoPlay, IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
 
 import { Button, Modal } from '@nextui-org/react';
 import CustomPlaylist from './CustomPlaylist';
-import { useState } from 'react';
+import { useState, memo } from 'react';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -139,4 +139,4 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
   );
 }
 
-export default MusicCard;
+export default memo(MusicCard);

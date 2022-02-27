@@ -49,7 +49,7 @@ body {
 }
 ::-webkit-scrollbar {
   display: none;
-} /*특정 부분 스크롤바 없애기*/
+}
 
 div::-webkit-scrollbar {
   display: none;

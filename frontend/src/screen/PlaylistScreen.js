@@ -4,7 +4,6 @@ import HeaderText from '../component/HeaderText';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { Button, Modal } from '@nextui-org/react';
-import CustomPlaylist from '../component/CustomPlaylist';
 import { useState, memo } from 'react';
 import CustomPlaylistEdit from '../component/CustomPlaylistEdit';
 

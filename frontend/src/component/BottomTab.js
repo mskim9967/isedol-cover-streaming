@@ -12,6 +12,7 @@ import {
 } from 'react-icons/io5';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
+import { memo } from 'react';
 
 function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
   const color = isDark ? darkColor : lightColor;
@@ -97,4 +98,4 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
   );
 }
 
-export default BottomTab;
+export default memo(BottomTab);

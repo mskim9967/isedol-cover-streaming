@@ -2,7 +2,7 @@ import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import MusicCardInPlaylist from './MusicCardInPlaylist';
 import { useSwipeable } from 'react-swipeable';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, memo } from 'react';
 
 function MusicPlaylist({
   isPlaylistActive,
@@ -60,4 +60,4 @@ function MusicPlaylist({
   );
 }
 
-export default MusicPlaylist;
+export default memo(MusicPlaylist);

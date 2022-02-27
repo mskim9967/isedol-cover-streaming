@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, memo } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import { IoLogoAndroid, IoLogoChrome } from 'react-icons/io';
 
@@ -215,6 +215,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           width: '95%',
           maxWidth: '900px',
           margin: '0 auto',
+          color: color.textBlack,
         }}
         closeButton
         animated={anim}
@@ -329,4 +330,4 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
   );
 }
 
-export default SettingScreen;
+export default memo(SettingScreen);

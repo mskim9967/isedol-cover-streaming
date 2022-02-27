@@ -1,22 +1,15 @@
 const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
 
-function IdolScreen() {
+function IdolScreen({ lang }) {
   return (
     <div
       style={{
         width: '100%',
-        height: '400px',
-        border: 'solid red 2px',
-        overflow: 'scroll',
       }}
     >
-      {arr.map(() => {
-        return (
-          <>
-            <div style={{ width: '100px', height: '100px', backgroundColor: 'red' }}></div> <div style={{ height: '400px' }}> </div>
-          </>
-        );
-      })}
+      <div style={{ width: '100%', marginTop: '30px', display: 'flex', justifyContent: 'center', opacity: '50%', fontSize: '22px' }}>
+        {{ kor: '준비중입니다 :)', eng: 'Getting ready :)', jpn: '準備中です:)' }[lang]}
+      </div>
     </div>
   );
 }
