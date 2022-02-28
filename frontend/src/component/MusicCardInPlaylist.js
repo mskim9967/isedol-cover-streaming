@@ -117,12 +117,11 @@ function MusicCardInPlaylist({
       <div style={{ float: 'right', height: '100%', display: 'flex', alignItems: 'center', flexGrow: 0 }}>
         {((!customPlaylist && idx !== nowIdx) || (customPlaylist && length !== 1)) && (
           <>
-            <Button
-              style={{ height: '90%' }}
-              size='xs'
-              auto
-              light
-              icon={<IoClose color={color.darkGray} size={19} />}
+            <IoClose
+              className='button'
+              color={color.darkGray}
+              size={19}
+              style={{ margin: '10px 7px' }}
               onClick={(e) => {
                 e.stopPropagation();
 
@@ -152,13 +151,12 @@ function MusicCardInPlaylist({
                 }
               }}
             />
-            <div>
-              <Button
-                style={{ height: '30px' }}
-                size='xs'
-                auto
-                light
-                icon={<IoChevronUp color={color.darkGray} size={19} />}
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <IoChevronUp
+                className='button'
+                color={color.darkGray}
+                size={19}
+                style={{ margin: '7px 10px' }}
                 onClick={(e) => {
                   e.stopPropagation();
 
@@ -180,38 +178,33 @@ function MusicCardInPlaylist({
                   }
                 }}
               />
-              <Button
-                style={{ height: '30px' }}
-                size='xs'
-                auto
-                light
-                icon={
-                  <IoChevronDown
-                    color={color.darkGray}
-                    size={19}
-                    onClick={(e) => {
-                      e.stopPropagation();
 
-                      if (customPlaylist) {
-                        let len = customPlaylist.find((e) => e.name === name).data.length;
-                        if (idx === len - 1) return;
-                        let temp = [...customPlaylist];
-                        temp.forEach((e, i) => {
-                          if (e.name === name) {
-                            [e.data[idx], e.data[idx + 1]] = [e.data[idx + 1], e.data[idx]];
-                          }
-                        });
-                        setCustomPlaylist([...temp]);
-                      } else {
-                        if (idx === playlist.length - 1) return;
-                        let temp = playlist;
-                        [temp[idx], temp[idx + 1]] = [temp[idx + 1], temp[idx]];
-                        if (idx + 1 === nowIdx) setNowIdx(nowIdx - 1);
-                        setPlaylist([...temp]);
+              <IoChevronDown
+                className='button'
+                color={color.darkGray}
+                size={19}
+                style={{ margin: '7px 10px' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+
+                  if (customPlaylist) {
+                    let len = customPlaylist.find((e) => e.name === name).data.length;
+                    if (idx === len - 1) return;
+                    let temp = [...customPlaylist];
+                    temp.forEach((e, i) => {
+                      if (e.name === name) {
+                        [e.data[idx], e.data[idx + 1]] = [e.data[idx + 1], e.data[idx]];
                       }
-                    }}
-                  />
-                }
+                    });
+                    setCustomPlaylist([...temp]);
+                  } else {
+                    if (idx === playlist.length - 1) return;
+                    let temp = playlist;
+                    [temp[idx], temp[idx + 1]] = [temp[idx + 1], temp[idx]];
+                    if (idx + 1 === nowIdx) setNowIdx(nowIdx - 1);
+                    setPlaylist([...temp]);
+                  }
+                }}
               />
             </div>
           </>

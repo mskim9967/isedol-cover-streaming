@@ -85,3 +85,11 @@ div {
 .playlistCard {
   transition: opacity ease 0.3s 0s, transform ease 0.3s 0s;
 }
+
+.button:active {
+  opacity: 20%;
+}
+
+.button {
+  transition: opacity ease 0.1s 0s;
+}

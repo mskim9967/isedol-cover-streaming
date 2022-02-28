@@ -175,188 +175,208 @@ function MusicPlay({
           gridTemplateRows: '7fr 1.5fr 1fr',
         }}
       >
-        {!isPlaylistActive && (
-          <div style={{ display: 'grid', gridTemplateRows: '5fr 1.2fr 0.8fr', opacity: !animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s' }}>
+        <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+          {!isPlaylistActive && (
             <div
-              onClick={() => {
-                if (!isPlaylistActive) setPlaylistActive(true);
+              style={{
+                width: '100%',
+                height: '100%',
+                display: 'grid',
+                gridTemplateRows: '5fr 1.2fr 0.8fr',
+                opacity: !animStart ? 1 : 0,
+                transition: 'opacity ease 0.3s 0s',
               }}
-              style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
             >
               <div
-                style={{
-                  width: '74%',
-                  maxWidth: '300px',
-                  aspectRatio: '1/1',
-                  position: 'relative',
-                  display: 'flex',
-                  justifyContent: 'center',
+                onClick={() => {
+                  if (!isPlaylistActive) setPlaylistActive(true);
                 }}
+                style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
               >
-                <img
+                <div
                   style={{
-                    width: '100%',
+                    width: '74%',
+                    maxWidth: '300px',
                     aspectRatio: '1/1',
-                    borderRadius: '6%',
-                    boxShadow: `0px 2px 13px -5px ${color.shadow}`,
-                    position: 'absolute',
+                    position: 'relative',
+                    display: 'flex',
+                    justifyContent: 'center',
                   }}
-                  src={imgDisable ? logoimage[music.singer] : image[music.singer]}
-                />
-                {music.youtubeUrl && (
+                >
+                  <img
+                    style={{
+                      width: '100%',
+                      aspectRatio: '1/1',
+                      borderRadius: '6%',
+                      boxShadow: `0px 2px 13px -5px ${color.shadow}`,
+                      position: 'absolute',
+                    }}
+                    src={imgDisable ? logoimage[music.singer] : image[music.singer]}
+                  />
+                  {music.youtubeUrl && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        bottom: 5,
+                        width: '50px',
+                        height: '36px',
+                        backgroundColor: color.bgLight,
+                        boxShadow: `0px 2px 10px -6px ${color.shadow}`,
+                        borderRadius: '18px',
+                        bottom: -21,
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        audioControl.pauseAudio();
+                        window.open(music.youtubeUrl, '_blank');
+                      }}
+                    >
+                      <IoLogoYoutube color='#ff0000' size={20} />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div
+                onClick={() => {
+                  if (!isPlaylistActive) setPlaylistActive(true);
+                }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}
+              >
+                <div
+                  style={{
+                    fontSize: '21px',
+                    fontWeight: '400',
+                    color: color.textDarkBlack,
+                    padding: '0px 40px',
+                    textAlign: 'center',
+                    lineHeight: '1.1',
+                    wordBreak: 'keep-all',
+                  }}
+                >
+                  {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
+                </div>
+                <div style={{ fontSize: '14px', fontWeight: '300', marginTop: '0px' }}>
+                  {`${member[music.singer][lang]} / ${{ kor: music.oSingerKor, eng: music.oSingerEng, jpn: music.oSingerJpn }[lang]}`}
+                </div>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
+                <div style={{ position: 'relative', width: '80%' }}>
                   <div
                     style={{
                       position: 'absolute',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      bottom: 5,
-                      width: '50px',
-                      height: '36px',
-                      backgroundColor: color.bgLight,
-                      boxShadow: `0px 2px 10px -6px ${color.shadow}`,
-                      borderRadius: '18px',
-                      bottom: -21,
+                      left: `calc(${(currentTime / audioRef.current.duration) * 100}% - 5px)`,
+                      top: '7px',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      backgroundColor: eval(`color.${music.singer}`),
+                      pointerEvents: 'none',
                     }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      audioControl.pauseAudio();
-                      window.open(music.youtubeUrl, '_blank');
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '18px',
+                      letterSpacing: '-0.3px',
+                      fontSize: '13.5px',
+                      fontWeight: '500',
+                      color: eval(`color.${music.singer}`),
                     }}
                   >
-                    <IoLogoYoutube color='#ff0000' size={20} />
+                    {`${String(Math.floor(currentTime / 60)).padStart(2, '0')}:${String(Math.floor(currentTime % 60)).padStart(2, '0')}`}
                   </div>
-                )}
-              </div>
-            </div>
-            <div
-              onClick={() => {
-                if (!isPlaylistActive) setPlaylistActive(true);
-              }}
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 3 }}
-            >
-              <div
-                style={{
-                  fontSize: '21px',
-                  fontWeight: '400',
-                  color: color.textDarkBlack,
-                  padding: '0px 40px',
-                  textAlign: 'center',
-                  lineHeight: '1.1',
-                  wordBreak: 'keep-all',
-                }}
-              >
-                {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
-              </div>
-              <div style={{ fontSize: '14px', fontWeight: '300', marginTop: '0px' }}>
-                {`${member[music.singer][lang]} / ${{ kor: music.oSingerKor, eng: music.oSingerEng, jpn: music.oSingerJpn }[lang]}`}
-              </div>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column' }}>
-              <div style={{ position: 'relative', width: '80%' }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: `calc(${(currentTime / audioRef.current.duration) * 100}% - 5px)`,
-                    top: '7px',
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '50%',
-                    backgroundColor: eval(`color.${music.singer}`),
-                    pointerEvents: 'none',
-                  }}
-                />
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '18px',
-                    letterSpacing: '-0.3px',
-                    fontSize: '13.5px',
-                    fontWeight: '500',
-                    color: eval(`color.${music.singer}`),
-                  }}
-                >
-                  {`${String(Math.floor(currentTime / 60)).padStart(2, '0')}:${String(Math.floor(currentTime % 60)).padStart(2, '0')}`}
-                </div>
-                <div
-                  style={{
-                    position: 'absolute',
-                    right: 0,
-                    top: '18px',
-                    letterSpacing: '-0.3px',
-                    fontSize: '13.5px',
-                    fontWeight: '500',
-                    color: eval(`color.${music.singer}`),
-                  }}
-                >
-                  {`${String(Math.floor((audioRef.current.duration || 0) / 60)).padStart(2, '0')}:${String(
-                    Math.floor((audioRef.current.duration || 0) % 60)
-                  ).padStart(2, '0')}`}
-                </div>
-                <div
-                  ref={progressbarRef}
-                  style={{ width: '100%', height: '23px', display: 'flex', alignItems: 'center' }}
-                  onClick={(e) => {
-                    let calc = (e.clientX - sx) / progressbarRef.current.clientWidth;
-                    if (calc >= 0 && calc <= 1) setPercentage(calc);
-                  }}
-                  onTouchStart={(e) => {
-                    let calc = (e.touches[0].clientX - sx) / progressbarRef.current.clientWidth;
-                    if (calc >= 0 && calc <= 1) setPercentage(calc);
-                  }}
-                  onTouchMove={(e) => {
-                    let calc = (e.touches[0].clientX - sx) / progressbarRef.current.clientWidth;
-                    if (calc >= 0 && calc <= 1) setPercentage(calc);
-                  }}
-                >
                   <div
                     style={{
-                      width: `${(currentTime / audioRef.current.duration) * 100}%`,
-                      height: '3px',
-                      backgroundColor: eval(`color.${music.singer}`),
-                      borderRadius: '3px',
-                      zIndex: -1,
+                      position: 'absolute',
+                      right: 0,
+                      top: '18px',
+                      letterSpacing: '-0.3px',
+                      fontSize: '13.5px',
+                      fontWeight: '500',
+                      color: eval(`color.${music.singer}`),
                     }}
-                  />
+                  >
+                    {`${String(Math.floor((audioRef.current.duration || 0) / 60)).padStart(2, '0')}:${String(
+                      Math.floor((audioRef.current.duration || 0) % 60)
+                    ).padStart(2, '0')}`}
+                  </div>
                   <div
-                    style={{
-                      flex: 1,
-                      height: '3px',
-                      backgroundColor: eval(`color.${music.singer}`),
-                      zIndex: -1,
-                      borderRadius: '3px',
-                      opacity: '50%',
+                    ref={progressbarRef}
+                    style={{ width: '100%', height: '23px', display: 'flex', alignItems: 'center' }}
+                    onClick={(e) => {
+                      let calc = (e.clientX - sx) / progressbarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setPercentage(calc);
                     }}
-                  />
+                    onTouchStart={(e) => {
+                      let calc = (e.touches[0].clientX - sx) / progressbarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setPercentage(calc);
+                    }}
+                    onTouchMove={(e) => {
+                      let calc = (e.touches[0].clientX - sx) / progressbarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setPercentage(calc);
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: `${(currentTime / audioRef.current.duration) * 100}%`,
+                        height: '3px',
+                        backgroundColor: eval(`color.${music.singer}`),
+                        borderRadius: '3px',
+                        zIndex: -1,
+                      }}
+                    />
+                    <div
+                      style={{
+                        flex: 1,
+                        height: '3px',
+                        backgroundColor: eval(`color.${music.singer}`),
+                        zIndex: -1,
+                        borderRadius: '3px',
+                        opacity: '50%',
+                      }}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
+          )}
+          <div
+            style={{
+              position: 'absolute',
+              zIndex: isPlaylistActive ? 1 : -1,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              opacity: animStart ? 1 : 0,
+              overflow: 'auto',
+              transition: 'opacity ease 0.3s 0s',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setPlaylistActive(false);
+            }}
+          >
+            <MusicPlaylist
+              isPlaylistActive={isPlaylistActive}
+              playlistControl={playlistControl}
+              playlist={playlist}
+              isActive={isActive}
+              setActive={setActive}
+              isDark={isDark}
+              lang={lang}
+              setNowIdx={setNowIdx}
+              nowIdx={nowIdx}
+              load={load}
+              setLoad={setLoad}
+              setPlaylist={setPlaylist}
+              shuffle={shuffle}
+              imgDisable={imgDisable}
+              setPlaylistActive={setPlaylistActive}
+            />
           </div>
-        )}
-        <div
-          style={{ overflow: 'auto', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s', ...(!isPlaylistActive && { display: 'none' }) }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setPlaylistActive(false);
-          }}
-        >
-          <MusicPlaylist
-            isPlaylistActive={isPlaylistActive}
-            playlistControl={playlistControl}
-            playlist={playlist}
-            isActive={isActive}
-            setActive={setActive}
-            isDark={isDark}
-            lang={lang}
-            setNowIdx={setNowIdx}
-            nowIdx={nowIdx}
-            load={load}
-            setLoad={setLoad}
-            setPlaylist={setPlaylist}
-            shuffle={shuffle}
-            imgDisable={imgDisable}
-            setPlaylistActive={setPlaylistActive}
-          />
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <div

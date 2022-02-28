@@ -52,7 +52,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           </Button.Group>
         </SettingLine>
         <SettingLine isDark={isDark}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '다크 모드', eng: 'Dark mode', jpn: '暗いモード' }[lang]}</div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '다크 모드', eng: 'Dark mode', jpn: 'ダークモード' }[lang]}</div>
           <Switch
             bordered={isDark}
             color='error'
