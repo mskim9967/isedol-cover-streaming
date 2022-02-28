@@ -18,7 +18,7 @@ import line from '../static/image/logo_ine_300_300.png';
 import lall from '../static/image/logo_all_300_300.png';
 
 import { MdOutlinePlaylistAdd } from 'react-icons/md';
-import { IoPlay, IoClose, IoChevronUp, IoChevronDown } from 'react-icons/io5';
+import { IoPlay, IoLogoYoutube } from 'react-icons/io5';
 
 import { Button, Modal } from '@nextui-org/react';
 import CustomPlaylist from './CustomPlaylist';
@@ -57,6 +57,8 @@ const logoimage = {
 function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
+  const [musicInfo, setMusicInfo] = useState({});
+  const [content, setContent] = useState('');
 
   return (
     <div
@@ -69,7 +71,15 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
         justifyContent: 'space-between',
       }}
     >
-      <div style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}>
+      <div
+        style={{ height: '100%', display: 'flex', alignItems: 'center', flexGrow: 1 }}
+        onClick={(e) => {
+          e.stopPropagation();
+          setMusicInfo(music);
+          setContent('musicInfo');
+          setModalActive(true);
+        }}
+      >
         <img
           style={{ height: '100%', aspectRatio: '1/1', borderRadius: '3px', marginRight: '12px' }}
           src={imgDisable ? logoimage[music.singer] : image[music.singer]}
@@ -83,9 +93,12 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
               textOverflow: 'ellipsis',
               overflow: 'hidden',
               lineHeight: '1.1',
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
             {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
+            {music.youtubeUrl && <IoLogoYoutube size={16} color={'#ff2828'} style={{ marginLeft: '4px' }} />}
           </div>
           <div style={{ lineHeight: '1.0', marginTop: '5px', fontWeight: '400', fontSize: '12.4px', color: color.darkGray, opacity: '90%' }}>
             {`${member[music.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
@@ -100,6 +113,7 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           light
           onClick={(e) => {
             e.stopPropagation();
+            setContent('addPlaylist');
             setModalActive(true);
           }}
           icon={<MdOutlinePlaylistAdd color={color.darkGray} size={19} />}
@@ -125,14 +139,49 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           animated={anim}
           onClose={() => setModalActive(false)}
         >
-          <CustomPlaylist
-            setModalActive={setModalActive}
-            music={music}
-            customPlaylist={customPlaylist}
-            setCustomPlaylist={setCustomPlaylist}
-            lang={lang}
-            isDark={isDark}
-          />
+          {content === 'musicInfo' && (
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                padding: '20px 10px 37px 10px',
+                color: color.textBlack,
+              }}
+            >
+              <div
+                style={{
+                  fontWeight: '500',
+                  fontSize: '17px',
+                  marginBottom: '1px',
+                }}
+              >
+                {{ kor: musicInfo.titleKor, eng: musicInfo.titleEng, jpn: musicInfo.titleJpn }[lang]}
+              </div>
+              <div
+                style={{
+                  fontWeight: '400',
+                  fontSize: '15px',
+                  marginBottom: '6px',
+                }}
+              >
+                {{ kor: musicInfo.oSingerKor, eng: musicInfo.oSingerEng, jpn: musicInfo.oSingerJpn }[lang]}
+              </div>
+              <div style={{ fontWeight: '300' }}>
+                Cover by <div style={{ fontWeight: '400', display: 'inline-block' }}>{musicInfo.singer.toUpperCase()}</div> {musicInfo.date && ' / '}{' '}
+                {musicInfo.date}
+              </div>
+            </div>
+          )}
+          {content === 'addPlaylist' && (
+            <CustomPlaylist
+              setModalActive={setModalActive}
+              music={music}
+              customPlaylist={customPlaylist}
+              setCustomPlaylist={setCustomPlaylist}
+              lang={lang}
+              isDark={isDark}
+            />
+          )}
         </Modal>
       )}
     </div>

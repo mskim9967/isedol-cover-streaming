@@ -307,19 +307,13 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           >
             <div>
               이세돌 일러스트 by{' '}
-              <a
-                target='_blank'
-                href='https://cafe.naver.com/steamindiegame?iframe_url_utf8=%2FArticleRead.nhn%253Fclubid%3D27842958%2526articleid%3D3996346%2526commentFocus%3Dtrue'
-              >
+              <a target='_blank' href='https://cafe.naver.com/steamindiegame/3996346'>
                 여비날
               </a>
             </div>
             <div>
               이세돌 로고 일러스트 by{' '}
-              <a
-                target='_blank'
-                href='https://cafe.naver.com/steamindiegame?iframe_url_utf8=%2FArticleRead.nhn%253Fclubid%3D27842958%2526articleid%3D4037158%2526commentFocus%3Dtrue'
-              >
+              <a target='_blank' href='https://cafe.naver.com/steamindiegame/4037158'>
                 허리
               </a>
             </div>

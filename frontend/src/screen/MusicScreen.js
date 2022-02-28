@@ -1,6 +1,6 @@
 import { useEffect, useState, memo } from 'react';
-import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh } from 'react-icons/io5';
-import { Button, Loading, Modal } from '@nextui-org/react';
+import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh, IoLogoYoutube } from 'react-icons/io5';
+import { Button, Loading } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { axiosInstance } from '../axiosInstance';
 
@@ -39,8 +39,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
   const [musics, setMusics] = useState([]);
   const [shownMusics, setShownMusics] = useState([]);
   const [reload, setReload] = useState(false);
-  const [isModalActive, setModalActive] = useState(false);
-  const [musicInfo, setMusicInfo] = useState({});
+  const [youtube, setYoutube] = useState(false);
 
   useEffect(async () => {
     setSelectedIdols([]);
@@ -53,8 +52,8 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
   }, [reload]);
 
   useEffect(() => {
-    setSearchButtonActive(searchStr || selectedIdols?.length || selectedNations?.length || isFull);
-  }, [searchStr, selectedIdols, selectedNations, isFull]);
+    setSearchButtonActive(searchStr || selectedIdols?.length || selectedNations?.length || isFull || youtube);
+  }, [searchStr, selectedIdols, selectedNations, isFull, youtube]);
 
   useEffect(() => {
     setShownMusics([...musics.slice(0, 20)]);
@@ -69,7 +68,9 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
       ...(isFull === true && { full: true }),
     });
     setLoading(false);
-    setMusics(res.data.data);
+    console.log(res.data.data);
+    if (youtube) setMusics(res.data.data.filter((e) => e.youtubeUrl !== ''));
+    else setMusics(res.data.data);
   };
 
   return (
@@ -163,7 +164,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
               transition: 'margin ease-in-out 0.4s 0s, opacity ease-in-out 0.3s 0s',
             }}
           >
-            <div style={{ padding: '15px 20px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
+            <div style={{ padding: '15px 18px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                 {idols.map((idol) => {
                   return (
@@ -213,7 +214,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
                 })}
               </div>
 
-              <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
                 <div
                   style={{
                     backgroundColor: eval(`color.isedol`),
@@ -229,6 +230,26 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
                   }}
                 >
                   {{ kor: '풀버전', eng: 'Full Version', jpn: 'フルバージョン' }[lang]}
+                </div>
+                <div
+                  style={{
+                    backgroundColor: '#ff2828',
+                    padding: '4px 11px',
+                    borderRadius: '10px',
+                    color: '#f3f3f3',
+                    opacity: youtube ? '100%' : '24%',
+                    ...(!youtube && { filter: 'grayscale(80%)' }),
+                    transition: 'opacity ease-in-out 0.2s 0s, filter ease-in-out 0.2s 0s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 4,
+                  }}
+                  onClick={() => {
+                    setYoutube(!youtube);
+                  }}
+                >
+                  <IoLogoYoutube size={17} />
+                  Official
                 </div>
               </div>
             </div>
@@ -280,25 +301,18 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
           >
             {shownMusics.map((music, key) => {
               return (
-                <div
-                  onClick={() => {
-                    setModalActive(true);
-                    setMusicInfo(music);
-                  }}
-                >
-                  <MusicCard
-                    audioRef={audioRef}
-                    playlistControl={playlistControl}
-                    key={key}
-                    music={music}
-                    lang={lang}
-                    isDark={isDark}
-                    customPlaylist={customPlaylist}
-                    setCustomPlaylist={setCustomPlaylist}
-                    imgDisable={imgDisable}
-                    anim={anim}
-                  ></MusicCard>
-                </div>
+                <MusicCard
+                  audioRef={audioRef}
+                  playlistControl={playlistControl}
+                  key={key}
+                  music={music}
+                  lang={lang}
+                  isDark={isDark}
+                  customPlaylist={customPlaylist}
+                  setCustomPlaylist={setCustomPlaylist}
+                  imgDisable={imgDisable}
+                  anim={anim}
+                ></MusicCard>
               );
             })}
           </InfiniteScroll>
@@ -308,47 +322,6 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
           </div>
         )}
       </div>
-      {isModalActive && (
-        <Modal
-          css={{ backgroundColor: isDark ? '#1c1c1c' : '#ffffff', width: '85%', maxWidth: '500px', margin: '0 auto' }}
-          closeButton
-          open={isModalActive}
-          animated={anim}
-          onClose={() => setModalActive(false)}
-        >
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              padding: '20px 10px 37px 10px',
-              color: color.textBlack,
-            }}
-          >
-            <div
-              style={{
-                fontWeight: '500',
-                fontSize: '17px',
-                marginBottom: '1px',
-              }}
-            >
-              {{ kor: musicInfo.titleKor, eng: musicInfo.titleEng, jpn: musicInfo.titleJpn }[lang]}
-            </div>
-            <div
-              style={{
-                fontWeight: '400',
-                fontSize: '15px',
-                marginBottom: '6px',
-              }}
-            >
-              {{ kor: musicInfo.oSingerKor, eng: musicInfo.oSingerEng, jpn: musicInfo.oSingerJpn }[lang]}
-            </div>
-            <div style={{ fontWeight: '300' }}>
-              Cover by <div style={{ fontWeight: '400', display: 'inline-block' }}>{musicInfo.singer.toUpperCase()}</div> {musicInfo.date && ' / '}{' '}
-              {musicInfo.date}
-            </div>
-          </div>
-        </Modal>
-      )}
     </div>
   );
 }
