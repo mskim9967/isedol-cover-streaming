@@ -68,7 +68,6 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
       ...(isFull === true && { full: true }),
     });
     setLoading(false);
-    console.log(res.data.data);
     if (youtube) setMusics(res.data.data.filter((e) => e.youtubeUrl !== ''));
     else setMusics(res.data.data);
   };
@@ -164,7 +163,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
               transition: 'margin ease-in-out 0.4s 0s, opacity ease-in-out 0.3s 0s',
             }}
           >
-            <div style={{ padding: '15px 18px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
+            <div style={{ padding: '15px 20px', display: 'flex', flexDirection: 'column', gap: 18, fontSize: '15px' }}>
               <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', justifyContent: 'center' }}>
                 {idols.map((idol) => {
                   return (
