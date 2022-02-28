@@ -16,7 +16,7 @@ export default {
   jingburger: '#EFA957',
   ine: '#A15CE2',
   lilpa: '#4961E0',
-  jururu: '#800080',
+  jururu: '#802580',
   gosegu: '#457EC5',
   viichan: '#85AC1F',
   jpn: '#ff4040',

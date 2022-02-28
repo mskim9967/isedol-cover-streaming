@@ -23,7 +23,7 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
         <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
-        <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
+        <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', overflow: 'auto', gap: '10px' }}>
           <PlaylistCard audioRef={audioRef} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
           {idols.map((e, idx) => {
             return (

@@ -77,3 +77,11 @@ div {
 .givenKey {
   transition: opacity ease 0.1s 0s;
 }
+
+.playlistCard:active {
+  transform: scale(0.97, 0.97);
+}
+
+.playlistCard {
+  transition: opacity ease 0.3s 0s, transform ease 0.3s 0s;
+}

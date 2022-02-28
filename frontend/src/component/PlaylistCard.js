@@ -95,6 +95,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
 
   return (
     <div
+      className='playlistCard'
       style={{
         width: '200px',
         height: '265px',
