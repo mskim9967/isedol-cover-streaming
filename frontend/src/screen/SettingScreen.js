@@ -116,9 +116,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
         <SettingLine isDark={isDark}>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            {{ kor: '캐시 지우기', eng: 'Clear cache', jpn: '保存されたデータを削除' }[lang]}
-          </div>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '캐시 지우기', eng: 'Clear cache', jpn: 'キャッシュ消去' }[lang]}</div>
           <IoChevronForwardOutline
             onClick={() => {
               window.location.reload(true);
