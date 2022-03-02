@@ -32,7 +32,7 @@ const image = {
   all,
 };
 
-function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist }) {
+function CustomPlaylist({ setModalActive, playlistControl, music, lang, isDark, customPlaylist, setCustomPlaylist }) {
   const color = isDark ? darkColor : lightColor;
 
   return (

@@ -26,7 +26,7 @@ const nations = [
   { key: 'eng', kor: '양식', eng: 'Western POP', jpn: 'Western POP' },
 ];
 
-function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
+function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomPlaylist, imgDisable, anim, audio }) {
   const color = isDark ? darkColor : lightColor;
 
   const [searchStr, setSearchStr] = useState('');
@@ -97,7 +97,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
             icon={<IoPlay size={17} style={{ marginLeft: '-6px' }} />}
             onClick={() => {
               playlistControl.change(musics);
-              audioRef.current.play();
+              audio.current.play();
             }}
           >
             {{ kor: `${musics?.length}곡 재생`, jpn: `${musics?.length}曲再生`, eng: `Play ${musics?.length} songs` }[lang]}
@@ -301,7 +301,6 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
             {shownMusics.map((music, key) => {
               return (
                 <MusicCard
-                  audioRef={audioRef}
                   playlistControl={playlistControl}
                   key={key}
                   music={music}
@@ -311,6 +310,7 @@ function MusicScreen({ playlistControl, lang, isDark, audioRef, customPlaylist, 
                   setCustomPlaylist={setCustomPlaylist}
                   imgDisable={imgDisable}
                   anim={anim}
+                  audio={audio}
                 ></MusicCard>
               );
             })}

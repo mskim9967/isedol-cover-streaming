@@ -15,7 +15,7 @@ import { useEffect, useState, memo } from 'react';
 import MusicCardInPlaylist from './MusicCardInPlaylist';
 import { axiosInstance } from '../axiosInstance';
 
-function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable }) {
+function CustomPlaylistEdit({ setModalActive, playlistControl, music, lang, isDark, customPlaylist, setCustomPlaylist, imgDisable }) {
   const color = isDark ? darkColor : lightColor;
   const [keyModal, setKeyModal] = useState(false);
   const [downloadKeyModa, setDownloadKeyModal] = useState(false);

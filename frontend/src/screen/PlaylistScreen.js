@@ -10,7 +10,7 @@ import CustomPlaylistEdit from '../component/CustomPlaylistEdit';
 const idols = ['gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
 const nations = ['kor', 'jpn', 'eng'].sort(() => Math.random() - 0.5);
 
-function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
+function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim, audio }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
   const [isLoadModalActive, setLoadModalActive] = useState(false);
@@ -24,18 +24,10 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', overflow: 'auto', gap: '10px' }}>
-          <PlaylistCard audioRef={audioRef} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
+          <PlaylistCard audio={audio} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
           {idols.map((e, idx) => {
             return (
-              <PlaylistCard
-                audioRef={audioRef}
-                key={idx}
-                lang={lang}
-                theme={e}
-                type={'idol'}
-                playlistControl={playlistControl}
-                imgDisable={imgDisable}
-              />
+              <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
             );
           })}
         </div>
@@ -48,15 +40,7 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           {nations.map((e, idx) => {
             return (
-              <PlaylistCard
-                audioRef={audioRef}
-                key={idx}
-                lang={lang}
-                theme={e}
-                type={'nation'}
-                playlistControl={playlistControl}
-                imgDisable={imgDisable}
-              />
+              <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} imgDisable={imgDisable} />
             );
           })}
         </div>
@@ -89,14 +73,14 @@ function PlaylistScreen({ audioRef, lang, isDark, playlistControl, customPlaylis
           </Button>
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          <PlaylistCard audioRef={audioRef} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} imgDisable={imgDisable} />
+          <PlaylistCard audio={audio} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} imgDisable={imgDisable} />
           {customPlaylist
             .slice(0)
             .sort(() => Math.random() - 0.5)
             .map((e, idx) => {
               return (
                 <PlaylistCard
-                  audioRef={audioRef}
+                  audio={audio}
                   key={idx}
                   lang={lang}
                   theme={e.name}

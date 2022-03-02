@@ -1,7 +1,19 @@
 import { useState, useRef, useEffect, memo } from 'react';
-import { IoPause, IoPlay, IoPlayForward, IoPlayBack, IoHeartOutline, IoHeart, IoLogoYoutube, IoShuffle } from 'react-icons/io5';
+import {
+  IoPause,
+  IoPlay,
+  IoPlayForward,
+  IoPlayBack,
+  IoHeartOutline,
+  IoHeart,
+  IoLogoYoutube,
+  IoVolumeMedium,
+  IoVolumeLow,
+  IoVolumeHigh,
+} from 'react-icons/io5';
 import { MdOutlinePlaylistAdd, MdQueueMusic, MdRepeatOne, MdRepeat, MdShuffle } from 'react-icons/md';
 import { Button, Modal } from '@nextui-org/react';
+
 import MusicPlaylist from './MusicPlaylist';
 
 import lightColor from '../static/lightColor';
@@ -65,7 +77,6 @@ function MusicPlay({
   playlistControl,
   setNowIdx,
   nowIdx,
-  audioRef,
   isPause,
   setPause,
   audioControl,
@@ -76,6 +87,7 @@ function MusicPlay({
   customPlaylist,
   setCustomPlaylist,
   anim,
+  audio,
 }) {
   const color = isDark ? darkColor : lightColor;
   const [currentTime, setCurrentTime] = useState(60);
@@ -84,14 +96,19 @@ function MusicPlay({
   const [isLiked, setLiked] = useState(false);
   const [isPlaylistActive, setPlaylistActive] = useState(false);
   const [animStart, setAnimStart] = useState(false);
+  const [volumeAnimStart, setVolumeAnimStart] = useState(false);
   const [likes, setLikes] = useState([...JSON.parse(localStorage.getItem('likes') || '[]')]);
   const [isRepeat, setRepeat] = useState(false);
   const [isModalActive, setModalActive] = useState(false);
+  const [isVolumnModalActive, setVolumnModalActive] = useState(false);
+  const [volume, setVolume] = useState(0.5);
+  const [volumeSx, setVolumeSx] = useState(0);
 
   const repeatRef = useRef(false);
   const [shuffle, setShuffle] = useState(false);
 
   const progressbarRef = useRef(null);
+  const volumebarRef = useRef(null);
 
   useEffect(() => {
     setSx((window.innerWidth - progressbarRef.current.clientWidth) / 2);
@@ -106,20 +123,30 @@ function MusicPlay({
   }, [isPlaylistActive]);
 
   useEffect(() => {
+    if (isVolumnModalActive) setVolumeSx((window.innerWidth - volumebarRef.current.clientWidth) / 2);
+    setVolumeAnimStart(isVolumnModalActive);
+  }, [isVolumnModalActive]);
+
+  useEffect(() => {
+    audio.current.volume = volume;
+  }, [volume]);
+
+  useEffect(() => {
     let timerId;
     if (!isPause) {
       timerId = setInterval(() => {
-        setCurrentTime(audioRef.current.currentTime);
-        if (audioRef.current.currentTime >= audioRef.current.duration) {
+        setCurrentTime(audio.current.currentTime);
+        if (audio.current.currentTime >= audio.current.duration) {
           if (repeatRef.current) {
             audioControl.repeat();
+            audio.current.play();
           } else {
             audioControl.playNext();
+            audio.current.play();
           }
         }
       }, 250);
     } else {
-      setCurrentTime(audioRef.current.currentTime);
       clearInterval(timerId);
     }
     return () => {
@@ -147,8 +174,8 @@ function MusicPlay({
   }, [isLiked]);
 
   useEffect(() => {
-    audioRef.current.currentTime = percentage * audioRef.current.duration || 0;
-    setCurrentTime(audioRef.current.currentTime);
+    audio.current.currentTime = percentage * audio.current.duration || 0;
+    setCurrentTime(audio.current.currentTime);
   }, [percentage]);
 
   return (
@@ -230,7 +257,9 @@ function MusicPlay({
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
-                        audioControl.pauseAudio();
+                        audioControl.pause();
+                        audio.current.pause();
+
                         window.open(music.youtubeUrl, '_blank');
                       }}
                     >
@@ -267,7 +296,7 @@ function MusicPlay({
                   <div
                     style={{
                       position: 'absolute',
-                      left: `calc(${(currentTime / audioRef.current.duration) * 100}% - 5px)`,
+                      left: `calc(${(currentTime / audio.current.duration) * 100}% - 5px)`,
                       top: '7px',
                       width: '10px',
                       height: '10px',
@@ -299,8 +328,8 @@ function MusicPlay({
                       color: eval(`color.${music.singer}`),
                     }}
                   >
-                    {`${String(Math.floor((audioRef.current.duration || 0) / 60)).padStart(2, '0')}:${String(
-                      Math.floor((audioRef.current.duration || 0) % 60)
+                    {`${String(Math.floor((audio.current.duration || 0) / 60)).padStart(2, '0')}:${String(
+                      Math.floor((audio.current.duration || 0) % 60)
                     ).padStart(2, '0')}`}
                   </div>
                   <div
@@ -321,7 +350,7 @@ function MusicPlay({
                   >
                     <div
                       style={{
-                        width: `${(currentTime / audioRef.current.duration) * 100}%`,
+                        width: `${(currentTime / audio.current.duration) * 100}%`,
                         height: '3px',
                         backgroundColor: eval(`color.${music.singer}`),
                         borderRadius: '3px',
@@ -378,7 +407,28 @@ function MusicPlay({
             />
           </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          {isPlaylistActive && (
+            <div style={{ position: 'absolute', top: 10, right: 20, height: '40px', opacity: animStart ? 1 : 0, transition: 'opacity ease 0.3s 0s' }}>
+              <Button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  let id = music.id;
+                  let temp = playlist.sort(() => Math.random() - 0.5);
+                  let ii = temp.findIndex((e) => e.id === id);
+                  [temp[0], temp[ii]] = [temp[ii], temp[0]];
+                  setNowIdx(0);
+                  setPlaylist([...temp]);
+                  setShuffle(!shuffle);
+                }}
+                style={{ height: '100%' }}
+                size='xs'
+                auto
+                light
+                icon={<MdShuffle size={23} color={eval(`color.${music.singer}`)} />}
+              />
+            </div>
+          )}
           <div
             style={{
               display: 'flex',
@@ -387,64 +437,136 @@ function MusicPlay({
               width: '80%',
               height: '100%',
               maxWidth: '400px',
-              justifyContent: 'space-evenly',
             }}
           >
-            <Button
-              style={{ height: '70%' }}
-              size='xs'
-              auto
-              light
-              icon={
-                <IoPlayBack
-                  size={40}
-                  color={eval(`color.${music.singer}`)}
+            {isVolumnModalActive && (
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  opacity: volumeAnimStart ? 1 : 0,
+                  transition: 'opacity ease 0.3s 0s',
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                }}
+              >
+                <div style={{ width: '70%', position: 'relative' }}>
+                  <div
+                    ref={volumebarRef}
+                    style={{ width: '100%', height: '23px', display: 'flex', alignItems: 'center' }}
+                    onClick={(e) => {
+                      let calc = (e.clientX - volumeSx) / volumebarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setVolume(calc);
+                    }}
+                    onTouchStart={(e) => {
+                      let calc = (e.touches[0].clientX - volumeSx) / volumebarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setVolume(calc);
+                    }}
+                    onTouchMove={(e) => {
+                      let calc = (e.touches[0].clientX - volumeSx) / volumebarRef.current.clientWidth;
+                      if (calc >= 0 && calc <= 1) setVolume(calc);
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '6px',
+                        overflow: 'hidden',
+                        backgroundColor: eval(`color.${music.singer}`) + '77',
+                        zIndex: -1,
+                        borderRadius: '6px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: `${volume * 100}%`,
+                          height: '6px',
+                          backgroundColor: eval(`color.${music.singer}`),
+                          zIndex: -1,
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div style={{ position: 'absolute', bottom: -20, fontSize: '11px', fontWeight: '300', color: color.textBlack, opacity: '70%' }}>
+                  Volume control is disabled on iOS according to the{' '}
+                  <a
+                    href='https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html#//apple_ref/doc/uid/TP40009523-CH5-SW10'
+                    target='_blank'
+                  >
+                    Apple policy
+                  </a>
+                </div>
+              </div>
+            )}
+            {!isVolumnModalActive && (
+              <div
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-evenly',
+                  opacity: !volumeAnimStart ? 1 : 0,
+                  transition: 'opacity ease 0.3s 0s',
+                }}
+              >
+                <Button
+                  style={{ height: '70%' }}
+                  size='xs'
+                  auto
+                  light
+                  icon={
+                    <IoPlayBack
+                      size={40}
+                      color={eval(`color.${music.singer}`)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        audioControl.playPrev();
+                        audio.current.play();
+                      }}
+                    />
+                  }
+                />
+                <Button
                   onClick={(e) => {
                     e.stopPropagation();
-                    audioControl.playPrev();
+                    if (isPause) {
+                      audioControl.play();
+                      audio.current.play();
+                    } else {
+                      audioControl.pause();
+                      audio.current.pause();
+                    }
                   }}
+                  style={{ height: '70%' }}
+                  size='xs'
+                  auto
+                  light
+                  icon={
+                    isPause ? <IoPlay size={60} color={eval(`color.${music.singer}`)} /> : <IoPause size={60} color={eval(`color.${music.singer}`)} />
+                  }
                 />
-              }
-            />
-            <Button
-              onClick={(e) => {
-                e.stopPropagation();
-                if (isPause) {
-                  audioRef.current?.play();
-                  setPause(false);
-                } else {
-                  audioRef.current?.pause();
-                  setPause(!isPause);
-                }
-              }}
-              style={{ height: '70%' }}
-              size='xs'
-              auto
-              light
-              icon={
-                audioRef.current?.paused ? (
-                  <IoPlay size={60} color={eval(`color.${music.singer}`)} />
-                ) : (
-                  <IoPause size={60} color={eval(`color.${music.singer}`)} />
-                )
-              }
-            />
-            <Button
-              style={{ height: '70%' }}
-              size='xs'
-              auto
-              light
-              icon={
-                <IoPlayForward
-                  size={40}
-                  color={eval(`color.${music.singer}`)}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    audioControl.playNext();
-                  }}
+                <Button
+                  style={{ height: '70%' }}
+                  size='xs'
+                  auto
+                  light
+                  icon={
+                    <IoPlayForward
+                      size={40}
+                      color={eval(`color.${music.singer}`)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        audioControl.playNext();
+                        audio.current.play();
+                      }}
+                    />
+                  }
                 />
-              }
-            />
+              </div>
+            )}
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -527,19 +649,21 @@ function MusicPlay({
             <Button
               onClick={(e) => {
                 e.stopPropagation();
-                let id = music.id;
-                let temp = playlist.sort(() => Math.random() - 0.5);
-                let ii = temp.findIndex((e) => e.id === id);
-                [temp[0], temp[ii]] = [temp[ii], temp[0]];
-                setNowIdx(0);
-                setPlaylist([...temp]);
-                setShuffle(!shuffle);
+                setVolumnModalActive(!isVolumnModalActive);
               }}
               style={{ height: '70%' }}
               size='xs'
               auto
               light
-              icon={<MdShuffle size={23} color={eval(`color.${music.singer}`)} />}
+              icon={
+                volume < 0.3 ? (
+                  <IoVolumeLow size={26} color={eval(`color.${music.singer}`)} />
+                ) : volume < 0.65 ? (
+                  <IoVolumeMedium size={26} color={eval(`color.${music.singer}`)} />
+                ) : (
+                  <IoVolumeHigh size={26} color={eval(`color.${music.singer}`)} />
+                )
+              }
             />
           </div>
         </div>

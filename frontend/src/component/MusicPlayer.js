@@ -56,7 +56,6 @@ const logoimage = {
 };
 
 function MusicPlayer({
-  audioRef,
   playlist,
   isActive,
   setActive,
@@ -72,6 +71,10 @@ function MusicPlayer({
   setCustomPlaylist,
   imgDisable,
   anim,
+  music,
+  audio,
+  audioControl,
+  isPause,
 }) {
   const color = isDark ? darkColor : lightColor;
 
@@ -83,76 +86,6 @@ function MusicPlayer({
       setActive(true);
     },
   });
-
-  const [music, setMusic] = useState({
-    titleEng: 'Empty',
-    titleKor: '비어있음',
-    titleJpn: '空',
-    oSingerEng: '',
-    oSingerKor: '',
-    oSingerEng: '',
-    singer: 'null',
-    youtubeUrl: '',
-  });
-  const [isPause, setPause] = useState(true);
-
-  const pauseAudio = () => {
-    setPause(true);
-    audioRef.current.pause();
-  };
-
-  const reloadAudio = () => {
-    audioRef.current.src = `${axiosInstance.defaults.baseURL}/music/streaming/${music.fileName}.mp3`;
-    audioRef.current.autoplay = true;
-    audioRef.current.load();
-  };
-
-  const playAudio = () => {
-    setPause(false);
-    audioRef.current.play();
-    audioRef.current.volume = 0.6;
-  };
-
-  const repeat = () => {
-    audioRef.current.currnetTime = 0;
-    playAudio();
-  };
-
-  const playNext = () => {
-    setNowIdx((nowIdx + 1) % playlist.length);
-    setLoad(!load);
-  };
-
-  const playPrev = () => {
-    if (audioRef.current.currentTime <= 2) {
-      setNowIdx((playlist.length + nowIdx - 1) % playlist.length);
-      setLoad(!load);
-    } else audioRef.current.currentTime = 0.0;
-  };
-
-  const audioControl = { pauseAudio, reloadAudio, playAudio, playNext, playPrev, repeat };
-
-  useEffect(() => {
-    if (!music.oSingerKor) return;
-    reloadAudio();
-    playAudio();
-  }, [music]);
-
-  useEffect(async () => {
-    if (nowIdx === -1) return;
-    // playlist reload
-    if (nowIdx === -2) {
-      setNowIdx(0);
-      return;
-    }
-    const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
-    setMusic(res.data.data);
-  }, [load]);
-
-  useEffect(() => {
-    if (isPause) pauseAudio();
-    else playAudio();
-  }, [isPause]);
 
   return (
     <div
@@ -204,11 +137,11 @@ function MusicPlayer({
                 icon={!isPause ? <IoPause size={30} color={color.textBlack} /> : <IoPlay size={30} color={color.textBlack} />}
                 onClick={() => {
                   if (!isPause) {
-                    pauseAudio();
-                    audioRef.current.pause();
+                    audioControl.pause();
+                    audio.current.pause();
                   } else {
-                    playAudio();
-                    audioRef.current.play();
+                    audioControl.play();
+                    audio.current.play();
                   }
                 }}
               />
@@ -218,7 +151,10 @@ function MusicPlayer({
                 auto
                 light
                 icon={<IoPlayForward size={20} color={color.textBlack} />}
-                onClick={() => playNext()}
+                onClick={() => {
+                  audioControl.playNext();
+                  audio.current.play();
+                }}
               />
             </div>
           </div>
@@ -259,9 +195,7 @@ function MusicPlayer({
             isDark={isDark}
             setNowIdx={setNowIdx}
             nowIdx={nowIdx}
-            audioRef={audioRef}
             isPause={isPause}
-            setPause={setPause}
             audioControl={audioControl}
             load={load}
             setLoad={setLoad}
@@ -270,6 +204,7 @@ function MusicPlayer({
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
             anim={anim}
+            audio={audio}
           />
         )}
       </div>

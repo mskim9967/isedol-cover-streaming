@@ -70,7 +70,7 @@ function getColor() {
   return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (40 + 10 * Math.random()) + '%)';
 }
 
-function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, customPlaylist, imgDisable }) {
+function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlaylist, imgDisable, audio }) {
   const color = isDark ? darkColor : lightColor;
   const [isCustom, setCustom] = useState(false);
   const [randColor, setColor] = useState(getColor());
@@ -122,8 +122,8 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, audioRef, cu
             ...(type === 'nation' && { nations: [theme] }),
           });
           playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 30));
+          audio.current.play();
         }
-        audioRef.current.play();
       }}
     >
       <div

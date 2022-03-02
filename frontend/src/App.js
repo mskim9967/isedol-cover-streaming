@@ -8,6 +8,8 @@ import MusicScreen from './screen/MusicScreen';
 import lightColor from './static/lightColor';
 import darkColor from './static/darkColor';
 import './index.css';
+import { axiosInstance } from './axiosInstance';
+import NoSleep from 'nosleep.js';
 
 function App() {
   const [isMusicPlayerActive, setMusicPlayerActive] = useState(false);
@@ -24,7 +26,17 @@ function App() {
   const [customPlaylist, setCustomPlaylist] = useState([...JSON.parse(localStorage.getItem('playlists') || '[]')]);
   const [nowIdx, setNowIdx] = useState(-1);
   const [load, setLoad] = useState(false);
-  const audioRef = useRef(null);
+  const [music, setMusic] = useState({
+    titleEng: 'Empty',
+    titleKor: '비어있음',
+    titleJpn: '空',
+    oSingerEng: '',
+    oSingerKor: '',
+    oSingerEng: '',
+    singer: 'null',
+    youtubeUrl: '',
+  });
+  const [isPause, setPause] = useState(true);
 
   const add = (music) => {
     let idx = playlist.findIndex((e) => e.id === music.id);
@@ -41,7 +53,7 @@ function App() {
     let temp = playlist.filter((e) => {
       return e.id !== id;
     });
-    setPlaylist(temp);
+    setPlaylist([...temp]);
   };
 
   const change = (ids) => {
@@ -76,12 +88,70 @@ function App() {
   const resizeHandler = () => {
     setHeight(window.innerHeight);
   };
+  var noSleep = new NoSleep();
+
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
+    document.addEventListener(
+      'click',
+      function enableNoSleep() {
+        document.removeEventListener('click', enableNoSleep, false);
+        noSleep.enable();
+      },
+      false
+    );
+
     return () => {
       window.removeEventListener('resize', resizeHandler);
     };
   }, []);
+
+  const audio = useRef(null);
+
+  const reload = () => {
+    audio.current.src = `${axiosInstance.defaults.baseURL}/music/streaming/${music.fileName}.mp3`;
+    audio.current.load();
+    play();
+  };
+
+  const pause = () => {
+    audio.current.pause();
+    setPause(true);
+  };
+
+  const play = () => {
+    audio.current.play();
+    setPause(false);
+  };
+
+  const repeat = () => {
+    audio.current.currentTime = 0;
+    play();
+  };
+
+  const playNext = () => {
+    setNowIdx((nowIdx + 1) % playlist.length);
+    setLoad(!load);
+  };
+
+  const playPrev = () => {
+    if (audio.current.currentTime <= 2) {
+      setNowIdx((playlist.length + nowIdx - 1) % playlist.length);
+      setLoad(!load);
+    } else repeat();
+  };
+
+  useEffect(() => {
+    if (!music.oSingerKor) return;
+    reload(nowIdx, playlist);
+  }, [music]);
+
+  useEffect(async () => {
+    const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
+    setMusic(res.data.data);
+  }, [load]);
+
+  const audioControl = { pause, reload, play, playNext, playPrev, repeat };
 
   return (
     <div
@@ -95,8 +165,7 @@ function App() {
         color: color.textBlack,
       }}
     >
-      <audio ref={audioRef} />
-
+      <audio ref={audio} />
       <div
         id='scrollableDiv'
         style={{
@@ -117,7 +186,10 @@ function App() {
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
             anim={anim}
-            audioRef={audioRef}
+            audio={audio}
+            audioControl={audioControl}
+            isPause={isPause}
+            music={music}
           />
         )}
         <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
@@ -129,7 +201,10 @@ function App() {
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
             anim={anim}
-            audioRef={audioRef}
+            audio={audio}
+            audioControl={audioControl}
+            isPause={isPause}
+            music={music}
           />
         </div>
         {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
@@ -140,7 +215,8 @@ function App() {
             isDark={isDark}
             setDark={setDark}
             anim={anim}
-            audioRef={audioRef}
+            audio={audio}
+            audioControl={audioControl}
             setAnim={setAnim}
             imgDisable={imgDisable}
             setImgDisable={setImgDisable}
@@ -159,7 +235,10 @@ function App() {
         setNowIdx={setNowIdx}
         load={load}
         setLoad={setLoad}
-        audioRef={audioRef}
+        audio={audio}
+        audioControl={audioControl}
+        isPause={isPause}
+        music={music}
         customPlaylist={customPlaylist}
         setCustomPlaylist={setCustomPlaylist}
         imgDisable={imgDisable}

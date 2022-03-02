@@ -54,7 +54,7 @@ const logoimage = {
   ine: line,
 };
 
-function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlaylist, setCustomPlaylist, imgDisable, anim }) {
+function MusicCard({ playlistControl, music, lang, isDark, customPlaylist, setCustomPlaylist, imgDisable, anim, audio }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
   const [musicInfo, setMusicInfo] = useState({});
@@ -127,7 +127,7 @@ function MusicCard({ playlistControl, music, lang, isDark, audioRef, customPlayl
           onClick={(e) => {
             e.stopPropagation();
             playlistControl.add(music);
-            audioRef.current.play();
+            audio.current.play();
           }}
         />
       </div>
