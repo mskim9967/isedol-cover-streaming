@@ -115,6 +115,16 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
+        <SettingLine isDark={isDark}>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            {{ kor: '캐시 지우기', eng: 'Clear cache', jpn: '保存されたデータを削除' }[lang]}
+          </div>
+          <IoChevronForwardOutline
+            onClick={() => {
+              window.location.reload(true);
+            }}
+          />
+        </SettingLine>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '저장된 데이터 지우기', eng: 'Clear saved data', jpn: '保存されたデータを削除' }[lang]}
