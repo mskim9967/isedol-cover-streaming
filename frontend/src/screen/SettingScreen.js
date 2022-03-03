@@ -2,7 +2,7 @@ import { useEffect, useState, memo } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import { IoLogoAndroid, IoLogoChrome } from 'react-icons/io';
 
-import { Switch, Button, Modal, Input } from '@nextui-org/react';
+import { Switch, Button, Modal, Input, Loading } from '@nextui-org/react';
 import HeaderText from '../component/HeaderText';
 import SettingLine from '../component/SettingLine';
 
@@ -368,9 +368,18 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
 
         {modalContent === 'timer' && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 0 25px 0', gap: 3 }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{ display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
               {!isTimerStart ? (
-                <div>
+                <div
+                  style={{
+                    display: 'inline-block',
+                    color: color.textBlack,
+                    fontSize: '22px',
+                    height: '36px',
+                    fontWeight: '400',
+                    marginRight: '6px',
+                  }}
+                >
                   <input
                     disabled={isTimerStart}
                     type='number'
@@ -385,7 +394,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                       color: color.isedol,
                       fontSize: '22px',
                       fontWeight: '600',
-                      width: '30px',
+                      width: '32.5px',
                       borderRadius: '10px',
                       padding: '0 7px',
                       marginRight: '4px',
@@ -407,7 +416,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                       color: color.isedol,
                       fontSize: '22px',
                       fontWeight: '600',
-                      width: '42px',
+                      width: '43px',
                       borderRadius: '10px',
                       padding: '0 7px',
                       marginLeft: '7px',
@@ -421,9 +430,8 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                 <>
                   <div
                     style={{
-                      display: 'inline-block',
                       color: color.textBlack,
-                      fontSize: '24px',
+                      fontSize: '21px',
                       fontWeight: '400',
                       marginRight: '6px',
                     }}
@@ -448,6 +456,23 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                 </>
               )}
             </div>
+            <div
+              style={{
+                color: color.textBlack,
+                opacity: '70%',
+                fontSize: '14px',
+                fontWeight: '300',
+                marginTop: '8px',
+              }}
+            >
+              {
+                {
+                  kor: '새로고침 시 타이머가 초기화 됩니다',
+                  eng: 'Timer is initialized when refreshing',
+                  jpn: 'リフレッシュする時にタイマーが初期化されます',
+                }[lang]
+              }
+            </div>
             <Button
               style={{ height: '34px', marginTop: '12px' }}
               auto
@@ -457,6 +482,8 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                 setTimerStart(!isTimerStart);
               }}
             >
+              {isTimerStart && <Loading type='points-opacity' color='white' size='sm' style={{ marginRight: '7px' }} />}
+
               {isTimerStart
                 ? { kor: '타이머 중지', jpn: `タイマー 止め`, eng: `Stop Timer` }[lang]
                 : { kor: '타이머 시작', jpn: `タイマースタート`, eng: `Start Timer` }[lang]}

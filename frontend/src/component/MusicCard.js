@@ -167,8 +167,8 @@ function MusicCard({ playlistControl, music, lang, isDark, customPlaylist, setCu
                 {{ kor: musicInfo.oSingerKor, eng: musicInfo.oSingerEng, jpn: musicInfo.oSingerJpn }[lang]}
               </div>
               <div style={{ fontWeight: '300' }}>
-                Cover by <div style={{ fontWeight: '400', display: 'inline-block' }}>{musicInfo.singer.toUpperCase()}</div> {musicInfo.date && ' / '}{' '}
-                {musicInfo.date}
+                Covered by <div style={{ fontWeight: '400', display: 'inline-block' }}>{musicInfo.singer.toUpperCase()}</div>{' '}
+                {musicInfo.date && ' / '} {musicInfo.date}
               </div>
             </div>
           )}

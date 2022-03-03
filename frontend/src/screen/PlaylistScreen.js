@@ -13,7 +13,6 @@ const nations = ['kor', 'jpn', 'eng'].sort(() => Math.random() - 0.5);
 function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim, audio }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
-  const [isLoadModalActive, setLoadModalActive] = useState(false);
   const [customPlaylistShuffle, setCustomPlaylistShuffle] = useState([]);
 
   useEffect(() => {
