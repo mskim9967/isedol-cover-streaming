@@ -1,7 +1,7 @@
 <br />
 <br />
 <div align="center">
-  <a href="https://github.com/mskim9967/isedol-cover-streaming/blob/main/frontend/public/icons/mstile-310x310.png">
+  <a href="https://github.com/mskim9967/isedol-cover-streaming/blob/main/frontend/public/icons/mstile-310x310.png?raw=true">
     <img src="images/logo.png" alt="Logo" width="120" height="120">
   </a>
 
@@ -24,7 +24,6 @@
 <br>
 
 <p align="center">
-<img src="images/appdesign.png">
 </p>
 <br>
 <br>
