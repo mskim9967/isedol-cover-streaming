@@ -100,6 +100,27 @@ function App() {
       },
       false
     );
+    audio.current.addEventListener(
+      'canplaythrough',
+      () => {
+        play();
+      },
+      false
+    );
+    document.addEventListener(
+      'keydown',
+      (e) => {
+        if (e.repeat) return;
+        if (e.code === 'Space') {
+          if (audio.current.paused) {
+            pause();
+          } else {
+            play();
+          }
+        }
+      },
+      false
+    );
 
     return () => {
       window.removeEventListener('resize', resizeHandler);
@@ -111,7 +132,6 @@ function App() {
   const reload = () => {
     audio.current.src = `${axiosInstance.defaults.baseURL}/music/streaming/${music.fileName}.mp3`;
     audio.current.load();
-    play();
   };
 
   const pause = () => {
