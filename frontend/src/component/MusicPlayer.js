@@ -5,8 +5,7 @@ import MusicPlay from './MusicPlay';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { Button } from '@nextui-org/react';
-import { useEffect, useState, memo } from 'react';
-import { axiosInstance } from '../axiosInstance';
+import { memo } from 'react';
 
 import gosegu from '../static/image/gosegu_300_300.png';
 import viichan from '../static/image/viichan_300_300.png';
@@ -75,15 +74,14 @@ function MusicPlayer({
   audio,
   audioControl,
   isPause,
+  height,
 }) {
   const color = isDark ? darkColor : lightColor;
 
   const swipeHandler = useSwipeable({
-    onSwipedDown: () => {
-      setActive(false);
-    },
-    onSwipedUp: () => {
-      setActive(true);
+    onSwipeStart: (e) => {
+      if (e.dir === 'Down') setActive(false);
+      else if (e.dir === 'Up') setActive(true);
     },
   });
 
@@ -94,20 +92,22 @@ function MusicPlayer({
         position: 'absolute',
         zIndex: 999,
         width: '100%',
-        transition: 'height ease 0.3s 0s, transform ease 0.3s 0s',
+        height: '100%',
+        overflow: 'hidden',
+        transition: ' transform ease 0.2s 0s',
         backgroundColor: isDark ? 'rgba(0, 0, 0, 0.76)' : 'rgba(255, 255, 255, 0.8)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         bottom: 0,
-        ...(isActive ? { height: '100%' } : { height: '66px', transform: 'translateY(-70px)' }),
+        ...(!isActive && { transform: `translateY(calc(${height}px - 140px))` }),
       }}
     >
-      <div style={{ width: '100%', height: '100%', opacity: isActive ? 0 : 1, transition: 'opacity 0.7s 0s' }}>
+      <div style={{ width: '100%', height: '100%', opacity: isActive ? 0 : 1, transition: 'opacity 0.6s 0s' }}>
         {!isActive && (
           <div
             style={{
               width: '100%',
-              height: '100%',
+              height: '66px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',

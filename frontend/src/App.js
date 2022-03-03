@@ -244,6 +244,7 @@ function App() {
         setCustomPlaylist={setCustomPlaylist}
         imgDisable={imgDisable}
         anim={anim}
+        height={height}
       />
       <BottomTab screen={screen} setScreen={setScreen} isMusicPlayerActive={isMusicPlayerActive} lang={lang} isDark={isDark} />
     </div>

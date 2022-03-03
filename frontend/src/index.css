@@ -46,7 +46,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: none;
   overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+  overflow: hidden;
 }
+
 ::-webkit-scrollbar {
   display: none;
 }
@@ -60,7 +63,6 @@ div {
   letter-spacing: -0.2px;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  transition: color ease 0.3s 0s, background-color ease 0.3s 0s;
 }
 
 .disableAnim > * {
@@ -79,11 +81,11 @@ div {
 }
 
 .playlistCard:active {
-  transform: scale(0.97, 0.97);
+  transform: scale(0.94, 0.94);
 }
 
 .playlistCard {
-  transition: opacity ease 0.3s 0s, transform ease 0.3s 0s;
+  transition: transform ease 0.3s 0s;
 }
 
 .button:active {

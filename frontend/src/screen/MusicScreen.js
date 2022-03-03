@@ -94,7 +94,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
           width: '37px',
           height: '37px',
           borderRadius: '50%',
-          backgroundColor: color.isedol,
+          backgroundColor: color.darkGray,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -104,7 +104,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
           ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }}
       >
-        <IoChevronUpOutline size={22} style={{ marginBottom: 2 }} />
+        <IoChevronUpOutline color={color.textWhite} size={22} style={{ marginBottom: 2 }} />
       </div>
       <HeaderText isDark={isDark}>
         {{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}

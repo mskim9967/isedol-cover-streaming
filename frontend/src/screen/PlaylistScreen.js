@@ -4,7 +4,7 @@ import HeaderText from '../component/HeaderText';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { Button, Modal } from '@nextui-org/react';
-import { useState, memo } from 'react';
+import { useState, memo, useEffect } from 'react';
 import CustomPlaylistEdit from '../component/CustomPlaylistEdit';
 
 const idols = ['gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
@@ -14,6 +14,11 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
   const [isLoadModalActive, setLoadModalActive] = useState(false);
+  const [customPlaylistShuffle, setCustomPlaylistShuffle] = useState([]);
+
+  useEffect(() => {
+    setCustomPlaylistShuffle([...customPlaylist.slice(0).sort(() => Math.random() - 0.5)]);
+  }, []);
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>
@@ -74,23 +79,20 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
         </div>
         <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           <PlaylistCard audio={audio} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} imgDisable={imgDisable} />
-          {customPlaylist
-            .slice(0)
-            .sort(() => Math.random() - 0.5)
-            .map((e, idx) => {
-              return (
-                <PlaylistCard
-                  audio={audio}
-                  key={idx}
-                  lang={lang}
-                  theme={e.name}
-                  type={'custom'}
-                  playlistControl={playlistControl}
-                  customPlaylist={customPlaylist}
-                  imgDisable={imgDisable}
-                />
-              );
-            })}
+          {customPlaylistShuffle.map((e, idx) => {
+            return (
+              <PlaylistCard
+                audio={audio}
+                key={idx}
+                lang={lang}
+                theme={e.name}
+                type={'custom'}
+                playlistControl={playlistControl}
+                customPlaylist={customPlaylist}
+                imgDisable={imgDisable}
+              />
+            );
+          })}
         </div>
       </div>
       <Modal
