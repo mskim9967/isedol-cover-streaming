@@ -1,8 +1,8 @@
 <br />
 <br />
 <div align="center">
-  <a href="https://github.com/mskim9967/isedol-cover-streaming/blob/main/frontend/public/icons/mstile-310x310.png?raw=true">
-    <img src="images/logo.png" alt="Logo" width="120" height="120">
+  <a href="https://isgplay.com">
+    <img src="frontend/public/icons/mstile-310x310.png" alt="Logo" width="120" height="120">
   </a>
 
   <h3 align="center"> 이세플 </h3>
