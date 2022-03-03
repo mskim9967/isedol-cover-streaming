@@ -101,7 +101,8 @@ function MusicPlay({
   const [isRepeat, setRepeat] = useState(false);
   const [isModalActive, setModalActive] = useState(false);
   const [isVolumnModalActive, setVolumnModalActive] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(JSON.parse(localStorage.getItem('volume')) || 0.5);
+
   const [volumeSx, setVolumeSx] = useState(0);
 
   const repeatRef = useRef(false);
@@ -128,6 +129,7 @@ function MusicPlay({
   }, [isVolumnModalActive]);
 
   useEffect(() => {
+    localStorage.setItem('volume', JSON.stringify(volume));
     audio.current.volume = volume;
   }, [volume]);
 

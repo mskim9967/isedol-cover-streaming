@@ -176,7 +176,7 @@ function App() {
           backgroundColor: screen === 'setting' ? color.bgLittleLight : color.bgLight,
         }}
       >
-        {screen === 'playlist' && (
+        <div style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
           <PlaylistScreen
             playlistControl={playlistControl}
             lang={lang}
@@ -191,7 +191,8 @@ function App() {
             isPause={isPause}
             music={music}
           />
-        )}
+        </div>
+
         <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
           <MusicScreen
             playlistControl={playlistControl}
@@ -208,7 +209,7 @@ function App() {
           />
         </div>
         {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
-        {screen === 'setting' && (
+        <div style={{ ...(screen !== 'setting' && { display: 'none' }) }}>
           <SettingScreen
             lang={lang}
             setLang={setLang}
@@ -221,7 +222,7 @@ function App() {
             imgDisable={imgDisable}
             setImgDisable={setImgDisable}
           />
-        )}
+        </div>
       </div>
       <MusicPlayer
         playlist={playlist}

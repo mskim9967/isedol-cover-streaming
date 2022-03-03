@@ -2,7 +2,7 @@ import { useEffect, useState, memo } from 'react';
 import { IoChevronForwardOutline } from 'react-icons/io5';
 import { IoLogoAndroid, IoLogoChrome } from 'react-icons/io';
 
-import { Switch, Button, Modal } from '@nextui-org/react';
+import { Switch, Button, Modal, Input } from '@nextui-org/react';
 import HeaderText from '../component/HeaderText';
 import SettingLine from '../component/SettingLine';
 
@@ -15,24 +15,48 @@ import com1 from '../static/image/com1.png';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
-function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable }) {
+function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisable, setImgDisable, audio, audioControl }) {
   const color = isDark ? darkColor : lightColor;
   const [prompt, setPrompt] = useState();
   const [isModalActive, setModalActive] = useState();
   const [modalContent, setModalContent] = useState();
+  const [hour, setHour] = useState(0);
+  const [minute, setMinute] = useState(30);
+  const [isTimerStart, setTimerStart] = useState(false);
+  const [leftMinute, setLeftMinute] = useState(0);
+  const [leftHour, setLeftHour] = useState(0);
 
   useEffect(() => {
     const handle_storePrompt = (e) => {
       e.preventDefault();
       setPrompt(e);
     };
-
     window.addEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
 
     return () => {
       window.removeEventListener('beforeinstallprompt', (e) => handle_storePrompt(e));
     };
   }, []);
+
+  let timerId;
+  useEffect(() => {
+    if (isTimerStart) {
+      let now = new Date();
+      setLeftMinute((now.getMinutes() + minute || 0) % 60);
+      setLeftHour((now.getHours() + (hour || 0) + Math.floor((now.getMinutes() + (minute || 0)) / 60)) % 24);
+
+      timerId = setTimeout(() => {
+        audio.current.pause();
+        audioControl.pause();
+        setTimerStart(false);
+      }, 1000 * 60 * ((minute || 0) + (hour || 0) * 60));
+    } else {
+      clearInterval(timerId);
+    }
+    return () => {
+      clearInterval(timerId);
+    };
+  }, [isTimerStart]);
 
   const handle_prompt = () => {
     prompt.prompt();
@@ -76,7 +100,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             color='error'
           />
         </SettingLine>
-        <SettingLine isDark={isDark} isLast>
+        <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {{ kor: '일러스트 숨기기', eng: 'Hide illustration', jpn: 'イラスト非表示' }[lang]}
           </div>
@@ -89,6 +113,16 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             }}
           />
         </SettingLine>
+        <SettingLine isDark={isDark} isLast>
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '타이머 설정', eng: 'Setting timer', jpn: 'タイマー設定' }[lang]}</div>
+          <IoChevronForwardOutline
+            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
+            onClick={() => {
+              setModalContent('timer');
+              setModalActive(true);
+            }}
+          />
+        </SettingLine>
       </div>
 
       <div style={{ width: '100%', borderRadius: '10px', backgroundColor: color.settingBg }}>
@@ -98,7 +132,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             <IoLogoAndroid size={27} />
             <IoLogoChrome size={21} />
           </div>
-          <IoChevronForwardOutline onClick={handle_prompt} />
+          <IoChevronForwardOutline style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }} onClick={handle_prompt} />
         </SettingLine>
 
         <SettingLine isDark={isDark} isLast>
@@ -106,6 +140,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             {{ kor: '수동 설치 방법', eng: 'How to install manually', jpn: '手動取付方法' }[lang]}
           </div>
           <IoChevronForwardOutline
+            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
             onClick={() => {
               setModalContent('install');
               setModalActive(true);
@@ -118,6 +153,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
         <SettingLine isDark={isDark}>
           <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '캐시 지우기', eng: 'Clear cache', jpn: 'キャッシュ消去' }[lang]}</div>
           <IoChevronForwardOutline
+            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
             onClick={() => {
               window.location.reload(true);
             }}
@@ -128,6 +164,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
             {{ kor: '저장된 데이터 지우기', eng: 'Clear saved data', jpn: '保存されたデータを削除' }[lang]}
           </div>
           <IoChevronForwardOutline
+            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
             onClick={() => {
               if (
                 window.confirm(
@@ -155,11 +192,12 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
               ]
             }
           </div>
-          <IoChevronForwardOutline onClick={() => {}} />
+          <IoChevronForwardOutline style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }} onClick={() => {}} />
         </SettingLine>
         <SettingLine isDark={isDark} isLast>
           <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '일러스트 출처', eng: 'Illust from', jpn: 'イラスト出典' }[lang]}</div>
           <IoChevronForwardOutline
+            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
             onClick={() => {
               setModalContent('illust');
               setModalActive(true);
@@ -210,11 +248,11 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           wordBreak: 'break-all',
         }}
       >
-        {/* <a href='https://github.com/mskim9967/isedol-cover-streaming'> */}
-        The MIT License (MIT)
-        <br />
-        Copyright ⓒ 2022 isgplay
-        {/* </a> */}
+        <a href='https://github.com/mskim9967/isedol-cover-streaming'>
+          The MIT License (MIT)
+          <br />
+          Copyright ⓒ 2022 isgplay
+        </a>
       </div>
 
       <Modal
@@ -325,6 +363,104 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
                 허리
               </a>
             </div>
+          </div>
+        )}
+
+        {modalContent === 'timer' && (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '10px 0 25px 0', gap: 3 }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              {!isTimerStart ? (
+                <div>
+                  <input
+                    disabled={isTimerStart}
+                    type='number'
+                    value={Number(hour)}
+                    onChange={(e) => {
+                      if (e.target.value.length <= 1 && /^\d+$/.test(e.target.value) && e.target.value >= 0 && e.target.value <= 9)
+                        setHour(Number(e.target.value));
+                      else setHour();
+                    }}
+                    style={{
+                      background: 'none',
+                      color: color.isedol,
+                      fontSize: '22px',
+                      fontWeight: '600',
+                      width: '30px',
+                      borderRadius: '10px',
+                      padding: '0 7px',
+                      marginRight: '4px',
+                      border: `1px solid ${color.isedol}`,
+                    }}
+                  />
+                  {{ kor: '시간', eng: 'hours', jpn: '時間' }[lang]}
+                  <input
+                    disabled={isTimerStart}
+                    type='number'
+                    value={Number(minute)}
+                    onChange={(e) => {
+                      if (e.target.value.length <= 2 && /^\d+$/.test(e.target.value) && e.target.value >= 0 && e.target.value < 60)
+                        setMinute(Number(e.target.value));
+                      else setMinute();
+                    }}
+                    style={{
+                      background: 'none',
+                      color: color.isedol,
+                      fontSize: '22px',
+                      fontWeight: '600',
+                      width: '42px',
+                      borderRadius: '10px',
+                      padding: '0 7px',
+                      marginLeft: '7px',
+                      marginRight: '4px',
+                      border: `1px solid ${color.isedol}`,
+                    }}
+                  />
+                  {{ kor: '분 후 종료', eng: 'minutes', jpn: '分後終了' }[lang]}
+                </div>
+              ) : (
+                <>
+                  <div
+                    style={{
+                      display: 'inline-block',
+                      color: color.textBlack,
+                      fontSize: '24px',
+                      fontWeight: '400',
+                      marginRight: '6px',
+                    }}
+                  >
+                    {{ kor: '종료 시각', eng: 'End time', jpn: '終了時刻' }[lang]}
+                  </div>
+                  <div
+                    style={{
+                      color: color.isedol,
+                      fontSize: '25px',
+                      fontWeight: '500',
+                      padding: 0,
+                    }}
+                  >
+                    {leftHour < 9 && '0'}
+                    {leftHour}
+                    {{ kor: '시 ', eng: ':', jpn: '時 ' }[lang]}
+                    {leftMinute < 9 && '0'}
+                    {leftMinute}
+                    {{ kor: '분', eng: '', jpn: '分' }[lang]}
+                  </div>
+                </>
+              )}
+            </div>
+            <Button
+              style={{ height: '34px', marginTop: '12px' }}
+              auto
+              size='sm'
+              color={'error'}
+              onClick={() => {
+                setTimerStart(!isTimerStart);
+              }}
+            >
+              {isTimerStart
+                ? { kor: '타이머 중지', jpn: `タイマー 止め`, eng: `Stop Timer` }[lang]
+                : { kor: '타이머 시작', jpn: `タイマースタート`, eng: `Start Timer` }[lang]}
+            </Button>
           </div>
         )}
       </Modal>

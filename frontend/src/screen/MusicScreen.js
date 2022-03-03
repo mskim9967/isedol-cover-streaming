@@ -1,5 +1,5 @@
-import { useEffect, useState, memo } from 'react';
-import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh, IoLogoYoutube } from 'react-icons/io5';
+import { useEffect, useState, memo, useRef } from 'react';
+import { IoSearch, IoPlay, IoChevronUp, IoChevronDown, IoRefresh, IoLogoYoutube, IoChevronUpOutline } from 'react-icons/io5';
 import { Button, Loading } from '@nextui-org/react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { axiosInstance } from '../axiosInstance';
@@ -40,6 +40,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
   const [shownMusics, setShownMusics] = useState([]);
   const [reload, setReload] = useState(false);
   const [youtube, setYoutube] = useState(false);
+  const ref = useRef(null);
 
   useEffect(async () => {
     setSelectedIdols([]);
@@ -77,13 +78,34 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
       style={{
         paddingBottom: '20px',
         width: '100%',
-        overflow: 'auto',
+        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
         gap: '20px',
       }}
     >
+      <div
+        style={{
+          position: 'fixed',
+          zIndex: 1,
+          left: 14,
+          bottom: 150,
+          width: '37px',
+          height: '37px',
+          borderRadius: '50%',
+          backgroundColor: color.isedol,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          boxShadow: `2px 2px 10px -5px ${color.shadow}`,
+        }}
+        onClick={() => {
+          ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }}
+      >
+        <IoChevronUpOutline size={22} style={{ marginBottom: 2 }} />
+      </div>
       <HeaderText isDark={isDark}>
         {{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}
         <div style={{ float: 'right' }}>
@@ -104,7 +126,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
           </Button>
         </div>
       </HeaderText>
-      <div>
+      <div ref={ref}>
         <div style={{ width: '100%', height: '35px' }}>
           <div
             style={{
