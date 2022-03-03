@@ -1,7 +1,6 @@
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import MusicCardInPlaylist from './MusicCardInPlaylist';
-import { useSwipeable } from 'react-swipeable';
 import { useEffect, useRef, memo } from 'react';
 
 function MusicPlaylist({
@@ -24,18 +23,12 @@ function MusicPlaylist({
   const color = isDark ? darkColor : lightColor;
   const focusRef = useRef(null);
 
-  const swipeHandler = useSwipeable({
-    onSwiped: ({ event }) => {
-      event.stopPropagation();
-    },
-  });
-
   useEffect(() => {
     focusRef.current.scrollIntoView({ block: 'center' });
   }, [isPlaylistActive, shuffle]);
 
   return (
-    <div {...swipeHandler} style={{ padding: '0 25px', overflow: 'auto', borderRadius: '20px' }}>
+    <div style={{ padding: '0 25px', overflow: 'auto', borderRadius: '20px' }}>
       {playlist.map((music, idx) => {
         return (
           <div ref={idx === nowIdx ? focusRef : null} style={{ ...(nowIdx === idx && { opacity: '40%' }) }} key={idx}>

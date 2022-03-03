@@ -35,6 +35,7 @@ import llilpa from '../static/image/logo_lilpa_300_300.png';
 import ljingburger from '../static/image/logo_jingburger_300_300.png';
 import line from '../static/image/logo_ine_300_300.png';
 import lall from '../static/image/logo_all_300_300.png';
+import { useSwipeable } from 'react-swipeable';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -139,6 +140,7 @@ function MusicPlay({
       timerId = setInterval(() => {
         setCurrentTime(audio.current.currentTime);
         if (audio.current.currentTime >= audio.current.duration) {
+          setCurrentTime(0);
           if (repeatRef.current) {
             audioControl.repeat();
             audio.current.play();
@@ -180,8 +182,14 @@ function MusicPlay({
     setCurrentTime(audio.current.currentTime);
   }, [percentage]);
 
+  const swipeHandler = useSwipeable({
+    onSwipeStart: (e) => {
+      if (e.dir === 'Down' && !isPlaylistActive) setActive(false);
+    },
+  });
   return (
     <div
+      {...swipeHandler}
       style={{
         width: '100%',
         height: '100%',
@@ -298,7 +306,7 @@ function MusicPlay({
                   <div
                     style={{
                       position: 'absolute',
-                      left: `calc(${(currentTime / audio.current.duration) * 100}% - 5px)`,
+                      left: `calc(${(currentTime / audio.current.duration) * 100 || 0}% - 5px)`,
                       top: '7px',
                       width: '10px',
                       height: '10px',
@@ -352,7 +360,7 @@ function MusicPlay({
                   >
                     <div
                       style={{
-                        width: `${(currentTime / audio.current.duration) * 100}%`,
+                        width: `${(currentTime / audio.current.duration) * 100 || 0}%`,
                         height: '3px',
                         backgroundColor: eval(`color.${music.singer}`),
                         borderRadius: '3px',
@@ -515,21 +523,16 @@ function MusicPlay({
                 }}
               >
                 <Button
-                  style={{ height: '70%' }}
+                  style={{ height: '70px' }}
                   size='xs'
                   auto
                   light
-                  icon={
-                    <IoPlayBack
-                      size={40}
-                      color={eval(`color.${music.singer}`)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        audioControl.playPrev();
-                        audio.current.play();
-                      }}
-                    />
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    audioControl.playPrev();
+                    audio.current.play();
+                  }}
+                  icon={<IoPlayBack size={40} color={eval(`color.${music.singer}`)} />}
                 />
                 <Button
                   onClick={(e) => {
@@ -542,7 +545,7 @@ function MusicPlay({
                       audio.current.pause();
                     }
                   }}
-                  style={{ height: '70%' }}
+                  style={{ height: '70px' }}
                   size='xs'
                   auto
                   light
@@ -551,21 +554,16 @@ function MusicPlay({
                   }
                 />
                 <Button
-                  style={{ height: '70%' }}
+                  style={{ height: '70px' }}
                   size='xs'
                   auto
                   light
-                  icon={
-                    <IoPlayForward
-                      size={40}
-                      color={eval(`color.${music.singer}`)}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        audioControl.playNext();
-                        audio.current.play();
-                      }}
-                    />
-                  }
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    audioControl.playNext();
+                    audio.current.play();
+                  }}
+                  icon={<IoPlayForward size={40} color={eval(`color.${music.singer}`)} />}
                 />
               </div>
             )}

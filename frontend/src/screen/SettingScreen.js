@@ -114,14 +114,28 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           />
         </SettingLine>
         <SettingLine isDark={isDark} isLast>
-          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '타이머 설정', eng: 'Setting timer', jpn: 'タイマー設定' }[lang]}</div>
-          <IoChevronForwardOutline
-            style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
-            onClick={() => {
-              setModalContent('timer');
-              setModalActive(true);
-            }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center' }}>{{ kor: '종료 예약', eng: 'Timer', jpn: '終了予約' }[lang]}</div>
+          {isTimerStart ? (
+            <div
+              style={{}}
+              onClick={() => {
+                setModalContent('timer');
+                setModalActive(true);
+              }}
+            >
+              {leftHour < 9 && '0'}
+              {leftHour}:{leftMinute < 9 && '0'}
+              {leftMinute}
+            </div>
+          ) : (
+            <IoChevronForwardOutline
+              style={{ height: '100%', width: '30px', padding: '0 0 0 13px' }}
+              onClick={() => {
+                setModalContent('timer');
+                setModalActive(true);
+              }}
+            />
+          )}
         </SettingLine>
       </div>
 

@@ -80,8 +80,7 @@ function MusicPlayer({
 
   const swipeHandler = useSwipeable({
     onSwipeStart: (e) => {
-      if (e.dir === 'Down') setActive(false);
-      else if (e.dir === 'Up') setActive(true);
+      if (e.dir === 'Up') setActive(true);
     },
   });
 
