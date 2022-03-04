@@ -42,6 +42,9 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: none;
+  overscroll-behavior: contain;
+  overscroll-behavior-y: contain;
+  overflow: hidden;
 }
 
 div#scrollableDiv::-webkit-scrollbar {

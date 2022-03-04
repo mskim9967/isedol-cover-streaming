@@ -233,7 +233,9 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
       >
         업데이트 요청, 정보 수정 요청, 기타 문의사항은 아래 이메일 주소로 자유롭게 연락 바랍니다.
         <br />
-        <a href='mailto:isgplay.com@gmail.com'>isgplay.com@gmail.com</a>
+        <a target='_blank' href='mailto:isgplay.com@gmail.com'>
+          isgplay.com@gmail.com
+        </a>
       </div>
 
       <div
@@ -262,7 +264,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           wordBreak: 'break-all',
         }}
       >
-        <a href='https://github.com/mskim9967/isedol-cover-streaming/blob/main/LICENSE'>
+        <a target='_blank' href='https://github.com/mskim9967/isedol-cover-streaming/blob/main/LICENSE'>
           The MIT License (MIT)
           <br />
           Copyright ⓒ 2022 isgplay
