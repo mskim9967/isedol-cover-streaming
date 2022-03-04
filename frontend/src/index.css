@@ -29,9 +29,6 @@
   src: url('static/font/NotoSansKR-Bold.woff2') format('woff2'), url('static/font/NotoSansKR-Bold.woff') format('woff'),
     url('static/font/NotoSansKR-Bold.otf') format('truetype');
 }
-html {
-  overscroll-behavior: contain;
-}
 
 html,
 body {
@@ -45,17 +42,16 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -ms-overflow-style: none;
-  overscroll-behavior: contain;
-  overscroll-behavior-y: contain;
-  overflow: hidden;
 }
 
-::-webkit-scrollbar {
+div#scrollableDiv::-webkit-scrollbar {
   display: none;
 }
 
-div::-webkit-scrollbar {
-  display: none;
+@media screen and (hover: none) and (pointer: coarse) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 div {
