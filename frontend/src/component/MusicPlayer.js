@@ -53,7 +53,13 @@ const logoimage = {
   jingburger: ljingburger,
   ine: line,
 };
-
+function iOSnPWA() {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches &&
+    (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document))
+  );
+}
 function MusicPlayer({
   playlist,
   isActive,
@@ -98,7 +104,7 @@ function MusicPlayer({
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         bottom: 0,
-        ...(!isActive && { transform: `translateY(calc(${height}px - 140px))` }),
+        ...(!isActive && { transform: iOSnPWA() ? `translateY(calc(${height}px - 150px))` : `translateY(calc(${height}px - 140px))` }),
       }}
     >
       <div style={{ width: '100%', height: '100%', opacity: isActive ? 0 : 1, transition: 'opacity 0.6s 0s' }}>

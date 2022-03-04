@@ -17,6 +17,14 @@ import { memo } from 'react';
 function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
   const color = isDark ? darkColor : lightColor;
   const iconSize = 30;
+  function iOSnPWA() {
+    return (
+      window.matchMedia('(display-mode: standalone)').matches &&
+      (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+        (navigator.userAgent.includes('Mac') && 'ontouchend' in document))
+    );
+  }
+
   return (
     <div
       className='bottomTab'
@@ -24,7 +32,8 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
         position: 'absolute',
         zIndex: 999,
         bottom: 0,
-        height: '70px',
+        height: iOSnPWA() ? '80px' : '70px',
+        ...(iOSnPWA() && { paddingBottom: '15px' }),
         width: '100%',
         borderTop: `solid 1px ${color.lightGray}`,
         display: 'grid',
@@ -33,7 +42,6 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
         transition: 'transform ease 0.3s 0s',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
-
         fontSize: 12,
         color: color.darkGray,
         ...(isMusicPlayerActive && { transform: 'translateY(70px)' }),

@@ -73,8 +73,8 @@ function App() {
     localStorage.setItem('anim', JSON.stringify(anim));
   }, [anim]);
   useEffect(() => {
-    // default os theme
     localStorage.setItem('isDark', JSON.stringify(isDark));
+    document.body.style.backgroundColor = color.bgLight;
   }, [isDark]);
   useEffect(() => {
     localStorage.setItem('lang', JSON.stringify(lang));
@@ -88,7 +88,7 @@ function App() {
   const resizeHandler = () => {
     setHeight(window.innerHeight);
   };
-  var noSleep = new NoSleep();
+  let noSleep = new NoSleep();
 
   useEffect(() => {
     window.addEventListener('resize', resizeHandler);
@@ -167,6 +167,7 @@ function App() {
   }, [music]);
 
   useEffect(async () => {
+    setPause(true);
     const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
     setMusic(res.data.data);
   }, [load]);
@@ -187,21 +188,26 @@ function App() {
     >
       <audio ref={audio} />
       <div
-        id='scrollableDiv'
         style={{
           height: '100%',
           width: '100%',
-          overflow: 'scroll',
-          padding: '50px 20px 170px 20px',
+          overflow: 'hidden',
           backgroundColor: screen === 'setting' ? color.bgLittleLight : color.bgLight,
         }}
       >
-        <div style={{ ...(screen !== 'playlist' && { display: 'none' }) }}>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            padding: '50px 20px 180px 20px',
+            overflow: 'auto',
+            ...(screen !== 'playlist' && { display: 'none' }),
+          }}
+        >
           <PlaylistScreen
             playlistControl={playlistControl}
             lang={lang}
             isDark={isDark}
-            playlistControl={playlistControl}
             customPlaylist={customPlaylist}
             setCustomPlaylist={setCustomPlaylist}
             imgDisable={imgDisable}
@@ -213,7 +219,16 @@ function App() {
           />
         </div>
 
-        <div style={{ ...(screen !== 'music' && { display: 'none' }) }}>
+        <div
+          id='scrollableDiv'
+          style={{
+            height: '100%',
+            width: '100%',
+            padding: '50px 20px 0 20px',
+            overflow: 'auto',
+            ...(screen !== 'music' && { display: 'none' }),
+          }}
+        >
           <MusicScreen
             playlistControl={playlistControl}
             lang={lang}
@@ -229,7 +244,15 @@ function App() {
           />
         </div>
         {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
-        <div style={{ ...(screen !== 'setting' && { display: 'none' }) }}>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            padding: '50px 20px 0 20px',
+            overflow: 'auto',
+            ...(screen !== 'setting' && { display: 'none' }),
+          }}
+        >
           <SettingScreen
             lang={lang}
             setLang={setLang}
@@ -242,6 +265,7 @@ function App() {
             imgDisable={imgDisable}
             setImgDisable={setImgDisable}
           />
+          <div style={{ height: '180px' }} />
         </div>
       </div>
       <MusicPlayer

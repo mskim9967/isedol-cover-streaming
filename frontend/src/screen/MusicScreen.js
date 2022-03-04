@@ -90,7 +90,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
           position: 'fixed',
           zIndex: 1,
           left: 14,
-          bottom: 150,
+          bottom: 155,
           width: '37px',
           height: '37px',
           borderRadius: '50%',
@@ -342,6 +342,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
             {{ kor: '검색 결과가 없습니다 :(', eng: 'Nothing found :(', jpn: '検索結果がありません :(' }[lang]}
           </div>
         )}
+        <div style={{ height: '180px' }} />
       </div>
     </div>
   );
