@@ -48,3 +48,16 @@
 - NoSleep.js - [https://github.com/richtr/NoSleep.js](https://github.com/richtr/NoSleep.js) -
   MIT License
 - React Swipeable - [https://github.com/FormidableLabs/react-swipeable](https://github.com/FormidableLabs/react-swipeable) - MIT License
+
+#
+<br/>
+
+**UI** inspired by [Apple Music](https://www.apple.com/kr/apple-music/) / [iOS](https://www.apple.com/kr/ios/ios-15/)
+
+<br/>
+
+ <a href='https://github.com/mskim9967/isedol-cover-streaming/blob/main/LICENSE'>
+	The MIT License (MIT)
+    <br />
+   	Copyright ⓒ 2022 isgplay
+</a>
