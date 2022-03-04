@@ -17,7 +17,7 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
 
   useEffect(() => {
     setCustomPlaylistShuffle([...customPlaylist.slice(0).sort(() => Math.random() - 0.5)]);
-  }, []);
+  }, [customPlaylist]);
 
   return (
     <div style={{ width: '100%', display: 'flex', flexDirection: 'column', flexShrink: 0, gap: '20px' }}>

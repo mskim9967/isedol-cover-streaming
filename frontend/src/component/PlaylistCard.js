@@ -116,6 +116,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
         } else if (type === 'custom') {
           let playlist = customPlaylist.find((e) => e.name === theme);
           playlistControl.change(playlist.data);
+          audio.current.play();
         } else {
           const res = await axiosInstance.put('/music/search', {
             ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),
