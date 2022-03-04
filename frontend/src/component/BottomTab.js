@@ -44,7 +44,7 @@ function BottomTab({ screen, setScreen, isMusicPlayerActive, lang, isDark }) {
         WebkitBackdropFilter: 'blur(6px)',
         fontSize: 12,
         color: color.darkGray,
-        ...(isMusicPlayerActive && { transform: 'translateY(70px)' }),
+        ...(isMusicPlayerActive && { transform: `translateY(${iOSnPWA() ? 80 : 70}px)` }),
       }}
     >
       <div
