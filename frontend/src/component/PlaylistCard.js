@@ -118,11 +118,26 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
           playlistControl.change(playlist.data);
           audio.current.play();
         } else {
-          const res = await axiosInstance.put('/music/search', {
-            ...(type === 'idol' && theme !== 'all' && { singers: [theme] }),
-            ...(type === 'nation' && { nations: [theme] }),
-          });
-          playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 30));
+          if (theme === 'all') {
+            const res = await axiosInstance.get('/music');
+            let data = res.data.data.sort(() => Math.random() - 0.5);
+            let newData = [];
+            let cnt = { ine: 0, gosegu: 0, lilpa: 0, jingburger: 0, viichan: 0, jururu: 0 };
+            for (let mus of data) {
+              if (mus.singer === 'all' || cnt[mus.singer] < 10) {
+                newData.push(mus);
+                if (mus.singer !== 'all') cnt[mus.singer]++;
+              }
+              if (newData.length >= 50) break;
+            }
+            playlistControl.change(newData);
+          } else {
+            const res = await axiosInstance.put('/music/search', {
+              ...(type === 'idol' && { singers: [theme] }),
+              ...(type === 'nation' && { nations: [theme] }),
+            });
+            playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 40));
+          }
           audio.current.play();
         }
       }}
