@@ -48,7 +48,7 @@ body {
   overflow: hidden;
 }
 
-div#scrollableDiv::-webkit-scrollbar {
+div#scrollbarDisable::-webkit-scrollbar {
   display: none;
 }
 

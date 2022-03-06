@@ -87,7 +87,6 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
       style={{
         paddingBottom: '20px',
         width: '100%',
-        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,

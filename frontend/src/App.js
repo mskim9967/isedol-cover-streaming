@@ -196,7 +196,7 @@ function App() {
         }}
       >
         <div
-          id='scrollableDiv'
+          id='scrollbarDisable'
           style={{
             height: '100%',
             width: '100%',
@@ -246,6 +246,7 @@ function App() {
         </div>
         {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
         <div
+          id='scrollbarDisable'
           style={{
             height: '100%',
             width: '100%',
