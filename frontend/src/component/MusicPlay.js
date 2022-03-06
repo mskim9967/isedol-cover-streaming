@@ -153,7 +153,6 @@ function MusicPlay({
             audio.current.play();
           } else {
             audioControl.playNext();
-            audio.current.play();
           }
         }
       }, 250);
