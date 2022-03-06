@@ -74,8 +74,8 @@ function MusicCardInPlaylist({
   return (
     <div
       style={{
-        height: '64px',
-        padding: '1px 0 1px 8px',
+        height: customPlaylist ? '64px' : '72px',
+        padding: customPlaylist ? '1px 0 1px 8px' : '8px 0 8px 8px',
         width: '100%',
         ...(idx !== 0 && { borderTop: `solid 0.5px ${color.lightGray}` }),
         display: 'flex',
@@ -109,10 +109,19 @@ function MusicCardInPlaylist({
           >
             {{ kor: music.titleKor, eng: music.titleEng, jpn: music.titleJpn }[lang]}
           </div>
-          <div style={{ lineHeight: '1.0', marginTop: '3px', fontWeight: '400', fontSize: '12.4px', color: color.darkGray, opacity: '90%' }}>
+          <div
+            style={{
+              lineHeight: '1.0',
+              marginTop: customPlaylist ? '2px' : '5px',
+              fontWeight: '400',
+              fontSize: '12.4px',
+              color: color.darkGray,
+              opacity: '90%',
+            }}
+          >
             {`${member[music.singer][lang]} / ${{ kor: music?.oSingerKor, eng: music?.oSingerEng, jpn: music?.oSingerJpn }[lang]}`}
           </div>
-          {music?.date && (
+          {customPlaylist && music?.date && (
             <div style={{ lineHeight: '1.0', marginTop: '1px', fontWeight: '300', fontSize: '10px', color: color.darkGray, opacity: '90%' }}>
               {music?.date}
             </div>
