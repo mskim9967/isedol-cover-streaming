@@ -10,6 +10,14 @@ import MusicCard from '../component/MusicCard';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 
+function iOSnPWA() {
+  return (
+    window.matchMedia('(display-mode: standalone)').matches &&
+    (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+      (navigator.userAgent.includes('Mac') && 'ontouchend' in document))
+  );
+}
+
 const idols = [
   { key: 'all', kor: '단체곡', eng: 'ALL', jpn: '単体曲' },
   { key: 'ine', kor: '아이네', eng: 'INE', jpn: 'アイネ' },
@@ -45,6 +53,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
   useEffect(async () => {
     setSelectedIdols([]);
     setSelectedNations([]);
+    setYoutube(false);
     setFull(false);
     setLoading(true);
     const res = await axiosInstance.get('/music');
@@ -89,12 +98,12 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
         style={{
           position: 'fixed',
           zIndex: 1,
-          left: 14,
-          bottom: 155,
+          left: 15,
+          bottom: iOSnPWA() ? 160 : 150,
           width: '37px',
           height: '37px',
           borderRadius: '50%',
-          backgroundColor: color.darkGray,
+          backgroundColor: color.lightGray,
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -104,7 +113,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
           ref.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }}
       >
-        <IoChevronUpOutline color={color.textWhite} size={22} style={{ marginBottom: 2 }} />
+        <IoChevronUpOutline color={color.textBlack} size={22} style={{ marginBottom: 2 }} />
       </div>
       <HeaderText isDark={isDark}>
         {{ kor: '커버곡', eng: 'Cover Song', jpn: 'カバー曲' }[lang]}

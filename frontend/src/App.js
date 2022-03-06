@@ -27,9 +27,9 @@ function App() {
   const [nowIdx, setNowIdx] = useState(-1);
   const [load, setLoad] = useState(false);
   const [music, setMusic] = useState({
-    titleEng: 'Empty',
-    titleKor: '비어있음',
-    titleJpn: '空',
+    titleEng: 'Loading...',
+    titleKor: '로딩 중...',
+    titleJpn: 'Loading...',
     oSingerEng: '',
     oSingerKor: '',
     oSingerEng: '',
@@ -150,6 +150,7 @@ function App() {
   };
 
   const playNext = () => {
+    setPause(true);
     setNowIdx((nowIdx + 1) % playlist.length);
     setLoad(!load);
   };
@@ -167,7 +168,6 @@ function App() {
   }, [music]);
 
   useEffect(async () => {
-    setPause(true);
     const res = await axiosInstance.get(`/music/${playlist[nowIdx].id}`);
     setMusic(res.data.data);
   }, [load]);
@@ -196,6 +196,7 @@ function App() {
         }}
       >
         <div
+          id='scrollableDiv'
           style={{
             height: '100%',
             width: '100%',

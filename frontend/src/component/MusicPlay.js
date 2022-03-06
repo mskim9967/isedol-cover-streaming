@@ -68,6 +68,13 @@ const logoimage = {
   ine: line,
 };
 
+function iOS() {
+  return (
+    ['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(navigator.platform) ||
+    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+  );
+}
+
 function MusicPlay({
   music,
   playlist,
@@ -183,14 +190,16 @@ function MusicPlay({
   }, [percentage]);
 
   const swipeHandler = useSwipeable({
+    preventDefaultTouchmoveEvent: false,
     onSwipeStart: (e) => {
-      if (e.dir === 'Down' && !isPlaylistActive) setActive(false);
+      if (e.dir === 'Down') setActive(false);
     },
   });
   return (
     <div
       {...swipeHandler}
       style={{
+        ...(!isActive && { pointerEvents: 'none' }),
         width: '100%',
         height: '100%',
         display: 'flex',
@@ -500,15 +509,17 @@ function MusicPlay({
                     </div>
                   </div>
                 </div>
-                <div style={{ position: 'absolute', bottom: -20, fontSize: '11px', fontWeight: '300', color: color.textBlack, opacity: '70%' }}>
-                  Volume control is disabled on iOS according to the{' '}
-                  <a
-                    href='https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html#//apple_ref/doc/uid/TP40009523-CH5-SW10'
-                    target='_blank'
-                  >
-                    Apple policy
-                  </a>
-                </div>
+                {iOS() && (
+                  <div style={{ position: 'absolute', bottom: -20, fontSize: '11px', fontWeight: '300', color: color.textBlack, opacity: '70%' }}>
+                    Volume control is disabled on iOS according to the{' '}
+                    <a
+                      href='https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html#//apple_ref/doc/uid/TP40009523-CH5-SW10'
+                      target='_blank'
+                    >
+                      Apple policy
+                    </a>
+                  </div>
+                )}
               </div>
             )}
             {!isVolumnModalActive && (

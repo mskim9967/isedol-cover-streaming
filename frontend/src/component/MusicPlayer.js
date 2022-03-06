@@ -84,35 +84,37 @@ function MusicPlayer({
 }) {
   const color = isDark ? darkColor : lightColor;
 
-  const swipeHandler = useSwipeable({
-    onSwipeStart: (e) => {
-      if (e.dir === 'Up') setActive(true);
-    },
-  });
+  // const swipeHandler = useSwipeable({
+  //   onSwipeStart: (e) => {
+  //     if (e.dir === 'Up') setActive(true);
+  //   },
+  // });
 
   return (
     <div
-      {...swipeHandler}
       style={{
         position: 'absolute',
         zIndex: 999,
         width: '100%',
         height: '100%',
-        overflow: 'hidden',
-        transition: ' transform ease 0.2s 0s',
+        transition: ' transform ease 0.18s 0s',
         backgroundColor: isDark ? 'rgba(0, 0, 0, 0.76)' : 'rgba(255, 255, 255, 0.8)',
         backdropFilter: 'blur(6px)',
         WebkitBackdropFilter: 'blur(6px)',
         bottom: 0,
         ...(!isActive && { transform: iOSnPWA() ? `translateY(calc(${height}px - 150px))` : `translateY(calc(${height}px - 140px))` }),
+        ...(playlist.length === 0 && { transform: iOSnPWA() ? `translateY(calc(${height}px - 80px))` : `translateY(calc(${height}px - 70px))` }),
       }}
     >
       <div style={{ width: '100%', height: '100%', opacity: isActive ? 0 : 1, transition: 'opacity 0.6s 0s' }}>
         {!isActive && (
           <div
+            onTouchStart={() => setActive(true)}
             style={{
+              ...(playlist.length === 0 && { opacity: 0 }),
+
               width: '100%',
-              height: '66px',
+              height: '70px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
@@ -135,6 +137,7 @@ function MusicPlayer({
             </div>
             <div style={{ height: '100%', display: 'flex', alignItems: 'center' }}>
               <Button
+                onTouchStart={(e) => e.stopPropagation()}
                 style={{ height: '90%' }}
                 size='xs'
                 auto
@@ -151,6 +154,7 @@ function MusicPlayer({
                 }}
               />
               <Button
+                onTouchStart={(e) => e.stopPropagation()}
                 style={{ height: '90%' }}
                 size='xs'
                 auto
