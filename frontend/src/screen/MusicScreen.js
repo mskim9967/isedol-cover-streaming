@@ -49,6 +49,37 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
   const [reload, setReload] = useState(false);
   const [youtube, setYoutube] = useState(false);
   const ref = useRef(null);
+  const [order, setOrder] = useState('');
+  const [by, setBy] = useState('');
+
+  const doSort = (arr) => {
+    let temp = [...arr];
+
+    if (order === 'upload')
+      temp = temp.sort((a, b) => {
+        return by === 'asc' ? (a.id > b.id ? 1 : -1) : a.id < b.id ? 1 : -1;
+      });
+    else if (order === 'date')
+      temp = temp.sort((a, b) => {
+        if (a.date === null) return 1;
+        if (b.date === null) return -1;
+        return by === 'asc' ? (a.date > b.date ? 1 : -1) : a.date < b.date ? 1 : -1;
+      });
+    else if (order === 'title')
+      temp = temp.sort((a, b) => {
+        if (lang === 'kor') return by === 'asc' ? (a.titleKor > b.titleKor ? 1 : -1) : a.titleKor < b.titleKor ? 1 : -1;
+        else if (lang === 'jpn') return by === 'asc' ? (a.titleJpn > b.titleJpn ? 1 : -1) : a.titleJpn < b.titleJpn ? 1 : -1;
+        else return by === 'asc' ? (a.titleEng > b.titleEng ? 1 : -1) : a.titleEng < b.titleEng ? 1 : -1;
+      });
+    else
+      temp = temp.sort((a, b) => {
+        if (lang === 'kor') return by === 'asc' ? (a.oSingerKor > b.oSingerKor ? 1 : -1) : a.oSingerKor < b.oSingerKor ? 1 : -1;
+        else if (lang === 'jpn') return by === 'asc' ? (a.oSingerJpn > b.oSingerJpn ? 1 : -1) : a.oSingerJpn < b.oSingerJpn ? 1 : -1;
+        else return by === 'asc' ? (a.oSingerEng > b.oSingerEng ? 1 : -1) : a.oSingerEng < b.oSingerEng ? 1 : -1;
+      });
+
+    return temp;
+  };
 
   useEffect(async () => {
     setSelectedIdols([]);
@@ -56,6 +87,8 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
     setYoutube(false);
     setFull(false);
     setLoading(true);
+    setOrder('');
+    setBy('');
     const res = await axiosInstance.get('/music');
     setLoading(false);
     setMusics(res.data.data.sort(() => Math.random() - 0.5));
@@ -69,17 +102,26 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
     setShownMusics([...musics.slice(0, 20)]);
   }, [musics]);
 
+  useEffect(() => {
+    if (order !== '' && by !== '') setMusics([...doSort(musics)]);
+  }, [order, by]);
+
   const search = async () => {
     setLoading(true);
-    const res = await axiosInstance.put('/music/search', {
+    let res = await axiosInstance.put('/music/search', {
       ...(searchStr?.length && { searchStr }),
       ...(selectedIdols?.length && { singers: [...selectedIdols] }),
       ...(selectedNations?.length && { nations: [...selectedNations] }),
       ...(isFull === true && { full: true }),
     });
     setLoading(false);
-    if (youtube) setMusics(res.data.data.filter((e) => e.youtubeUrl !== ''));
-    else setMusics(res.data.data);
+    if (order !== '' && by !== '') {
+      if (youtube) setMusics([...doSort(res.data.data.filter((e) => e.youtubeUrl !== ''))]);
+      else setMusics([...doSort(res.data.data)]);
+    } else {
+      if (youtube) setMusics(res.data.data.filter((e) => e.youtubeUrl !== ''));
+      else setMusics(res.data.data);
+    }
   };
 
   return (
@@ -242,7 +284,6 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
                   );
                 })}
               </div>
-
               <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
                 <div
                   style={{
@@ -280,6 +321,59 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
                   <IoLogoYoutube size={17} />
                   Official
                 </div>
+              </div>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  color: color.darkGray,
+                  fontSize: '14px',
+                  fontWeight: '400',
+                }}
+              >
+                <select
+                  value={order}
+                  onChange={(e) => setOrder(e.target.value)}
+                  style={{
+                    marginRight: '3px',
+                    border: `2px solid ${color.darkGray}`,
+                    borderRadius: '4px',
+                    padding: '1.5px 10px',
+                    background: 'none',
+                    color: color.darkGray,
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
+                  <option value='' disabled selected></option>
+                  <option value='upload'>{{ kor: '업로드', eng: 'Upload', jpn: 'アップロード' }[lang]}</option>
+                  <option value='date'>{{ kor: '방송일', eng: 'Stream Date', jpn: '放送日' }[lang]}</option>
+                  <option value='title'>{{ kor: '곡제목', eng: 'Title', jpn: '題目' }[lang]}</option>
+                  <option value='singer'>{{ kor: '원가수', eng: 'Singer', jpn: 'かしゅ' }[lang]}</option>
+                </select>
+                {{ kor: '순으로', jpn: '順に', eng: '' }[lang]}
+                <select
+                  value={by}
+                  onChange={(e) => setBy(e.target.value)}
+                  style={{
+                    marginLeft: '10px',
+                    marginRight: '3px',
+                    border: `2px solid ${color.darkGray}`,
+                    borderRadius: '4px',
+                    padding: '1.5px 10px',
+                    background: 'none',
+                    color: color.darkGray,
+                    fontSize: '14px',
+                    fontWeight: '500',
+                  }}
+                >
+                  <option value='' disabled selected></option>
+                  <option value='desc'>{{ kor: '내림차순', eng: 'Decending', jpn: '降順' }[lang]}</option>
+                  <option value='asc'>{{ kor: '오름차순', eng: 'Ascending', jpn: '昇順' }[lang]}</option>
+                </select>
+                {{ kor: '정렬', jpn: '整列', eng: '' }[lang]}
               </div>
             </div>
           </div>
@@ -350,7 +444,7 @@ function MusicScreen({ playlistControl, lang, isDark, customPlaylist, setCustomP
             {{ kor: '검색 결과가 없습니다 :(', eng: 'Nothing found :(', jpn: '検索結果がありません :(' }[lang]}
           </div>
         )}
-        <div style={{ height: '180px' }} />
+        <div style={{ height: '140px' }} />
       </div>
     </div>
   );
