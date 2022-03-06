@@ -35,9 +35,8 @@
     "workbox-streams": "^5.1.4"
   },
   "scripts": {
-    "generate-meta-tag": "node ./node_modules/react-cache-buster/dist/generate-meta-tag.js",
     "start": "react-scripts start",
-    "build": "GENERATE_SOURCEMAP=false npm run generate-meta-tag && react-scripts build",
+    "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "eject": "react-scripts eject",
     "deploy": "gh-pages -d build"
   },
