@@ -194,6 +194,13 @@ function MusicPlay({
       if (e.dir === 'Down') setActive(false);
     },
   });
+
+  const stopSwipeHandler = useSwipeable({
+    onSwiping: ({ event }) => {
+      event.stopPropagation();
+    },
+  });
+
   return (
     <div
       {...swipeHandler}
@@ -215,9 +222,9 @@ function MusicPlay({
           height: '100%',
           maxHeight: '800px',
           maxWidth: '600px',
-          padding: '45px 0 20px 0',
+          padding: '45px 0 22px 0',
           display: 'grid',
-          gridTemplateRows: '7fr 1.5fr 1fr',
+          gridTemplateRows: '6.5fr 1.5fr 1fr',
         }}
       >
         <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
@@ -391,6 +398,7 @@ function MusicPlay({
             </div>
           )}
           <div
+            {...stopSwipeHandler}
             style={{
               position: 'absolute',
               zIndex: isPlaylistActive ? 1 : -1,
