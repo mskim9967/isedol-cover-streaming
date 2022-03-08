@@ -3,6 +3,7 @@ package ms.backend;
 import ms.backend.repository.MusicRepository;
 import ms.backend.repository.PlaylistRepository;
 import ms.backend.service.MusicService;
+import ms.backend.service.OpenApiService;
 import ms.backend.service.PlaylistService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,4 +33,7 @@ public class SpringConfig {
     public PlaylistService playlistService() {
         return new PlaylistService(playlistRepository);
     }
+
+    @Bean
+    public OpenApiService openApiService() {return new OpenApiService(); };
 }
