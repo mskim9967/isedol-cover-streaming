@@ -1,6 +1,12 @@
-const arr = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+import { useEffect } from 'react';
+const usetube = require('usetube');
 
 function IdolScreen({ lang }) {
+  useEffect(async () => {
+    const videos = await usetube.getChannelVideos('UCHE7GBQVtdh-c1m3tjFdevQ');
+    console.log(videos);
+  }, []);
+
   return (
     <div
       style={{

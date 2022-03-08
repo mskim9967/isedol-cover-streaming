@@ -264,11 +264,7 @@ function SettingScreen({ lang, setLang, isDark, setDark, anim, setAnim, imgDisab
           wordBreak: 'break-all',
         }}
       >
-        <a target='_blank' href='https://github.com/mskim9967/isedol-cover-streaming/blob/main/LICENSE'>
-          The MIT License (MIT)
-          <br />
-          Copyright ⓒ 2022 isgplay
-        </a>
+        The MIT License (MIT)
       </div>
 
       <Modal
