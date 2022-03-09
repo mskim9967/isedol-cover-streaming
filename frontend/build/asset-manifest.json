@@ -1,13 +1,14 @@
 {
   "files": {
-    "main.css": "/static/css/main.12d81e3d.css",
-    "main.js": "/static/js/main.885b11d6.js",
+    "main.css": "/static/css/main.0ac548d1.css",
+    "main.js": "/static/js/main.84e3240c.js",
     "static/js/27.85d5cccb.chunk.js": "/static/js/27.85d5cccb.chunk.js",
     "static/media/NotoSansKR-Light.otf": "/static/media/NotoSansKR-Light.7d4ce2f6f92cffc70600.otf",
     "static/media/NotoSansKR-Bold.otf": "/static/media/NotoSansKR-Bold.bbb4ca5df6c6540f4af8.otf",
     "static/media/NotoSansKR-Regular.otf": "/static/media/NotoSansKR-Regular.bf54b090356010039bab.otf",
     "static/media/NotoSansKR-Medium.otf": "/static/media/NotoSansKR-Medium.7def03a7e5e60c5e0704.otf",
     "static/media/ine_300_300.png": "/static/media/ine_300_300.f75565779388aa8aa0e6.png",
+    "static/media/allbg.png": "/static/media/allbg.c0163fa9c59f30c5a385.png",
     "static/media/lilpa_300_300.png": "/static/media/lilpa_300_300.5f9c5bfe09a8b225c442.png",
     "static/media/jingburger_300_300.png": "/static/media/jingburger_300_300.18c27bf972647803fa27.png",
     "static/media/NotoSansKR-Bold.woff": "/static/media/NotoSansKR-Bold.bccfd5fe964d7e12ae44.woff",
@@ -17,12 +18,18 @@
     "static/media/gosegu_300_300.png": "/static/media/gosegu_300_300.a381e770856c48a2643c.png",
     "static/media/jururu_300_300.png": "/static/media/jururu_300_300.3020c92f035c0947b768.png",
     "static/media/viichan_300_300.png": "/static/media/viichan_300_300.2bab732106ce19f1e395.png",
+    "static/media/profile_jururu.png": "/static/media/profile_jururu.8d07adb8cc34fb0432ec.png",
     "static/media/NotoSansKR-Regular.woff2": "/static/media/NotoSansKR-Regular.e95adf0e9aeddac43f42.woff2",
     "static/media/NotoSansKR-Bold.woff2": "/static/media/NotoSansKR-Bold.a4ecc3f7a43f7d43ce24.woff2",
     "static/media/NotoSansKR-Medium.woff2": "/static/media/NotoSansKR-Medium.e5d0c16f11ebac0c56d2.woff2",
     "static/media/NotoSansKR-Light.woff2": "/static/media/NotoSansKR-Light.e2557c2be18ddd169ee9.woff2",
+    "static/media/profile_lilpa.png": "/static/media/profile_lilpa.355a14eca43b27684705.png",
+    "static/media/profile_jingburger.png": "/static/media/profile_jingburger.99d7a9db4a87c8631101.png",
     "static/media/logo_all_300_300.png": "/static/media/logo_all_300_300.2c450bce31b19736c796.png",
+    "static/media/profile_viichan.png": "/static/media/profile_viichan.855d492e32bb75757a3b.png",
+    "static/media/profile_gosegu.png": "/static/media/profile_gosegu.2b5aadb4c787dab40894.png",
     "static/media/logo_ine_300_300.png": "/static/media/logo_ine_300_300.dea7458dc64f9bc6f220.png",
+    "static/media/profile_ine.png": "/static/media/profile_ine.19eb6136e84ea138af42.png",
     "static/media/logo_jururu_300_300.png": "/static/media/logo_jururu_300_300.bc2b3cadf691018463d1.png",
     "static/media/all_300_300.webp": "/static/media/all_300_300.858bf290110a6591c2da.webp",
     "static/media/logo_jingburger_300_300.png": "/static/media/logo_jingburger_300_300.a600e62eb464995a71ef.png",
@@ -37,8 +44,15 @@
     "static/media/segu_300_300.webp": "/static/media/segu_300_300.7c289792a9fbe9707e57.webp",
     "static/media/com1.png": "/static/media/com1.66088e92ca69e5dbcff4.png",
     "static/media/and2.png": "/static/media/and2.7a37574568c33d570034.png",
+    "static/media/isdlogo.png": "/static/media/isdlogo.52cc0b4d7fe844e34c1f.png",
     "service-worker.js": "/service-worker.js",
     "static/media/ios1.png": "/static/media/ios1.d3c772bbb1d15082d33e.png",
+    "static/media/gosegu_thumb.png": "/static/media/gosegu_thumb.4a588762e2f134972f2f.png",
+    "static/media/jururu_thumb.png": "/static/media/jururu_thumb.4e74a59a89fb5e44eeeb.png",
+    "static/media/ine_thumb.png": "/static/media/ine_thumb.8c85b3d36a550d0b35c2.png",
+    "static/media/lilpa_thumb.png": "/static/media/lilpa_thumb.e33b6e177929e4a520af.png",
+    "static/media/jingburger_thumb.png": "/static/media/jingburger_thumb.b0b0c28dfedd05889e42.png",
+    "static/media/viichan_thumb.png": "/static/media/viichan_thumb.f30f4c3d040ed45f748f.png",
     "static/media/and1.png": "/static/media/and1.5d19d8d1a761ceab02c6.png",
     "static/media/ine_300_300.webp": "/static/media/ine_300_300.10b0933ec631969cd9cf.webp",
     "static/media/world_300_300.png": "/static/media/world_300_300.308fd472fa8cfdb6b27c.png",
@@ -48,7 +62,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.12d81e3d.css",
-    "static/js/main.885b11d6.js"
+    "static/css/main.0ac548d1.css",
+    "static/js/main.84e3240c.js"
   ]
 }

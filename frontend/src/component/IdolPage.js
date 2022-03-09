@@ -5,7 +5,6 @@ import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
 import { axiosInstance } from '../axiosInstance';
 import { IoLogoYoutube, IoLogoTwitch, IoLogoTwitter, IoLogoInstagram, IoLogoSoundcloud, IoPlay } from 'react-icons/io5';
-import YouTube from 'react-youtube';
 
 const member = {
   ine: { kor: '아이네', eng: 'INE', jpn: 'アイネ' },

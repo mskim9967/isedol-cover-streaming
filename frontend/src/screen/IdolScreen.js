@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState, memo } from 'react';
 import { axiosInstance } from '../axiosInstance';
-import YouTube from 'react-youtube';
 import IdolPage from '../component/IdolPage';
 import { useSwipeable } from 'react-swipeable';
 import { throttle } from 'lodash';
