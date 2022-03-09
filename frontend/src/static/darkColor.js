@@ -22,4 +22,8 @@ export default {
   jpn: '#ff4040',
   kor: '#307cff',
   eng: '#3D8F50',
+  youtube: '#ff3333',
+  twitch: '#A96FFF',
+  twitter: '#1F9CEA',
+  soundCloud: '#FF7C39',
 };

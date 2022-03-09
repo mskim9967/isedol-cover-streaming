@@ -288,7 +288,7 @@ function MusicPlay({
                         window.open(music.youtubeUrl, '_blank');
                       }}
                     >
-                      <IoLogoYoutube color='#ff0000' size={20} />
+                      <IoLogoYoutube color={color.youtube} size={20} />
                     </div>
                   )}
                 </div>

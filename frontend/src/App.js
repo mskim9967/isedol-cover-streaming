@@ -181,7 +181,7 @@ function App() {
         position: 'absolute',
         top: 0,
         left: 0,
-        height: window.innerHeight,
+        height,
         width: '100vw',
         color: color.textBlack,
       }}
@@ -244,7 +244,16 @@ function App() {
             music={music}
           />
         </div>
-        {screen === 'idol' && <IdolScreen lang={lang} isDark={isDark} />}
+        <div
+          id='scrollbarDisable'
+          style={{
+            height: '100%',
+            width: '100%',
+            ...(screen !== 'idol' && { display: 'none' }),
+          }}
+        >
+          <IdolScreen lang={lang} isDark={isDark} height={height} />
+        </div>
         <div
           id='scrollbarDisable'
           style={{

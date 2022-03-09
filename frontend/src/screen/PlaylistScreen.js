@@ -27,13 +27,14 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
         <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
-        <div style={{ margin: '0 0 0 -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', overflow: 'auto', gap: '10px' }}>
+        <div style={{ margin: '0 0 0 -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', overflow: 'auto', gap: '10px' }}>
           <PlaylistCard audio={audio} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
           {idols.map((e, idx) => {
             return (
               <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
             );
           })}
+          &nbsp;&nbsp;
         </div>
       </div>
 
@@ -41,12 +42,13 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
         <div style={{ fontSize: '19px', fontWeight: '600', letterSpacing: '-0.6px' }}>
           {{ kor: '장르별 추천', eng: 'Suggestion by genre', jpn: 'ジャンル別 おすすめ' }[lang]}
         </div>
-        <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
+        <div style={{ margin: '0px -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           {nations.map((e, idx) => {
             return (
               <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} imgDisable={imgDisable} />
             );
           })}
+          &nbsp;&nbsp;
         </div>
       </div>
       <div>
@@ -76,7 +78,7 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
             {{ kor: '편집', eng: 'Edit', jpn: '編集' }[lang]}
           </Button>
         </div>
-        <div style={{ margin: '0px -20px', padding: '0px 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
+        <div style={{ margin: '0px -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           <PlaylistCard audio={audio} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} imgDisable={imgDisable} />
           {customPlaylistShuffle.map((e, idx) => {
             return (
@@ -92,6 +94,7 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
               />
             );
           })}
+          &nbsp;&nbsp;
         </div>
       </div>
       <Modal
