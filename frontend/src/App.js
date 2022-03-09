@@ -150,12 +150,13 @@ function App() {
   };
 
   const playNext = () => {
-    setPause(true);
+    pause();
     setNowIdx((nowIdx + 1) % playlist.length);
     setLoad(!load);
   };
 
   const playPrev = () => {
+    pause();
     if (audio.current.currentTime <= 2) {
       setNowIdx((playlist.length + nowIdx - 1) % playlist.length);
       setLoad(!load);

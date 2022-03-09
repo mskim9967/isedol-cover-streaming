@@ -548,7 +548,6 @@ function MusicPlay({
                   onClick={(e) => {
                     e.stopPropagation();
                     audioControl.playPrev();
-                    audio.current.play();
                   }}
                   icon={<IoPlayBack size={40} color={eval(`color.${music.singer}`)} />}
                 />
@@ -579,7 +578,6 @@ function MusicPlay({
                   onClick={(e) => {
                     e.stopPropagation();
                     audioControl.playNext();
-                    audio.current.play();
                   }}
                   icon={<IoPlayForward size={40} color={eval(`color.${music.singer}`)} />}
                 />

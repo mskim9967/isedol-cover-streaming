@@ -146,10 +146,8 @@ function MusicPlayer({
                 onClick={() => {
                   if (!isPause) {
                     audioControl.pause();
-                    audio.current.pause();
                   } else {
                     audioControl.play();
-                    audio.current.play();
                   }
                 }}
               />
@@ -162,7 +160,6 @@ function MusicPlayer({
                 icon={<IoPlayForward size={20} color={color.textBlack} />}
                 onClick={() => {
                   audioControl.playNext();
-                  audio.current.play();
                 }}
               />
             </div>

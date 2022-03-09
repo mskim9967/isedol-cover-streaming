@@ -19,6 +19,7 @@ import llike from '../static/image/logo_like_300_300.png';
 import jpn from '../static/image/japan_300_300.webp';
 import kor from '../static/image/korea_300_300.webp';
 import eng from '../static/image/world_300_300.png';
+import recent from '../static/image/recent_300_300.png';
 import all from '../static/image/all_300_300.webp';
 import lightColor from '../static/lightColor';
 import darkColor from '../static/darkColor';
@@ -36,6 +37,7 @@ const imgMap = {
   eng,
   kor,
   like,
+  recent,
 };
 
 const logoimgMap = {
@@ -50,6 +52,7 @@ const logoimgMap = {
   eng,
   kor,
   like: llike,
+  recent,
 };
 
 const colorMap = {
@@ -64,13 +67,14 @@ const colorMap = {
   kor: '#307cff',
   eng: '#007029',
   like: lightColor.isedol,
+  recent: '#98a5b3',
 };
 
 function getColor() {
   return 'hsl(' + 360 * Math.random() + ',' + (25 + 70 * Math.random()) + '%,' + (40 + 10 * Math.random()) + '%)';
 }
 
-function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlaylist, imgDisable, audio }) {
+function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlaylist, imgDisable, audio, audioControl }) {
   const color = isDark ? darkColor : lightColor;
   const [isCustom, setCustom] = useState(false);
   const [randColor, setColor] = useState(getColor());
@@ -91,6 +95,7 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
     kor: { kor: '한식', eng: `K-POP`, jpn: 'K-POP' }[lang],
     eng: { kor: '양식', eng: `Western POP`, jpn: 'Western POP' }[lang],
     like: { kor: '좋아요', eng: `Like`, jpn: '好きな' }[lang],
+    recent: { kor: '최근 업로드', eng: `Recent uploaded`, jpn: '最新アップロード' }[lang],
   };
 
   return (
@@ -109,6 +114,8 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
         flexDirection: 'column',
       }}
       onClick={async () => {
+        audio.current.play();
+        audioControl.pause();
         if (type === 'custom' && theme === 'like') {
           let likes = [...JSON.parse(localStorage.getItem('likes') || '[]')];
           if (likes.length) playlistControl.change(likes.sort(() => Math.random() - 0.5));
@@ -116,7 +123,6 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
         } else if (type === 'custom') {
           let playlist = customPlaylist.find((e) => e.name === theme);
           playlistControl.change(playlist.data);
-          audio.current.play();
         } else {
           if (theme === 'all') {
             const res = await axiosInstance.get('/music');
@@ -124,21 +130,23 @@ function PlaylistCard({ theme, lang, isDark, playlistControl, type, customPlayli
             let newData = [];
             let cnt = { ine: 0, gosegu: 0, lilpa: 0, jingburger: 0, viichan: 0, jururu: 0 };
             for (let mus of data) {
-              if (mus.singer === 'all' || cnt[mus.singer] < 10) {
+              if (mus.singer === 'all' || cnt[mus.singer] < 15) {
                 newData.push(mus);
                 if (mus.singer !== 'all') cnt[mus.singer]++;
               }
-              if (newData.length >= 50) break;
+              if (newData.length >= 80) break;
             }
-            playlistControl.change(newData);
+            playlistControl.change(newData.sort(() => Math.random() - 0.5));
+          } else if (theme === 'recent') {
+            const res = await axiosInstance.get('/music');
+            playlistControl.change(res.data.data.slice(0, 80));
           } else {
             const res = await axiosInstance.put('/music/search', {
               ...(type === 'idol' && { singers: [theme] }),
               ...(type === 'nation' && { nations: [theme] }),
             });
-            playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 40));
+            playlistControl.change(res.data.data.sort(() => Math.random() - 0.5).slice(0, 80));
           }
-          audio.current.play();
         }
       }}
     >

@@ -8,9 +8,9 @@ import { useState, memo, useEffect } from 'react';
 import CustomPlaylistEdit from '../component/CustomPlaylistEdit';
 
 const idols = ['gosegu', 'ine', 'viichan', 'jingburger', 'jururu', 'lilpa'].sort(() => Math.random() - 0.5);
-const nations = ['kor', 'jpn', 'eng'].sort(() => Math.random() - 0.5);
+const nations = ['kor', 'jpn', 'eng', 'recent'].sort(() => Math.random() - 0.5);
 
-function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim, audio }) {
+function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCustomPlaylist, imgDisable, anim, audio, audioControl }) {
   const color = isDark ? darkColor : lightColor;
   const [isModalActive, setModalActive] = useState(false);
   const [customPlaylistShuffle, setCustomPlaylistShuffle] = useState([]);
@@ -28,10 +28,27 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
           {{ kor: '아이돌별 추천', eng: 'Suggestion by idol', jpn: 'アイドル別おすすめ' }[lang]}
         </div>
         <div style={{ margin: '0 0 0 -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', overflow: 'auto', gap: '10px' }}>
-          <PlaylistCard audio={audio} lang={lang} theme={'all'} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
+          <PlaylistCard
+            audio={audio}
+            lang={lang}
+            theme={'all'}
+            type={'idol'}
+            playlistControl={playlistControl}
+            imgDisable={imgDisable}
+            audioControl={audioControl}
+          />
           {idols.map((e, idx) => {
             return (
-              <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'idol'} playlistControl={playlistControl} imgDisable={imgDisable} />
+              <PlaylistCard
+                audioControl={audioControl}
+                audio={audio}
+                key={idx}
+                lang={lang}
+                theme={e}
+                type={'idol'}
+                playlistControl={playlistControl}
+                imgDisable={imgDisable}
+              />
             );
           })}
           &nbsp;&nbsp;
@@ -45,7 +62,16 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
         <div style={{ margin: '0px -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
           {nations.map((e, idx) => {
             return (
-              <PlaylistCard audio={audio} key={idx} lang={lang} theme={e} type={'nation'} playlistControl={playlistControl} imgDisable={imgDisable} />
+              <PlaylistCard
+                audioControl={audioControl}
+                audio={audio}
+                key={idx}
+                lang={lang}
+                theme={e}
+                type={'nation'}
+                playlistControl={playlistControl}
+                imgDisable={imgDisable}
+              />
             );
           })}
           &nbsp;&nbsp;
@@ -79,10 +105,19 @@ function PlaylistScreen({ lang, isDark, playlistControl, customPlaylist, setCust
           </Button>
         </div>
         <div style={{ margin: '0px -20px', padding: '0 0 0 20px', left: 0, width: '100vw', display: 'flex', gap: '10px', overflow: 'auto' }}>
-          <PlaylistCard audio={audio} lang={lang} theme={'like'} type={'custom'} playlistControl={playlistControl} imgDisable={imgDisable} />
+          <PlaylistCard
+            audioControl={audioControl}
+            audio={audio}
+            lang={lang}
+            theme={'like'}
+            type={'custom'}
+            playlistControl={playlistControl}
+            imgDisable={imgDisable}
+          />
           {customPlaylistShuffle.map((e, idx) => {
             return (
               <PlaylistCard
+                audioControl={audioControl}
                 audio={audio}
                 key={idx}
                 lang={lang}
