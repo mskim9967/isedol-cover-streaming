@@ -59,6 +59,7 @@ const snsLink = {
     twitch: 'https://www.twitch.tv/cotton__123',
     youtube: 'https://www.youtube.com/channel/UCTifMx1ONpElK5x6B4ng8eg',
     instagram: 'https://www.instagram.com/ju_ruru_/?hl=ko',
+    twitter: 'https://twitter.com/jururu_twitch',
   },
   gosegu: {
     youtube: 'https://www.youtube.com/channel/UCV9WL7sW6_KjanYkUUaIDfQ',

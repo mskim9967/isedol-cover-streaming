@@ -248,7 +248,7 @@ function MusicPlay({
                 <div
                   style={{
                     width: '74%',
-                    maxWidth: 'min(37vh, 300px)',
+                    maxWidth: `min(${window.innerHeight * 0.4}px, 300px)`,
                     aspectRatio: '1/1',
                     position: 'relative',
                     display: 'flex',
