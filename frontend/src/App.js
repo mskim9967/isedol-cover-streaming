@@ -253,7 +253,7 @@ function App() {
             ...(screen !== 'idol' && { display: 'none' }),
           }}
         >
-          <IdolScreen lang={lang} isDark={isDark} height={height} />
+          <IdolScreen lang={lang} isDark={isDark} height={height} screen={screen} />
         </div>
         <div
           id='scrollbarDisable'

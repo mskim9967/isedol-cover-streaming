@@ -25,7 +25,7 @@ const snsLink = {
     youtube: 'https://www.youtube.com/c/%EC%A7%95%EB%B2%84%EA%B1%B0',
     twitch: 'https://www.twitch.tv/jingburger',
     instagram: 'https://www.instagram.com/jing_burger/',
-    twitter: 'https://twitter.com/jingbuger',
+    twitter: 'https://twitter.com/jing_burger',
   },
   lilpa: {
     youtube: 'https://youtube.com/channel/UC-oCJP9t47v7-DmsnmXV38Q',
