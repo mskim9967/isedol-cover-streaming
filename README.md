@@ -1,14 +1,13 @@
 <br />
 <br />
 <div align="center">
-  <a href="https://isgplay.com">
+  <a href="https://13.124.212.76/">
     <img src="frontend/public/icons/mstile-310x310.png" alt="Logo" width="120" height="120">
   </a>
 
   <h3 align="center"> 이세플 </h3>
 
   <p align="center">
-    <em>  <a href="https://isgplay.com">https://isgplay.com</a> </em>
     <br />
     <br />
     <br />
