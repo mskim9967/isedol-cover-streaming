@@ -58,7 +58,7 @@ Native Application 처럼 사용 가능하도록 **PWA** 설치를 지원합니�
 ## Twitch / Youtube
 실시간 Twitch 방송 여부, 최근 업로드된 Youtube 영상을 확인할 수 있습니다
 
-<img src="images/search.gif">
+<img src="images/api.gif">
 <br>
 
 ## Settings
